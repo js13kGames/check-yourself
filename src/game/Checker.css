@@ -1,0 +1,13 @@
+.checker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+    transition: opacity 450ms, transform 450ms ease-in-out 100ms;
+    border-radius: 50%;
+    background: blue;
+}
+
+.hostile {
+    background: red;
+}

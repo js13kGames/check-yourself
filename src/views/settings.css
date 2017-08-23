@@ -1,0 +1,113 @@
+.settingsCta,
+.settingsMenuWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 70vw;
+    margin: 5vw 0;
+}
+
+.settingsMenu a,
+.settingsCta a {
+    position: relative;
+    width: 30vw;
+    margin-top: 1vw;
+    padding: 1.5vw 2vw;
+    border: 0.2vw solid #222;
+    border-radius: 1vw;
+    background: transparent linear-gradient(0deg, transparent, rgba(255, 255, 255, 0.1));
+    text-align: center;
+    transition: background-color 400ms, border-color 270ms, box-shadow 400ms, color 270ms;
+}
+
+.settingsMenu a:hover,
+.settingsCta a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #555;
+    box-shadow: 0 0 2vw rgba(255, 255, 255, 0.5);
+}
+
+.settingsMenu .active,
+.settingsMenu .active:hover {
+    background-color: #f90;
+    color: #000;
+    border-color: #f90;
+    box-shadow: none;
+}
+
+.settingsCta {
+    width: calc(100% - 8vw);
+    margin: 0;
+    position: absolute;
+    bottom: 5vw;
+}
+
+.settingsCta a {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    width: auto;
+    padding-left: 3vw;
+    padding-right: 3vw;
+}
+
+.settingsCta span {
+    position: absolute;
+    top: 50%;
+    margin-top: -1.5vw;
+    display: block;
+    width: 3vw;
+    height: 3vw;
+    line-height: 2.8vw;
+    background: #fff;
+    font-weight: bold;
+    color: #000;
+    border-radius: 50%;
+}
+
+#back { padding-left: 6vw; }
+#back span { left: 1vw; }
+
+#start { padding-right: 6vw; }
+#start span { right: 1vw; }
+
+.settingsCta a:active {
+    background-color: #555;
+    border-color: #555;
+}
+
+/*
+#boardSize a {
+    position: relative;
+    z-index: 0;
+    width: 20vw;
+    line-height: 20vw;
+    text-align: center;
+    margin-right: 2vw;
+    overflow: hidden;
+}
+
+#boardSize a::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    content: '';
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #933;
+    background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.3) 50%, transparent 50%, transparent),
+        linear-gradient(to right, transparent 0%, transparent 50%, rgba(0, 0, 0, 0) 50%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 50%, transparent 50%, transparent),
+        linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(0, 0, 0, 0) 50%),
+        linear-gradient(to bottom, #933 50%, transparent 50%, transparent),
+        linear-gradient(to right, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.5) 50%),
+        none;
+}
+
+#cols8::before  { background-size: 5vw 5vw; }
+#cols10::before { background-size: 4.01vw 4.01vw; }
+#cols12::before { background-size: 4vw 4vw; }
+*/

@@ -1,0 +1,25 @@
+#cameraControls {
+    display: flex;
+    justify-content: space-between;
+    width: 14vw;
+    position: absolute;
+    right: 4vw;
+    bottom: 3vw;
+    padding-top: 5vw;
+    /* put this in 3D space so it honors z-indexes against the board */
+    transform: translate3d(0, 0, 0);
+}
+
+#cameraControls a {
+    width: 4vw;
+    height: 4vw;
+    border-radius: 50%;
+    background: #666;
+}
+
+#camUp {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -2vw;
+}
