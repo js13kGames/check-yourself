@@ -1,0 +1,65 @@
+
+#currentTactic {
+    position: absolute;
+    bottom: 3vw;
+    left: 50%;
+    z-index: 10;
+    width: 34vw;
+    height: 4vw;
+    text-align: center;
+    line-height: 4vw;
+    background: #666;
+    transform: translate3d(0, 0, 0);
+    margin-left: -17vw;
+    padding-left: 14vw;
+    cursor: pointer;
+}
+
+#currentTactic::before {
+    content: 'Squad Tactics:';
+    display: inline-block;
+    height: 100%;
+    background: #333;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 2vw;
+}
+
+#currentTactic::after {
+    content: '';
+    display: block;
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+    right: 1.5vw;
+    top: 1.4vw;
+    background: linear-gradient(45deg, #fff 0%, #fff 25%, transparent 25%, transparent 75%, #fff 75%);
+    transform: rotate(-45deg);
+}
+
+#tacticsMenu {
+    position: absolute;
+    left: 50%;
+    bottom: 8vw;
+    width: 34vw;
+    margin-left: -17vw;
+    transform: scale3d(0.9, 0.9, 1);
+    opacity: 0;
+    z-index: -1;
+    background: #666;
+    transition: transform 180ms ease-in-out, opacity 180ms, z-index 0ms 280ms;
+}
+
+.showMenu #tacticsMenu {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+    z-index: 7;
+    transition: transform 180ms ease-in-out 10ms, opacity 180ms 10ms, z-index 0ms;
+}
+
+#tacticsMenu a {
+    line-height: 4vw;
+    text-align: center;
+
+}
