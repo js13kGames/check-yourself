@@ -1,6 +1,5 @@
 import mk from './mk';
 import View from './View';
-import ClickHandler from './ClickHandler';
 
 import './Menu.css';
 

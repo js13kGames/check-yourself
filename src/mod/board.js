@@ -9,18 +9,18 @@
  */
 export default {
     // the number of tiles in a row for our checkboard; the board is always
-    // square so we don't specify a "rows" property
+    // square so we don't specify a "rows" property. we also play on an American
+    // "standard" checker board ... 8x8.
     columns: 8,
-    // our screen scaling; the viewport is calculated on a 100% width window and
-    // we scale-up our assets by this much
-    scaling: function() {
-        return this.get('columns') * 0.625;
-    },
-    // the "effective" size of a tile ... the base tile size * scaling
-    scaledTileSize: function() {
-        return this.get('tileSize') * this.get('scaling');
-    },
-    // calculate the size of a single square based on the number of columns;
+    // sure, it's easy enough to get our columns and divide it by 2 ... but
+    // "half the board" is used all over the place. here's a little shortcut
+    // right to it.
+    halfCols: 4,
+    // we scale the screen by this much in our CSS transforms
+    scaling: 5,
+    // init a quick/dirty 8x8 array to represent our checkerboard; this gets
+    // updated by ./game/board.js in batch actions
+    occupied: [ [], [], [], [], [], [], [], [] ],
     // based on 100% viewport
     tileSize: function() {
         return 100 / this.get('columns');
@@ -44,9 +44,5 @@ export default {
     // that have no pieces
     rowsToPopulate: function() {
         return (this.get('columns') / 2) - 1;
-    },
-    // calculate how many checkers are on a team based on the number of squares
-    teamOf: function() {
-        return this.get('checkersPerRow') * this.get('rowsToPopulate');
     },
 };

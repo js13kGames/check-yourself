@@ -16,6 +16,8 @@ export default {
     playerY: 0,
     // whether or not it's the player's turn
     isTurn: false,
+    // moves available to the player on a given turn
+    validMoves: null,
     // the CSS position of the player based on the X grid position
     playerXPos: function() {
         return this.get('playerX') * this.get('tileSize');

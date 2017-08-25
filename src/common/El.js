@@ -8,10 +8,12 @@
 class El {
     constructor(nodeName) {
         if (!nodeName) {
+            /* eslint-disable */
             console.warn(
                 'Can not instantiate new El() with a nodeName;',
                 nodeName
             );
+            /* eslint-enable */
             return null;
         }
 
@@ -68,6 +70,15 @@ class El {
         while (this.el.lastChild) {
             this.el.removeChild(this.el.lastChild);
         }
+    }
+
+    // a method for passing style properties to an element; it expects an
+    // object of CSS properties (in their JS form) and values
+    style(styleObj) {
+        let styleNames = Object.keys(styleObj);
+        styleNames.map((style) => {
+            this.el.style[style] = styleObj[style];
+        });
     }
 }
 

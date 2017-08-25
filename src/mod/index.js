@@ -7,7 +7,7 @@ let mod = Object.assign(
     {},
     board,
     camera,
-    player,
+    player
 );
 
 // a convenience method for checking if a given param is a function

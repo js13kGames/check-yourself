@@ -17,84 +17,6 @@ let board = new View({
     id: 'board'
 });
 
-let allies, hostiles;
-
-//
-//
-//
-function renderTiles() {
-    let columns = mod.get('columns');
-    // we're only dealing with every-other tile; only render usable tiles to
-    // minimize the number of nodes in the DOM
-    let tileCount = (columns * columns) / 2;
-
-    let col = 0;
-    let row = 0;
-
-    let tileSize = mod.get('tileSize');
-    let commonStyles = [
-        `width:${tileSize}vw;`,
-        `height:${tileSize}vw;`,
-        `margin-left:${tileSize}vw;`
-    ];
-
-    for (let i = 0; i < tileCount; i++) {
-        // special handling for creating new rows
-        if (col >= columns) {
-            row++;
-            col = (row % 2);
-        }
-
-        let tile = mk('span', {
-            id: `x${col}-y${row}`,
-            className: 'tile',
-            style: commonStyles.join(''),
-        });
-
-        // for the first tile in an even row, ditch the margin to stagger the
-        // tiles
-        if ((col === 0) && (row % 2 === 0)) {
-            tile.el.style.marginLeft = 0;
-        }
-
-        board.kids(tile.el);
-        col += 2;
-    }
-}
-
-//
-//
-//
-function renderCheckers(isHostile) {
-    let teamOf = mod.get('teamOf');
-    let columns = mod.get('columns');
-    let checkersPerRow = mod.get('checkersPerRow');
-    let rowsToPopulate = mod.get('rowsToPopulate');
-    let checkers = [];
-    let isPlayable = false;
-
-    // @todo this is awfully loopy and running the same loop'ish thing as
-    // elsewhere; if time allows come back and see if you can optimize this
-    for (let row = 0; row < rowsToPopulate; row++) {
-
-        // flag the top row of allied checkers as playable for checker
-        // selection phase
-        isPlayable = (row === rowsToPopulate - 1) && !isHostile;
-
-        for (let col = 0; col < checkersPerRow; col++) {
-            let checker = new Checker({isHostile, isPlayable});
-            let adjustedY = (isHostile) ? row : columns - (row + 1);
-            let adjustedX = (col * 2) + (adjustedY % 2);
-
-            checker.position(adjustedX, adjustedY);
-            board.kids(checker.el);
-            checkers.push(checker);
-        }
-    }
-
-    return checkers;
-}
-
 //
 //
 //
@@ -102,7 +24,6 @@ function positionCamera() {
     let persp = mod.get('perspective');
     let cameraConfig = mod.get(persp);
 
-    console.log('Position', cameraConfig);
     let cameraStyles = [
         perspective(cameraConfig.perspective),
         rotateX(cameraConfig.rotateX),
@@ -119,39 +40,18 @@ function positionCamera() {
 //
 //
 //
-function render() {
-    board.gut();
-    renderTiles();
-
-    // friendlies; keep a record of these in our move-finder
-    allies = renderCheckers();
-    // keep track of the hostiles, too
-    hostiles = renderCheckers(true);
-
-    positionCamera();
-}
-
-mod.set({
-    focusX: mod.get('playerX'),
-    focusY: mod.get('playerY'),
-});
-
-mod.watch('columns', render);
-mod.watch('perspective', positionCamera);
-
-mod.set({
-    perspective: 'camFrontRow'
-});
-
-board.onClick('.playable-checker', (e) => {
+function choosePlayerChecker(e) {
+    let allies = mod.get('allies');
     let playerChecker = allies.filter((checker) => {
         return checker.el.isEqualNode(e.target);
     })[0];
 
     // clean up our "playable" flags from the selection phase
-    Array.from(board.el.querySelectorAll('.playable-checker')).map((c) => {
-        c.classList.remove('playable-checker');
+    allies.map((ally) => {
+        ally.classify('-playable-checker');
     });
+
+    playerChecker.classify('+player-checker');
 
     mod.set({
         playerChecker: playerChecker,
@@ -159,16 +59,133 @@ board.onClick('.playable-checker', (e) => {
         playerY: playerChecker.y,
         focusX: playerChecker.x,
         focusY: playerChecker.y,
+        isTurn: true,
     });
 
-    console.log('Mod', mod.get('focusX'), mod.get('playerX'))
     setTimeout(() => {
-        console.log('Here!');
         mod.set({
             perspective: 'camDefault'
         });
     }, 120);
+}
+
+//
+//
+//
+function showValidMoveTiles(validMoves=[]) {
+    validMoves.map((move) => {
+        let tile = document.getElementById(`x${move.x}-y${move.y}`);
+        tile.classList.add('availableMove');
+    });
+}
+//
+//
+//
+function movePlayerChecker(e) {
+    let xy = e.target.id.split('-');
+    let x = parseInt(xy[0].replace('x', ''), 10);
+    let y = parseInt(xy[1].replace('y', ''), 10);
+
+    mod.get('playerChecker').position(x, y);
+
+    mod.set({
+        playerX: x,
+        playerY: y
+    });
+}
+
+//
+//
+//
+function render() {
+    board.gut();
+
+    let columns = mod.get('columns');
+    // we're only dealing with every-other tile; only render usable tiles to
+    // minimize the number of nodes in the DOM
+    let tileCount = (columns * columns) / 2;
+
+    let col = 0;
+    let row = 0;
+
+    let tileSize = mod.get('tileSize');
+    let commonStyles = [
+        `width:${tileSize}vw;`,
+        `height:${tileSize}vw;`,
+        `margin-left:${tileSize}vw;`
+    ];
+
+    let occupied = [];
+    let hostiles = [];
+    let allies = [];
+
+    for (let i = 0; i < tileCount; i++) {
+        // special handling for creating new rows
+        if (col >= columns) {
+            row++;
+            col = (row % 2);
+        }
+
+        let tile = mk('span', {
+            id: `x${col}-y${row}`,
+            className: 'tile',
+            style: commonStyles.join(''),
+        });
+
+        // render a checker for the tile, if needed
+        if ((row < 3) || (row > 4)) {
+
+            // this leaves the DOM fairly messy, as we render checkers and tiles
+            // in the same loop. they exist as Brady-bunched sibblings.
+            // positioning all happens absolutely, so it looks fine on screen.
+            // just a note to anybody out there with their inspector open
+            let isHostile = row < 3;
+            let checker = new Checker({x:col, y:row, isHostile});
+            board.kids(checker.el);
+
+            if (isHostile) {
+                hostiles.push(checker);
+            } else {
+                allies.push(checker);
+            }
+
+            // keep a reference to the checker instance in our virtual board for
+            // easy look-ups and manipulation
+            occupied[col] = occupied[col] || [];
+            occupied[col][row] = checker;
+        }
+
+        // for the first tile in an even row, ditch the margin to stagger the
+        // tiles
+        if ((col === 0) && (row % 2 === 0)) {
+            tile.el.style.marginLeft = 0;
+        }
+
+        board.kids(tile.el);
+        col += 2;
+    }
+
+    // stash the entire state of the board to our model thingy; we'll use that
+    // from here on out so other components can watch and utilize 'em.
+    mod.set({
+        occupied: occupied,
+        hostiles: hostiles,
+        allies: allies,
+    });
+}
+
+mod.watch('perspective', positionCamera);
+mod.watch('validMoves', showValidMoveTiles);
+mod.watch('focusX', positionCamera);
+
+board.onClick('.playable-checker', choosePlayerChecker);
+board.onClick('.availableMove', movePlayerChecker);
+
+mod.set({
+    perspective: 'camSelectable'
 });
 
 render();
+positionCamera();
+
 export default board;

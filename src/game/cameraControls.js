@@ -25,5 +25,11 @@ let cameraControls = new Menu({
     onSelect: handleSelection,
 });
 
+mod.watch('playerX', (x) => {
+    mod.set({
+        focusX: x,
+        focusY: mod.get('playerY')
+    });
+});
 
 export default cameraControls;

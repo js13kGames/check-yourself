@@ -24,9 +24,11 @@ function handleClick(e) {
 class ClickHandler {
     constructor(wrapperEl) {
         if (!wrapperEl || (typeof wrapperEl !== 'object')) {
+            /* eslint-disable */
             console.warn(
                 `A wrapperEl must be provded to a click-handler: ${wrapperEl}`
             );
+            /* eslint-enable */
             return;
         }
 

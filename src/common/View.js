@@ -1,28 +1,17 @@
+import El from './El';
 import ClickHandler from './ClickHandler';
-import mk from './mk';
 
 import './View.css';
 
-class View {
+class View extends El {
     constructor(options={}) {
         let {nodeName, ...attrs} = options;
 
-        if (!nodeName) {
-            nodeName = 'div';
-        }
+        nodeName = nodeName || 'div';
+        super(nodeName);
 
-        let instance = mk(nodeName, attrs);
-        instance.classify('+view');
-
-        // expose some rendering helpers for the underlying View element (from
-        // our El constructor class)
-        this.el = instance.el;
-        this.classify = instance.classify;
-        this.attribute = instance.attribute;
-        this.kids = instance.kids;
-        this.gut = instance.gut;
-
-        this.clickHandler = new ClickHandler(this.el);
+        this.attribute(attrs);
+        this.classify('+view');
     }
 
     destructor() {
@@ -33,6 +22,12 @@ class View {
     // simply a pass-through, so it matches the ClickHandler's API and attaches
     // a single action to a selector
     onClick(selector, action) {
+
+        // activate a new click handler when a click action is assigned
+        if (!this.clickHandler) {
+            this.clickHandler = new ClickHandler(this.el);
+        }
+
         return this.clickHandler.onClick(selector, action);
     }
 
@@ -79,15 +74,6 @@ class View {
 
         this.el.addEventListener('transitionend', handleTransitionEnd);
         this.classify('+fadeOut');
-    }
-
-    // a method for passing style properties to a View element; it expects an
-    // object 
-    style(styleObj) {
-        let styleNames = Object.keys(styleObj);
-        styleNames.map((style) => {
-            this.el.style[style] = styleObj[style];
-        });
     }
 }
 

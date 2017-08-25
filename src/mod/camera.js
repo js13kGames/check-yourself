@@ -21,34 +21,20 @@ export default {
     // the x and y grid positions the camera is focused on
     focusX: 0,
     focusY: 0,
-    // the offset x/y for a centered 0-0 square; based on the number of tiles
-    // and tile size and used in moving the camera proportionally
-    xOffset: function() {
-        let tileSize = this.get('tileSize');
-        let halfTheBoard = this.get('columns') / 2;
-        let halfTileSize = this.get('tileSize') / 2;
-
-        return halfTheBoard * tileSize - halfTileSize;
-    },
-    yOffset: function() {
-        let tileSize = this.get('tileSize');
-        let halfTheBoard = this.get('columns') / 2;
-
-        return (halfTheBoard - 1) * tileSize;
-
-    },
     // a view that displays the front-row of allied checkers; this isn't a
     // selectable view but is used when the game starts for choosing the
     // checker you wanna control
-    camFrontRow: function() {
+    camSelectable: function() {
         let defaults = this.get('camDefault');
         let tileSize = this.get('tileSize');
-        let focusY = (this.get('columns') / 2) + 2;
+        let halfCols = this.get('halfCols');
+        let focusY = halfCols + 3;
+        let yOffset = (halfCols - 1) * tileSize;
 
         return Object.assign({}, defaults, {
             rotateX: 45,
             moveX: 0,
-            moveY: getFocusOffset(focusY, this.get('yOffset'), tileSize),
+            moveY: getFocusOffset(focusY, yOffset, tileSize),
             scaleX: 1,
             scaleY: 1,
         });
@@ -58,13 +44,19 @@ export default {
     camDefault: function() {
         let tileSize = this.get('tileSize');
         let scaling = this.get('scaling');
+        let halfCols = this.get('halfCols');
+
+        // the offset x/y for a centered 0-0 square; based on the number of tiles
+        // and tile size and used in moving the camera proportionally
+        let xOffset = halfCols * tileSize - (tileSize / 2);
+        let yOffset = (halfCols - 1) * tileSize;
 
         return {
             perspective: 100,
             rotateX: 60,
             rotateZ: 0,
-            moveX: getFocusOffset(this.get('focusX'), this.get('xOffset'), tileSize),
-            moveY: getFocusOffset(this.get('focusY'), this.get('yOffset'), tileSize),
+            moveX: getFocusOffset(this.get('focusX'), xOffset, tileSize),
+            moveY: getFocusOffset(this.get('focusY'), yOffset, tileSize),
             moveZ: 0,
             scaleX: scaling,
             scaleY: scaling,

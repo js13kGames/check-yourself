@@ -31,3 +31,8 @@
 .checkerSelect .playable-checker:hover {
     box-shadow: 0 0 12vw #fff;
 }
+
+.availableMove {
+    cursor: pointer;
+    background: green;
+}

@@ -3,7 +3,6 @@
  *
  */
 import titleScreen from './views/titleScreen';
-import settings from './views/settings';
 import play from './views/play';
 
 import mod from './mod';
@@ -37,10 +36,6 @@ function changeView(view) {
     switch (view) {
         case 'titleScreen':
             loadView(titleScreen);
-            break;
-
-        case 'settings':
-            loadView(settings);
             break;
 
         case 'play':

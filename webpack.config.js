@@ -26,15 +26,23 @@ let webpackConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            'es2015',
-                            'stage-3' // for spread props
-                        ],
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                'es2015',
+                                'stage-3' // for spread props
+                            ],
+                        },
                     },
-                },
+                    {
+                        loader: 'eslint-loader',
+                        options: {
+                            emitWarning: true,
+                        },
+                    }
+                ],
             },
             {
                 test: /\.css$/,

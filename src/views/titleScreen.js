@@ -22,10 +22,6 @@ let menu = new Menu({
         {
             id: 'play',
             text: 'Play',
-        },
-        {
-            id: 'settings',
-            text: 'Settings',
         }
     ],
 });
