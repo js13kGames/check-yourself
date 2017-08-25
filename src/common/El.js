@@ -20,6 +20,10 @@ class El {
         this.el = document.createElement(nodeName);
     }
 
+    destructor() {
+        this.el.parentNode.removeChild(this.el);
+    }
+
     // a method for interacting with our element's className object to add (+),
     // remove (-), or toggle (~) classes
     classify(classOperators) {

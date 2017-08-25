@@ -40,8 +40,21 @@ function positionCamera() {
 //
 //
 //
+function showCheckerSelection() {
+    let allies = mod.get('allies');
+
+    allies.map((ally) => ally.classify('+playable-checker'));
+    mod.set({
+        perspective: 'camSelectable'
+    });
+}
+
+//
+//
+//
 function choosePlayerChecker(e) {
     let allies = mod.get('allies');
+
     let playerChecker = allies.filter((checker) => {
         return checker.el.isEqualNode(e.target);
     })[0];
@@ -52,11 +65,11 @@ function choosePlayerChecker(e) {
     });
 
     playerChecker.classify('+player-checker');
+    playerChecker.isPlayer = true;
 
     mod.set({
+        allies: allies,
         playerChecker: playerChecker,
-        playerX: playerChecker.x,
-        playerY: playerChecker.y,
         focusX: playerChecker.x,
         focusY: playerChecker.y,
         isTurn: true,
@@ -76,22 +89,59 @@ function showValidMoveTiles(validMoves=[]) {
     validMoves.map((move) => {
         let tile = document.getElementById(`x${move.x}-y${move.y}`);
         tile.classList.add('availableMove');
+
+        if (move.jumpedX) {
+            tile.classList.add('jump');
+            tile.dataset.jumpedX = move.jumpedX;
+            tile.dataset.jumpedY = move.jumpedY;
+        }
     });
 }
+
 //
 //
 //
-function movePlayerChecker(e) {
-    let xy = e.target.id.split('-');
+function hideValidMoveTiles() {
+    let validMoveTiles = Array.from(
+        document.querySelectorAll('.availableMove')
+    );
+
+    validMoveTiles.map((tile) => tile.classList.remove('availableMove'));
+}
+
+//
+//
+//
+function handleTileSelection(e) {
+    let target = e.target;
+    let xy = target.id.split('-');
     let x = parseInt(xy[0].replace('x', ''), 10);
     let y = parseInt(xy[1].replace('y', ''), 10);
-
-    mod.get('playerChecker').position(x, y);
-
-    mod.set({
+    let toUpdate = {
         playerX: x,
-        playerY: y
-    });
+        playerY: y,
+    };
+
+    // use the attached classname to handle player checker jumps
+    if (target.classList.contains('jump')) {
+        target.classList.remove('jump');
+
+        let occupied = mod.get('occupied');
+        let hostiles = mod.get('hostiles');
+        let jumpedX = target.dataset.jumpedX;
+        let jumpedY = target.dataset.jumpedY;
+        let jumped = occupied[jumpedX][jumpedY];
+
+        jumped.destructor();
+
+        hostiles.splice(hostiles.indexOf(jumped), 1);
+        occupied[jumpedX][jumpedY] = false;
+
+        toUpdate.hostiles = hostiles;
+        toUpdate.occupied = occupied;
+    }
+
+    mod.set(toUpdate);
 }
 
 //
@@ -177,15 +227,21 @@ function render() {
 mod.watch('perspective', positionCamera);
 mod.watch('validMoves', showValidMoveTiles);
 mod.watch('focusX', positionCamera);
+mod.watch('playerChecker', showCheckerSelection);
+mod.watch('isTurn', (isTurn) => {
+    if (isTurn === false) {
+        hideValidMoveTiles();
+    }
+});
 
 board.onClick('.playable-checker', choosePlayerChecker);
-board.onClick('.availableMove', movePlayerChecker);
+board.onClick('.availableMove', handleTileSelection);
 
 mod.set({
     perspective: 'camSelectable'
 });
 
 render();
-positionCamera();
+//positionCamera();
 
 export default board;

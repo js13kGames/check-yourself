@@ -14,10 +14,6 @@ class View extends El {
         this.classify('+view');
     }
 
-    destructor() {
-        this.el.parentNode.removeChild(this.el);
-    }
-
     // a method to bind click events to our View instance's click handler; it's
     // simply a pass-through, so it matches the ClickHandler's API and attaches
     // a single action to a selector
