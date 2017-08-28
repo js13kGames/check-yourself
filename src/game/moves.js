@@ -255,6 +255,13 @@ function moveHostiles() {
 //
 //
 //
+function moveAllies() {
+    console.log('Move allies!');
+}
+
+//
+//
+//
 function setPlayerMoves() {
     let playerChecker = mod.get('playerChecker');
 
@@ -291,6 +298,7 @@ function movePlayerChecker(x) {
     );
 }
 
+mod.watch('allyAction', moveAllies);
 mod.watch('playerX', movePlayerChecker);
 mod.watch('isTurn', (playerTurn) => {
     if (playerTurn) {

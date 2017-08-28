@@ -1,65 +1,79 @@
-
-#currentTactic {
+#tactics {
+    display: flex;
     position: absolute;
+    left: 4vw;
     bottom: 3vw;
-    left: 50%;
-    z-index: 10;
-    width: 34vw;
-    height: 4vw;
-    text-align: center;
-    line-height: 4vw;
-    background: #666;
+    z-index: 3;
+    width: auto;
+    white-space: nowrap;
     transform: translate3d(0, 0, 0);
-    margin-left: -17vw;
-    padding-left: 14vw;
     cursor: pointer;
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
 
-#currentTactic::before {
-    content: 'Squad Tactics:';
-    display: inline-block;
-    height: 100%;
-    background: #333;
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 0 2vw;
+#currentTactic {
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    height: 6vw;
+    line-height: 6vw;
+    padding: 0 6vw 0 3vw;
+    border-top-right-radius: 1vw;
+    border-bottom-right-radius: 1vw;
+    margin-left: 11vw;
+    border-left: 1px solid #fff;
 }
 
 #currentTactic::after {
     content: '';
     display: block;
-    width: 1vw;
-    height: 1vw;
+    width: 1.6vw;
+    height: 1.6vw;
     position: absolute;
-    right: 1.5vw;
-    top: 1.4vw;
-    background: linear-gradient(45deg, #fff 0%, #fff 25%, transparent 25%, transparent 75%, #fff 75%);
+    right: 2.2vw;
+    top: 2.2vw;
     transform: rotate(-45deg);
+    background: linear-gradient(45deg, #fff 0%, #fff 35%, transparent 35%, transparent 65%, #fff 65%);
+}
+
+.tactics-title {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 11vw;
+    height: 6vw;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6));
+    padding: 1.5vw 3vw;
+    line-height: 1.5vw;
+    z-index: -1;
+    white-space: pre-wrap;
+    border-top-left-radius: 1vw;
+    border-bottom-left-radius: 1vw;
 }
 
 #tacticsMenu {
     position: absolute;
-    left: 50%;
-    bottom: 8vw;
-    width: 34vw;
-    margin-left: -17vw;
-    transform: scale3d(0.9, 0.9, 1);
-    opacity: 0;
+    left: 11vw;
+    bottom: 0;
+    padding: 1vw;
+    background: #333;
+    width: 24vw;
+    line-height: 6vw;
+    text-align: center;
+    border-radius: 1vw;
+    border-bottom-left-radius: 0;
     z-index: -1;
-    background: #666;
-    transition: transform 180ms ease-in-out, opacity 180ms, z-index 0ms 280ms;
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: z-index 1ms 240ms, opacity 240ms, transform 240ms ease-in-out;
 }
 
 .showMenu #tacticsMenu {
-    transform: scale3d(1, 1, 1);
+    z-index: 5;
     opacity: 1;
-    z-index: 7;
-    transition: transform 180ms ease-in-out 10ms, opacity 180ms 10ms, z-index 0ms;
+    transform: scale3d(1, 1, 1);
+    transition: z-index 1ms, opacity 240ms 5ms, transform 240ms 5ms ease-in-out;
 }
 
-#tacticsMenu a {
-    line-height: 4vw;
-    text-align: center;
-
+.checkerSelect #tactics {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
 }

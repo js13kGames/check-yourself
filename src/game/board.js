@@ -68,7 +68,6 @@ function choosePlayerChecker(e) {
     playerChecker.isPlayer = true;
 
     mod.set({
-        allies: allies,
         playerChecker: playerChecker,
         focusX: playerChecker.x,
         focusY: playerChecker.y,
@@ -227,7 +226,11 @@ function render() {
 mod.watch('perspective', positionCamera);
 mod.watch('validMoves', showValidMoveTiles);
 mod.watch('focusX', positionCamera);
-mod.watch('playerChecker', showCheckerSelection);
+mod.watch('playerChecker', (playerChecker) => {
+    if (!playerChecker) {
+        showCheckerSelection();
+    }
+});
 mod.watch('isTurn', (isTurn) => {
     if (isTurn === false) {
         hideValidMoveTiles();

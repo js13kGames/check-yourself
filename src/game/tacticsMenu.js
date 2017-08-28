@@ -5,63 +5,74 @@ import mod from '../mod';
 
 import './tacticsMenu.css';
 
-let wrapper = new View({
-    id: 'tactics',
-});
-
 let menuOptions = [
     {
-        id: 'balanced',
-        text: 'Balanced',
-    },
-    {
-        id: 'offensive',
-        text: 'Offensive',
+        id: 'aggressive',
+        text: 'Be Aggressive',
     },
     {
         id: 'defensive',
-        text: 'Defensive'
+        text: 'Play it Safe'
     },
     {
         id: 'protectMe',
         text: 'Protect Me',
+    },
+    {
+        id: 'random',
+        text: 'Go Random!',
     }
 ];
 
-function changeTactics(e) {
-    mod.set({
-        allyTactics: e.target.id
-    });
+let wrapper = new View({
+    id: 'tactics',
+});
 
-    wrapper.classify('-showMenu');
-}
+let tacticTitle = new Text({
+    className: 'tactics-title',
+    text: 'Squad Tactics',
+    variant: 'label',
+});
 
-function getTacticText(id) {
-    let tacticObj = menuOptions.filter((opt) => {
-        return opt.id === id;
-    });
-
-    return tacticObj[0].text;
-}
-
-function toggleMenu() {
-    wrapper.classify('~showMenu');
-}
+let currentTactic = new Text({
+    id: 'currentTactic',
+    text: getTacticText(),
+});
 
 let menu = new Menu({
     id: 'tacticsMenu',
     options: menuOptions,
-    onSelect: changeTactics,
+    onSelect: (e) => mod.set({ allyAction: e.target.id }),
 });
 
-let text = new Text({
-    id: 'currentTactic',
-    text: getTacticText(mod.get('allyTactics'))
-});
+//
+//
+//
+function getTacticText(tactic) {
+    if (!tactic) {
+        tactic = mod.get('allyAction');
+    }
 
-mod.watch('allyTactics', (val) => text.print(getTacticText(val)));
+    let currentTactic = menuOptions.filter((opt) => opt.id === tactic);
+    return currentTactic[0].text;
+}
 
-wrapper.onClick('#currentTactic', toggleMenu);
-wrapper.kids(menu.el, text.el);
+//
+//
+//
+function updateCurrentTactic(tactic) {
+    currentTactic.print(getTacticText(tactic));
+    wrapper.classify('-showMenu');
+}
+
+mod.watch('allyAction', updateCurrentTactic);
+
+wrapper.onClick('#currentTactic', () => wrapper.classify('~showMenu'));
+
+wrapper.kids(
+    tacticTitle.el,
+    currentTactic.el,
+    menu.el
+);
 
 export default wrapper;

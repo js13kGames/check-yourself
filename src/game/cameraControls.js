@@ -4,10 +4,10 @@ import mod from '../mod';
 import './cameraControls.css';
 
 let cameraOptions = [
-    { id: 'camRight' },
-    { id: 'camDefault' },
-    { id: 'camLeft' },
-    { id: 'camUp' }
+    { id: 'camRight', innerHTML: '&laquo;' },
+    { id: 'camDefault', innerHTML: '&laquo;' },
+    { id: 'camLeft', innerHTML: '&raquo;' },
+    { id: 'camUp', innerHTML: '&laquo;' }
 ];
 
 //

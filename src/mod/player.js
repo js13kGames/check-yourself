@@ -19,7 +19,7 @@ export default {
     // moves available to the player on a given turn
     validMoves: null,
     // the AI scheme allied checkers will use
-    allyTactics: 'balanced',
+    allyAction: 'protectMe',
     // the AI level hostile checkers will use
     aiLevel: 'random',
     // the CSS position of the player based on the X grid position
