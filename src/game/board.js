@@ -54,7 +54,6 @@ function showCheckerSelection() {
 //
 function choosePlayerChecker(e) {
     let allies = mod.get('allies');
-
     let playerChecker = allies.filter((checker) => {
         return checker.el.isEqualNode(e.target);
     })[0];
@@ -67,10 +66,13 @@ function choosePlayerChecker(e) {
     playerChecker.classify('+player-checker');
     playerChecker.isPlayer = true;
 
+    let {x, y} = playerChecker;
     mod.set({
         playerChecker: playerChecker,
-        focusX: playerChecker.x,
-        focusY: playerChecker.y,
+        focusX: x,
+        focusY: y,
+        playerX: x,
+        playerY: y,
         isTurn: true,
     });
 
@@ -85,15 +87,14 @@ function choosePlayerChecker(e) {
 //
 //
 function showValidMoveTiles(validMoves=[]) {
+    if (validMoves.length === 0) {
+        hideValidMoveTiles();
+        return;
+    }
+
     validMoves.map((move) => {
         let tile = document.getElementById(`x${move.x}-y${move.y}`);
         tile.classList.add('availableMove');
-
-        if (move.jumpedX) {
-            tile.classList.add('jump');
-            tile.dataset.jumpedX = move.jumpedX;
-            tile.dataset.jumpedY = move.jumpedY;
-        }
     });
 }
 
@@ -120,25 +121,6 @@ function handleTileSelection(e) {
         playerX: x,
         playerY: y,
     };
-
-    // use the attached classname to handle player checker jumps
-    if (target.classList.contains('jump')) {
-        target.classList.remove('jump');
-
-        let occupied = mod.get('occupied');
-        let hostiles = mod.get('hostiles');
-        let jumpedX = target.dataset.jumpedX;
-        let jumpedY = target.dataset.jumpedY;
-        let jumped = occupied[jumpedX][jumpedY];
-
-        jumped.destructor();
-
-        hostiles.splice(hostiles.indexOf(jumped), 1);
-        occupied[jumpedX][jumpedY] = false;
-
-        toUpdate.hostiles = hostiles;
-        toUpdate.occupied = occupied;
-    }
 
     mod.set(toUpdate);
 }
@@ -241,7 +223,8 @@ board.onClick('.playable-checker', choosePlayerChecker);
 board.onClick('.availableMove', handleTileSelection);
 
 mod.set({
-    perspective: 'camSelectable'
+    perspective: 'camSelectable',
+    board: board,
 });
 
 render();

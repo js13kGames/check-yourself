@@ -14,12 +14,8 @@ export default {
     // corresponding to squares on the board ... 0-X by 0-Y ... as in a 2D array
     playerX: 0,
     playerY: 0,
-    // whether or not it's the player's turn
-    isTurn: false,
-    // moves available to the player on a given turn
-    validMoves: null,
-    // the AI scheme allied checkers will use
-    allyAction: 'protectMe',
+    // the number of lives you have ... how many times you can get jumped
+    lives: 3,
     // the AI level hostile checkers will use
     aiLevel: 'random',
     // the CSS position of the player based on the X grid position

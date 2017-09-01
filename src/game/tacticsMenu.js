@@ -5,6 +5,10 @@ import mod from '../mod';
 
 import './tacticsMenu.css';
 
+mod.set({
+    allyAction: null,
+});
+
 let menuOptions = [
     {
         id: 'aggressive',
@@ -21,57 +25,93 @@ let menuOptions = [
     {
         id: 'random',
         text: 'Go Random!',
+    },
+    {
+        id: 'cancel',
+        text: 'Cancel',
     }
 ];
+
+let actionText = 'Ally Action';
 
 let wrapper = new View({
     id: 'tactics',
 });
 
-let tacticTitle = new Text({
-    className: 'tactics-title',
-    text: 'Squad Tactics',
-    variant: 'label',
-});
-
-let currentTactic = new Text({
-    id: 'currentTactic',
-    text: getTacticText(),
+let squadAction = new Text({
+    id: 'squadAction',
+    text: actionText,
 });
 
 let menu = new Menu({
     id: 'tacticsMenu',
     options: menuOptions,
-    onSelect: (e) => mod.set({ allyAction: e.target.id }),
+    onSelect: (e) => {
+        let tactic = e.target.id;
+
+        if (tactic === 'cancel') {
+            wrapper.classify('-showMenu');
+            return;
+        }
+
+        mod.set({ allyAction: e.target.id });
+    },
 });
 
 //
 //
 //
-function getTacticText(tactic) {
-    if (!tactic) {
-        tactic = mod.get('allyAction');
+function updateMenu() {
+    let playerMustJump = mod.get('playerMustJump');
+
+    if (mod.get('allyMustJump') || playerMustJump) {
+        squadAction.classify('+disabled');
+
+    } else {
+        squadAction.print(actionText);
+        squadAction.classify('-disabled');
+    }
+}
+
+//
+//
+//
+function handleMenu(e) {
+    e.preventDefault();
+
+    let target = e.target;
+    let isDisabled = target.classList.contains('disabled');
+    //let isAllyJump = target.classList.contains('forceJump');
+
+    if (isDisabled) {
+        return;
+    /*
+    } else if (isAllyJump) {
+        mod.set({
+            allyAction: 'jump',
+        });
+        return;
+    */
     }
 
-    let currentTactic = menuOptions.filter((opt) => opt.id === tactic);
-    return currentTactic[0].text;
+    wrapper.classify('+showMenu');
 }
 
 //
 //
 //
 function updateCurrentTactic(tactic) {
-    currentTactic.print(getTacticText(tactic));
     wrapper.classify('-showMenu');
 }
 
 mod.watch('allyAction', updateCurrentTactic);
+mod.watch('playerMustJump', updateMenu);
+mod.watch('allyMustJump', updateMenu);
 
-wrapper.onClick('#currentTactic', () => wrapper.classify('~showMenu'));
+wrapper.onClick('#squadAction', handleMenu);
 
 wrapper.kids(
-    tacticTitle.el,
-    currentTactic.el,
+    squadAction.el,
     menu.el
 );
 

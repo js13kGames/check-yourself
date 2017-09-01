@@ -55,30 +55,31 @@ class Checker extends El {
         let xPos = x * tileSize;
         let yPos = y * tileSize;
 
+        let jumpStyles = () => {
+            console.log('Jump animation! Work this out ...');
+            let styles = [
+                translate3d(xPos, yPos),
+            ];
+
+            return {
+                transform: styles.join(' '),
+            };
+        };
+
         // extra fancification on a jump transform
         if (this.isJump(x)) {
-            console.log('Do a jump animation!');
+            this.justJumped = true;
+            this.style(jumpStyles());
+
+        } else {
+            this.justJumped = false;
+            this.style({
+                transform: translate3d(xPos, yPos),
+            });
         }
-
-        this.style({
-            transform: translate3d(xPos, yPos),
-        });
-
-        // let the board know about everything that just went down; generally
-        // good policy as far as "the Board" is concerned
-        //this.notifyTheBoard(x, y, jumped);
 
         this.x = x;
         this.y = y;
-    }
-
-    afterMove(callback) {
-        let onTransitionEnd = () => {
-            this.el.removeEventListener('transitionend', onTransitionEnd);
-            callback(this);
-        };
-
-        this.el.addEventListener('transitionend', onTransitionEnd);
     }
 }
 

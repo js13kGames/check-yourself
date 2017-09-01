@@ -1,0 +1,50 @@
+#counts {
+    position: absolute;
+    left: 50%;
+    bottom: 3vw;
+    display: flex;
+    width: 36vw;
+    height: 6vw;
+    line-height: 6vw;
+    margin-left: -18vw;
+    font-size: 3vw;
+    padding: 0 3vw;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    border-radius: 1vw;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
+}
+
+.countsText {
+    font-size: 2vw;
+    flex-basis: 1;
+}
+
+.allies {
+    text-align: right;
+}
+
+.separator {
+    border-left: 1px solid #fff;
+}
+
+#allyCount,
+#hostileCount {
+    flex-basis: 2;
+    padding: 0 1vw;
+}
+
+#allyCount {
+    padding-left: 2vw;
+}
+
+#hostileCount {
+    text-align: right;
+    padding-right: 2vw;
+}
+
+.checkerSelect #counts {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}

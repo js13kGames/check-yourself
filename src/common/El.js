@@ -84,6 +84,34 @@ class El {
             this.el.style[style] = styleObj[style];
         });
     }
+
+    // a method for setting actions after a transition occurs
+    onTrans(callback) {
+        let onComplete = ({target}) => {
+            let isEqual = target.isEqualNode(this.el);
+            let isMidTransition = target.classList.contains('transitioning');
+
+            if (isEqual && !isMidTransition) {
+                this.el.removeEventListener('transitionend', onComplete);
+                callback();
+            }
+        };
+
+        this.el.addEventListener('transitionend', onComplete);
+    }
+
+    // the sister method to the above, for animations instead of transitions. we
+    // use both for various effects and subscribe to them separately
+    onAnim(callback) {
+        let onComplete = ({target}) => {
+            if (target.isEqualNode(this.el)) {
+                this.el.removeEventListener('animationend', onComplete);
+                callback();
+            }
+        };
+
+        this.el.addEventListener('animationend', onComplete);
+    }
 }
 
 export default El;

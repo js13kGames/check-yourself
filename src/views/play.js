@@ -5,6 +5,8 @@ import board from '../game/board';
 
 import tacticsMenu from '../game/tacticsMenu';
 import cameraControls from '../game/cameraControls';
+import counts from '../game/counts';
+import notice from '../game/notice';
 
 let play = new View({
     id: 'play',
@@ -30,7 +32,9 @@ mod.watch('hostiles', (hostiles) => {
 play.kids(
     board.el,
     cameraControls.el,
-    tacticsMenu.el
+    tacticsMenu.el,
+    counts.el,
+    notice.el
 );
 
 // on an initial load, jump right into checker selection

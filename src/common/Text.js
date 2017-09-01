@@ -21,9 +21,7 @@ class Text extends View {
     }
 
     print(text) {
-        if (typeof text === 'string') {
-            this.el.innerText = text;
-        }
+        this.el.innerText = text;
     }
 }
 
