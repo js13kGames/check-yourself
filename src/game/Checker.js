@@ -48,6 +48,23 @@ class Checker extends El {
         return Math.abs(x - this.x) > 1;
     }
 
+    // helper methods for checking squares around this checker; note that these
+    // have no concern for the constraints of our board and may report invalid
+    // tiles (-1, -1 eg.) and should be validated on the receiving end.
+    // moves.js does exactly that.
+    getUpLeft() {
+        return { x: this.x - 1, y: this.y - 1 };
+    }
+    getUpRight() {
+        return { x: this.x + 1, y: this.y - 1 };
+    }
+    getDownRight() {
+        return { x: this.x + 1, y: this.y + 1 };
+    }
+    getDownLeft() {
+        return { x: this.x - 1, y: this.y + 1 };
+    }
+
     // a method to position a checker in the viewport; it takes an X and Y grid
     // position and turns it into a CSS equivalent based on tile size
     position(x, y) {

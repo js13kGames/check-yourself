@@ -1,12 +1,13 @@
 import View from '../common/View';
 import mod from '../mod';
-import '../game/moves';
-import board from '../game/board';
 
 import tacticsMenu from '../game/tacticsMenu';
 import cameraControls from '../game/cameraControls';
+import board from '../game/board';
 import counts from '../game/counts';
 import notice from '../game/notice';
+
+import '../game/moves';
 
 let play = new View({
     id: 'play',

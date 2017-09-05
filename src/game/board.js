@@ -13,6 +13,32 @@ import {
 
 import './board.css';
 
+mod.set({
+    // the number of tiles in a row for our checkboard; the board is always
+    // square so we don't specify a "rows" property. we also play on an American
+    // "standard" checker board ... 8x8.
+    columns: 8,
+    // we scale the screen by this much in our CSS transforms
+    scaling: 5,
+    // init a quick/dirty 8x8 array to represent our checkerboard; this gets
+    // updated by ./game/board.js in batch actions
+    occupied: [ [], [], [], [], [], [], [], [] ],
+    // based on 100% viewport
+    tileSize: function() {
+        return 100 / this.get('columns');
+    },
+    // quick-ref for grabbing the size of a rendered checker; regardless of how
+    // many squares in a row, the checker is N% of it
+    checkerSize: function() {
+        return this.get('tileSize') * 0.75;
+    },
+    // quick-ref for setting the margins around our checkers ... the size of a
+    // tile less the size of the checker itself
+    checkerMargin: function() {
+        return (this.get('tileSize') - this.get('checkerSize')) / 2;
+    },
+}, true);
+
 let board = new View({
     id: 'board'
 });
@@ -86,14 +112,15 @@ function choosePlayerChecker(e) {
 //
 //
 //
-function showValidMoveTiles(validMoves=[]) {
-    if (validMoves.length === 0) {
+function showValidMoveTiles(validActions=[]) {
+    if (validActions.length === 0) {
         hideValidMoveTiles();
         return;
     }
 
-    validMoves.map((move) => {
-        let tile = document.getElementById(`x${move.x}-y${move.y}`);
+    validActions.map((move) => {
+        let {toX, toY} = move;
+        let tile = document.getElementById(`x${toX}-y${toY}`);
         tile.classList.add('availableMove');
     });
 }
@@ -117,12 +144,12 @@ function handleTileSelection(e) {
     let xy = target.id.split('-');
     let x = parseInt(xy[0].replace('x', ''), 10);
     let y = parseInt(xy[1].replace('y', ''), 10);
-    let toUpdate = {
-        playerX: x,
-        playerY: y,
-    };
 
-    mod.set(toUpdate);
+    let playerAction = mod.get('validActions').filter((action) => {
+        return ((action.toX === x) && (action.toY === y));
+    })[0];
+
+    mod.set({ playerAction });
 }
 
 //
@@ -206,19 +233,20 @@ function render() {
 }
 
 mod.watch('perspective', positionCamera);
-mod.watch('validMoves', showValidMoveTiles);
+mod.watch('validActions', showValidMoveTiles);
 mod.watch('focusX', positionCamera);
 mod.watch('playerChecker', (playerChecker) => {
     if (!playerChecker) {
         showCheckerSelection();
     }
 });
+/*
 mod.watch('isTurn', (isTurn) => {
     if (isTurn === false) {
         hideValidMoveTiles();
     }
 });
-
+*/
 board.onClick('.playable-checker', choosePlayerChecker);
 board.onClick('.availableMove', handleTileSelection);
 
@@ -228,6 +256,5 @@ mod.set({
 });
 
 render();
-//positionCamera();
 
 export default board;

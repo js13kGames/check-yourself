@@ -62,9 +62,9 @@ let menu = new Menu({
 //
 //
 function updateMenu() {
-    let playerMustJump = mod.get('playerMustJump');
+    let playerHasJump = mod.get('playerHasJump');
 
-    if (mod.get('allyMustJump') || playerMustJump) {
+    if (mod.get('allyHasJump') || playerHasJump) {
         squadAction.classify('+disabled');
 
     } else {
@@ -100,13 +100,13 @@ function handleMenu(e) {
 //
 //
 //
-function updateCurrentTactic(tactic) {
+function updateCurrentTactic() {
     wrapper.classify('-showMenu');
 }
 
 mod.watch('allyAction', updateCurrentTactic);
-mod.watch('playerMustJump', updateMenu);
-mod.watch('allyMustJump', updateMenu);
+mod.watch('playerHasJump', updateMenu);
+mod.watch('allyHasJump', updateMenu);
 
 wrapper.onClick('#squadAction', handleMenu);
 

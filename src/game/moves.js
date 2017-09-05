@@ -1,4 +1,5 @@
 import mod from '../mod';
+import ai from './ai';
 
 // our moves module is concerned with/manages these properties of our model;
 // set our defaults
@@ -7,11 +8,19 @@ mod.set({
     isTurn: false,
     // all jumps must be taken, as per the rules of checkers. this is a hook for
     // disabling movement if either the player or an ally has to jump
-    playerMustJump: false,
-    allyMustJump: false,
+    playerHasJump: false,
+    allyHasJump: false,
     // moves available to the player on a given turn
-    validMoves: null,
-});
+    validActions: null,
+}, true);
+
+// grab a global reference to the board
+let _board = mod.get('board');
+
+// our ally actions get calculated at the start of each player turn; we keep a
+// reference to them to avoid running through all possibilities in multiple
+// places
+let _allyActionCache = [];
 
 // a standard no-operation; handy for setting defaults on conditional function
 // calls
@@ -34,24 +43,8 @@ function isOccupied(x, y) {
 // a composite method for checking whether an X/Y position is in-bounds and
 // unoccupied
 function isValidMove(x, y) {
-    let isValid = false;
-
-    if (inBounds(x, y) && (!isOccupied(x, y))) {
-        isValid = true;
-    }
-
-    return {isValid, x, y};
+    return (inBounds(x, y) && (!isOccupied(x, y)));
 }
-
-// this is a group of functions for checking whether an adjacent ... or in the
-// case of our board ... a diagonally-adjacent square can be moved to.
-let checkLeftDown = (x, y) => isValidMove(x - 1, y + 1);
-let checkLeftUp = (x, y) => isValidMove(x - 1, y - 1);
-let checkRightDown = (x, y) => isValidMove(x + 1, y + 1);
-let checkRightUp = (x, y) => isValidMove(x + 1, y - 1);
-
-// placeholder for things your allies can do; set at the start of each turn
-let _allyActions;
 
 //
 //
@@ -63,78 +56,93 @@ function toggleTurn() {
 }
 
 //
+// An OO method for getting the available move range for a given checker.
 //
-//
-function getMovementRange(checker) {
-    let {x, y} = checker;
+function getCheckerRange(checker) {
+    let upLeft = checker.getUpLeft();
+    let upRight = checker.getUpRight();
+    let downRight = checker.getDownRight();
+    let downLeft = checker.getDownLeft();
+    let range = [];
 
     if (checker.isKing) {
-        return [
-            checkLeftDown(x, y),
-            checkRightDown(x, y),
-            checkLeftUp(x, y),
-            checkRightUp(x, y)
-        ];
+        range.push(
+            inBounds(upLeft.x, upLeft.y) && upLeft,
+            inBounds(upRight.x, upRight.y) && upRight,
+            inBounds(downRight.x, downRight.y) && downRight,
+            inBounds(downLeft.x, downLeft.y) && downLeft
+        );
 
     } else if (checker.isHostile) {
-        return [
-            checkLeftDown(x, y),
-            checkRightDown(x, y)
-        ];
+        range.push(
+            inBounds(downRight.x, downRight.y) && downRight,
+            inBounds(downLeft.x, downLeft.y) && downLeft
+        );
 
     } else {
-        return [
-            checkLeftUp(x, y),
-            checkRightUp(x, y)
-        ];
+        range.push(
+            inBounds(upLeft.x, upLeft.y) && upLeft,
+            inBounds(upRight.x, upRight.y) && upRight
+        );
     }
+
+    return range.filter((action) => action);
 }
 
 //
+// Given a range of valid moves (non-jumps) a given checker can make
 //
-//
-function getValidMovesFromRange(range) {
-    return range.filter((move) => move.isValid === true).map(
-        (move) => {
-            return {
-                x: move.x,
-                y: move.y
-            };
+function getCheckerMoves(checker, range) {
+    let moves = [];
+
+    range.map((xy) => {
+        if (isValidMove(xy.x, xy.y)) {
+            moves.push({
+                checker: checker,
+                fromX: checker.x,
+                fromY: checker.y,
+                toX: xy.x,
+                toY: xy.y,
+            });
         }
-    );
+    });
+
+    return moves;
 }
 
 //
 //
 //
-function getAvailableJumps(checker, range) {
+function getCheckerJumps(checker, range) {
     let {x, y} = checker;
     let jumps = [];
-    let allegiance = checker.isHostile;
 
-    range.map((move) => {
-        let {x:occX, y:occY} = move;
+    range.map((tile) => {
+        let {x: occupiedX, y: occupiedY} = tile;
+        let occupiedBy = isOccupied(occupiedX, occupiedY);
+        let isOpposed = occupiedBy && (occupiedBy.isHostile !== checker.isHostile);
 
         // we're concerned with invalid moves ... occupied only
-        if (move.isValid === false && inBounds(occX, occY)) {
-            if (allegiance !== mod.get('occupied')[occX][occY].isHostile) {
-                let deltaX = occX - x;
-                let deltaY = occY - y;
+        if (occupiedBy && isOpposed) {
+            let deltaX = occupiedX - x;
+            let deltaY = occupiedY - y;
 
-                let onePlusX = occX + deltaX;
-                let onePlusY = occY + deltaY;
+            let onePlusX = occupiedX + deltaX;
+            let onePlusY = occupiedY + deltaY;
 
-                if (
-                    inBounds(onePlusX, onePlusY) &&
-                    !isOccupied(onePlusX, onePlusY)
-                ) {
-                    jumps.push({
-                        x: onePlusX,
-                        y: onePlusY,
-                        jumpedX: occX,
-                        jumpedY: occY,
-                    });
-                }
+            if (
+                inBounds(onePlusX, onePlusY) &&
+                !isOccupied(onePlusX, onePlusY)
+            ) {
+                jumps.push({
+                    checker: checker,
+                    fromX: x,
+                    fromY: y,
+                    toX: onePlusX,
+                    toY: onePlusY,
+                    jumpedX: occupiedX,
+                    jumpedY: occupiedY,
+                });
             }
         }
     });
@@ -143,328 +151,246 @@ function getAvailableJumps(checker, range) {
 }
 
 //
+// A method for getting valid actions for a given checker; it checks both move
+// options and jumps and returns only actions the checker can legally take.
+//
+function getCheckerActions(checker) {
+    let range = getCheckerRange(checker);
+    let jumps = getCheckerJumps(checker, range);
+
+    // if the checker has jumps, they must be taken as per the rules of
+    // checkers; don't bother checking any further
+    return (jumps.length > 0) ? jumps : getCheckerMoves(checker, range);
+}
+
 //
 //
-function getTeamActions(team) {
-    let mustTakeJump = false;
-    let jumpOptions = [];
-    let moveOptions = [];
+//
+function getGroupActions(checkers) {
+    let actions = [];
 
-    team.map((checker) => {
-        let range = getMovementRange(checker);
-        let jumps = getAvailableJumps(checker, range);
-
-        if (jumps.length > 0) {
-            mustTakeJump = true;
-
-            jumps.map((jump) => jumpOptions.push({
-                checker,
-                jump,
-            }));
-        }
-
-        // only pay attention to moves if there are no jump options; per the
-        // rules o' checkers you gotta take a jump if it's available
-        if (!mustTakeJump) {
-            let validMoves = getValidMovesFromRange(range);
-
-            if (validMoves.length > 0) {
-                validMoves.map((move) => moveOptions.push({
-                    checker,
-                    move
-                }));
-            }
-        }
+    checkers.map((checker) => {
+        actions = actions.concat(getCheckerActions(checker));
     });
 
-    return {
-        jumps: jumpOptions,
-        moves: moveOptions,
-    };
-}
-
-// a helper method for randomly picking a given action; expects an array of
-// jump or move objects
-function getRandomAction(actions) {
-    let random = Math.floor(Math.random() * actions.length);
-    return actions[random];
+    let jumpActions = actions.filter((action) => action.jumpedX);
+    return (jumpActions.length > 0) ? jumpActions : actions;
 }
 
 //
 //
 //
-function getBestMove(moves) {
-    let aiLevel = mod.get('aiLevel');
+function moveAllyChecker(actions) {
+    let allyJumps = actions.filter((action) => action.jumpedX);
 
-    // chaos!
-    if (aiLevel === 'random') {
-        return getRandomAction(moves);
-    }
-}
-
-//
-//
-//
-function getBestJump(jumps) {
-    let aiLevel = mod.get('aiLevel');
-
-    if (aiLevel === 'random') {
-        return getRandomAction(jumps);
-    }
-}
-
-//
-//
-//
-function removeJumpedChecker(x, y) {
-    let occupied = mod.get('occupied');
-    let jumpedChecker = occupied[x][y];
-    let team;
-
-    team = (jumpedChecker.isHostile) ? mod.get('hostiles') : mod.get('allies');
-    team.splice(team.indexOf(jumpedChecker), 1);
-
-    jumpedChecker.destructor();
-    occupied[x][y] = false;
-
-    let toUpdate = { occupied };
-
-    if (jumpedChecker.isPlayer) {
-        toUpdate.playerChecker = false;
-        toUpdate.validMoves = [];
-    }
-
-    mod.set(toUpdate);
-}
-
-//
-//
-//
-function updateCheckerPosition(checker, x, y, afterMove=noop) {
-    // update the occupied board model with our new position
-    let occupied = mod.get('occupied');
-
-    occupied[checker.x][checker.y] = false;
-    occupied[x][y] = checker;
-
-    let postMoveActions = () => {
-        afterMove();
-        mod.set({occupied});
-
-        if (checker.justJumped) {
-            let newRange = getMovementRange(checker);
-            let extraJumps = getAvailableJumps(checker, newRange);
-
-            if ((extraJumps.length > 0) && (checker.isPlayer)) {
-                mod.set({
-                    validMoves: [],
-                });
-                setPlayerMoves();
-
-            } else if (extraJumps.length > 0) {
-                if (checker.isHostile) {
-                    moveTeam(mod.get('hostiles'));
-
-                // ally double-jump; good work, squad!
-                } else {
-                    console.log('Double jump! Do a fancy notification/bravo.');
-                    handleAllyJump(true);
-                }
-
-            } else {
-                toggleTurn();
-            }
-
-        } else {
-            toggleTurn();
-        }
-    };
-
-    checker.onTrans(postMoveActions);
-    checker.position(x, y);
-}
-
-//
-//
-//
-function moveTeam(checkers) {
-    let actions = (_allyActions) ? _allyActions : getTeamActions(checkers);
-    let hasJumps = actions.jumps.length > 0;
-    let action, onJump;
-
-    if (hasJumps) {
-        action = getBestJump(actions.jumps);
-
+    if (allyJumps.length > 0) {
+        console.log('Ally gotta jump');
     } else {
-        action = getBestMove(actions.moves);
+        console.log('Ally gotta move');
     }
 
-    let {x, y} = (hasJumps) ? action.jump : action.move;
-    if (hasJumps) {
-        let {jumpedX, jumpedY} = action.jump;
-        onJump = () => removeJumpedChecker(jumpedX, jumpedY);
-    }
-
-    updateCheckerPosition(
-        action.checker,
-        x,
-        y,
-        onJump
-    );
+    handleCheckerAction(ai(actions));
 }
 
 //
 //
 //
-function moveAllies(tactic) {
-    if (tactic === null) {
-        return;
-    }
-
-    moveTeam();
-
-    mod.set({
-        validMoves: [],
-        allyAction: null,
-    });
-}
-
-//
-//
-//
-function handleAllyJump(canJump) {
-    if (!canJump) {
-        return;
-    }
-
-    let allyJump = getBestJump(_allyActions.jumps);
-    let playerMustJump = mod.get('playerMustJump');
-    let allyChecker = allyJump.checker;
-    let board = mod.get('board');
-
-    if (playerMustJump) {
-        console.log('Throw a notification for the choice');
-        return;
-    }
-
-    let {checker} = allyJump;
-    let {x, y, jumpedX, jumpedY} = allyJump.jump;
-
-    // @todo i hate these chained callbacks; see if there's a more elegant
-    // solution for handling this event loop should time allow
-    let afterFocus = () => {
-        let afterJump = () => {
-            mod.set({
-                focusX: mod.get('playerX'),
-                focusY: mod.get('playerY'),
-            });
-        };
-
-        allyChecker.onTrans(afterJump);
-        updateCheckerPosition(
-            checker,
-            x,
-            y,
-            () => {
-                removeJumpedChecker(jumpedX, jumpedY);
-                afterJump();
-            }
-        );
-    };
-
-    board.onTrans(afterFocus);
-    mod.set({
-        focusX: allyJump.checker.x,
-        focusY: allyJump.checker.y,
-    });
-}
-
-//
-//
-//
-function handlePlayerMove(playerX) {
-    let {
-        playerChecker,
-        playerY,
-        validMoves,
-    } = mod.get('playerChecker', 'playerY', 'validMoves');
-
-    // if we're simply establishing player position (as when selecting a
-    // checker) and no moves are set, do nothing
-    if (!validMoves) {
-        return;
-    }
-
-    let onJump;
-    let action = mod.get('validMoves').filter((move) => {
-        return ((move.x === playerX) && (move.y === playerY));
-    })[0];
-
-    if (!action) {
-        return;
-    }
-
-    if (action.jumpedX) {
-        onJump = () => removeJumpedChecker(action.jumpedX, action.jumpedY);
-    }
-
-    updateCheckerPosition(playerChecker, playerX, playerY, onJump);
-}
-
-//
-//
-//
-function setPlayerMoves() {
+function getPlayerOptions() {
     let playerChecker = mod.get('playerChecker');
 
-    if (playerChecker === false) {
-        if (mod.get('allies').length === 0) {
-            console.log('>>>>> GAME OVER >>>>>');
-        }
+    if (!playerChecker) {
         return;
     }
 
-    let range = getMovementRange(playerChecker);
-    let jumps = getAvailableJumps(playerChecker, range);
-    let validMoves = getValidMovesFromRange(range);
-    let playerMustJump = false;
+    let playerActions = [];
+    let allyActions = [];
 
-    _allyActions = getTeamActions(
-        mod.get('allies').filter((checker) => {
-            return checker.isPlayer !== true;
-        })
-    );
+    _allyActionCache.map((action) => {
+        let stack = (action.checker.isPlayer) ? playerActions : allyActions;
+        stack.push(action);
+    });
 
-    let allyMustJump = (_allyActions.jumps.length > 0);
+    if (playerActions.length > 0) {
+        let toUpdate = {
+            validActions: playerActions,
+            focusX: playerChecker.x,
+            focusY: playerChecker.y,
+        };
 
-    // if the player has jumps, s/he must take one
-    if (jumps.length > 0) {
-        playerMustJump = true;
-        validMoves = jumps;
+        // set our model flag for use by other components; if the player has
+        // jumps we disable the ally menu
+        if (playerActions[0].jumpedX) {
+            toUpdate.playerHasJump = true;
+        }
 
-    // if the player has no jumps but an ally does, the player can't move
-    } else if (allyMustJump) {
-        validMoves = [];
+        mod.set(toUpdate);
+
+    // the player can't move; check if allies have jumps available (in which
+    // case they gotta take 'em) and we disable the Tactics menu
+    } else {
+        if (allyActions[0].jumpedX) {
+            mod.set({ allyHasJump: true });
+            moveAllyChecker(allyActions);
+        }
     }
-
-    mod.set({ allyMustJump, playerMustJump, validMoves });
 }
 
-mod.watch('allyAction', moveAllies);
+//
+//
+//
+function updateBoardPositions(action) {
+    let occupied = mod.get('occupied');
+    let {checker, fromX, fromY, toX, toY} = action;
+
+    occupied[fromX][fromY] = false;
+    occupied[toX][toY] = checker;
+
+    mod.set({ occupied });
+}
+
+//
+//
+//
+function handleJump(action) {
+    let {checker, jumpedX, jumpedY} = action;
+    let removeJumpedChecker = () => {
+        let occupied = mod.get('occupied');
+        let jumpedChecker = occupied[jumpedX][jumpedY];
+        let toUpdate = { occupied };
+
+        // eradicate the jumped checker from the board and the DOM
+        occupied[jumpedX][jumpedY] = false;
+        jumpedChecker.destructor();
+
+        if (jumpedChecker.isPlayer) {
+            toUpdate.playerChecker = false;
+        }
+
+        let team = (jumpedChecker.isHostile) ?
+            mod.get('hostiles') :
+            mod.get('allies');
+
+        team.splice(team.indexOf(jumpedChecker), 1);
+        mod.set(toUpdate);
+    };
+
+    if (checker.isPlayer) {
+        checker.onTrans(removeJumpedChecker);
+        moveChecker(action);
+    } else {
+        moveCheckerWithCamera(action, removeJumpedChecker);
+    }
+}
+
+//
+//
+//
+function moveChecker(action) {
+    let {checker, toX, toY} = action;
+
+    updateBoardPositions(action);
+    checker.onTrans(() => toggleTurn());
+    checker.position(toX, toY);
+
+    // King'ify!
+    let hostileKing = (checker.isHostile && (toY === 7));
+    let allyKing = (!checker.isHostile && (toY === 0));
+
+    if (hostileKing || allyKing) {
+        checker.isKing = true;
+    }
+
+    mod.set({
+        focusX: toX,
+        focusY: toY,
+        validActions: [],
+    });
+}
+
+//
+//
+//
+function moveCheckerWithCamera(action, onMoveComplete=noop) {
+    let {checker, fromX, fromY, toX, toY} = action;
+    let isHostile = checker.isHostile;
+
+    // we use our transition event handlers to stagger the flow: focus the
+    // camera, make the move, jump back to the player
+    let afterMove = () => {
+        onMoveComplete();
+    };
+
+    let afterFocus = () => {
+        checker.onTrans(afterMove);
+        moveChecker(action);
+    };
+
+    // initiate the transition chain
+    _board.onTrans(afterFocus);
+
+    mod.set({
+        // center the camera on whatever's about to happen
+        focusX: (isHostile) ? toX : fromX,
+        focusY: (isHostile) ? toY : fromY,
+    });
+}
+
+//
+//
+//
+function handleCheckerAction(action) {
+    // if this is a jump, our animation/handling flow is altered
+    if (action.jumpedX) {
+        handleJump(action);
+        return;
+    }
+
+    let {checker} = action;
+
+    // no need to manage camera focus on a player move, as the player is
+    // always the default focus. simply move and follow with the cam
+    let moveMethod = (checker.isPlayer) ? moveChecker : moveCheckerWithCamera;
+    moveMethod(action);
+}
+
+
 // tile selection comes from the board component; when a tile is selected it
 // updates the playerX/Y vals, which we pick up here and actually handle the
 // move
-mod.watch('playerX', handlePlayerMove);
-mod.watch('allyMustJump', handleAllyJump);
-mod.watch('isTurn', (playerTurn) => {
+mod.watch('playerAction', handleCheckerAction);
+mod.watch('allyAction', () => {
+    mod.set({ validMoves: [] });
+    moveAllyChecker(_allyActionCache.filter(
+        (action) => action.checker.isPlayer === false
+    ));
+});
+mod.watch('isTurn', (isTurn) => {
+    if (isTurn) {
+        let allies = mod.get('allies');
 
-    // reset the the action cache
-    _allyActions = null;
+        if (allies.length <= 0) {
+            console.log('>>>>>>>>>>>>> GAME OVER >>>>>>>>>>>>');
+            return;
+        }
 
-    if (playerTurn) {
-        setPlayerMoves();
+        mod.set({
+            playerHasJump: false,
+            allyHasJump: false,
+        });
+
+        // calculate our group actions and cache the results for the turn
+        _allyActionCache = getGroupActions(mod.get('allies'));
+        getPlayerOptions();
 
     } else {
-        moveTeam(mod.get('hostiles'));
+        let hostiles = mod.get('hostiles');
+
+        if (hostiles.length <= 0) {
+            console.log('>>>>>>>>>>>>> WINNER! >>>>>>>>>>>>');
+            return;
+        }
+
+        let actions = getGroupActions(hostiles);
+        handleCheckerAction(ai(actions));
     }
 });

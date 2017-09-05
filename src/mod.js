@@ -1,14 +1,5 @@
-import board from './board';
-import camera from './camera';
-import player from './player';
-
 let watchers = {};
-let mod = Object.assign(
-    {},
-    board,
-    camera,
-    player
-);
+let mod = {};
 
 // a convenience method for checking if a given param is a function
 function isFunction(f) {
@@ -50,8 +41,9 @@ export default {
     },
 
     // this method takes an object of key/val pairs and updates our model. it'll
-    // trigger any watchers of the values.
-    set: (data) => {
+    // trigger any watchers of the values. if the second param is passed as true
+    // we'll do a stealth update and not trigger any watchers
+    set: (data, isSilent=false) => {
         let props = Object.keys(data);
         let actionsToTake = [];
 
@@ -64,7 +56,7 @@ export default {
             } else {
                 mod[prop] = data[prop];
 
-                if (watchers[prop]) {
+                if (watchers[prop] && (isSilent === false)) {
                     let actions = watchers[prop].map((action) => ({
                         action: action,
                         value: data[prop],
@@ -93,5 +85,4 @@ export default {
 
         watchers[prop].push(action);
     },
-
 };
