@@ -1,3 +1,4 @@
+
 import View from '../common/View';
 import Menu from '../common/Menu';
 import Text from '../common/Text';
@@ -63,8 +64,12 @@ let menu = new Menu({
 //
 function updateMenu() {
     let playerHasJump = mod.get('playerHasJump');
+    let allyHasJump = mod.get('allyHasJump');
 
-    if (mod.get('allyHasJump') || playerHasJump) {
+    if (
+        (allyHasJump && !playerHasJump) ||
+        (playerHasJump && !allyHasJump)
+    ) {
         squadAction.classify('+disabled');
 
     } else {
@@ -81,17 +86,9 @@ function handleMenu(e) {
 
     let target = e.target;
     let isDisabled = target.classList.contains('disabled');
-    //let isAllyJump = target.classList.contains('forceJump');
 
     if (isDisabled) {
         return;
-    /*
-    } else if (isAllyJump) {
-        mod.set({
-            allyAction: 'jump',
-        });
-        return;
-    */
     }
 
     wrapper.classify('+showMenu');

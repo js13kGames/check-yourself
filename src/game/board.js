@@ -37,6 +37,27 @@ mod.set({
     checkerMargin: function() {
         return (this.get('tileSize') - this.get('checkerSize')) / 2;
     },
+    // convenience filters for returning checkers with allied/hostile affiliations
+    allies: function() {
+        let allies = [];
+        this.get('occupied').map((row) => {
+            allies = allies.concat(row.filter((checker) => {
+                return (checker && !checker.isHostile);
+            }));
+        });
+
+        return allies;
+    },
+    hostiles: function() {
+        let hostiles = [];
+        this.get('occupied').map((row) => {
+            hostiles = hostiles.concat(row.filter((checker) => {
+                return (checker && checker.isHostile);
+            }));
+        });
+
+        return hostiles;
+    }
 }, true);
 
 let board = new View({
@@ -112,13 +133,13 @@ function choosePlayerChecker(e) {
 //
 //
 //
-function showValidMoveTiles(validActions=[]) {
-    if (validActions.length === 0) {
+function showValidMoveTiles(playerActions=[]) {
+    if (playerActions.length === 0) {
         hideValidMoveTiles();
         return;
     }
 
-    validActions.map((move) => {
+    playerActions.map((move) => {
         let {toX, toY} = move;
         let tile = document.getElementById(`x${toX}-y${toY}`);
         tile.classList.add('availableMove');
@@ -145,7 +166,7 @@ function handleTileSelection(e) {
     let x = parseInt(xy[0].replace('x', ''), 10);
     let y = parseInt(xy[1].replace('y', ''), 10);
 
-    let playerAction = mod.get('validActions').filter((action) => {
+    let playerAction = mod.get('playerActions').filter((action) => {
         return ((action.toX === x) && (action.toY === y));
     })[0];
 
@@ -174,8 +195,8 @@ function render() {
     ];
 
     let occupied = [];
-    let hostiles = [];
-    let allies = [];
+    //let hostiles = [];
+    //let allies = [];
 
     for (let i = 0; i < tileCount; i++) {
         // special handling for creating new rows
@@ -201,11 +222,13 @@ function render() {
             let checker = new Checker({x:col, y:row, isHostile});
             board.kids(checker.el);
 
+            /*
             if (isHostile) {
                 hostiles.push(checker);
             } else {
                 allies.push(checker);
             }
+            */
 
             // keep a reference to the checker instance in our virtual board for
             // easy look-ups and manipulation
@@ -227,13 +250,13 @@ function render() {
     // from here on out so other components can watch and utilize 'em.
     mod.set({
         occupied: occupied,
-        hostiles: hostiles,
-        allies: allies,
+        //hostiles: hostiles,
+        //allies: allies,
     });
 }
 
 mod.watch('perspective', positionCamera);
-mod.watch('validActions', showValidMoveTiles);
+mod.watch('playerActions', showValidMoveTiles);
 mod.watch('focusX', positionCamera);
 mod.watch('playerChecker', (playerChecker) => {
     if (!playerChecker) {

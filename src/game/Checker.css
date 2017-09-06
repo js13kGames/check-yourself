@@ -4,7 +4,7 @@
     right: 0;
     z-index: 1;
     display: block;
-    transition: opacity 450ms, transform 450ms ease-in-out 100ms, background-color 270ms;
+    transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
     border-radius: 50%;
     background-color: #494949;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));

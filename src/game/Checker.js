@@ -1,7 +1,7 @@
 //import View from '../common/View';
 import El from '../common/El';
 import mod from '../mod';
-import {translate3d} from '../common/transform';
+import {scale3d, translate3d} from '../common/transform';
 
 import './Checker.css';
 
@@ -15,6 +15,55 @@ function getDefaultStyle() {
         paddingBottom: `${checkerSize}vw`,
         margin: `${mod.get('checkerMargin')}vw`,
     };
+}
+
+//
+//
+//
+function pixelateOut(checker) {
+    let board = mod.get('board');
+    let random = Math.floor(Math.random() * 16 + 6);
+    let pixelations = [];
+
+    while (random--) {
+        let clone = checker.el.cloneNode();
+        let randomX = Math.floor(Math.random() * 50 + 10);
+        let randomY = Math.floor(Math.random() * 50 + 10);
+        let transform = translate3d(randomX, randomY);
+
+        let transitions = [
+            'opacity 1200ms ease-out',
+            'transform 1200ms cubic-bezier(0,1,1,0.75)'
+        ];
+
+        board.kids(clone);
+        clone.style.transition = transitions.join(',');
+
+        pixelations.push({
+            pixel: clone,
+            transform: transform + ' scale3d(0.2, 0.2, 1)',
+        });
+    }
+
+    checker.destructor();
+
+    let lastPixel = pixelations[pixelations.length - 1].pixel;
+
+    lastPixel.addEventListener('transitionend', function cleanup() {
+        let fx;
+        while (fx = pixelations.pop()) { // eslint-disable-line
+            fx.pixel.parentNode.removeChild(fx.pixel);
+        }
+
+        lastPixel.removeEventListener('transitionend', cleanup);
+    });
+
+    pixelations.map((fx) => {
+        setTimeout(() => {
+            fx.pixel.style.opacity = 0;
+            fx.pixel.style.transform = fx.transform;
+        }, 0);
+    });
 }
 
 class Checker extends El {
@@ -97,6 +146,21 @@ class Checker extends El {
 
         this.x = x;
         this.y = y;
+    }
+
+    remove() {
+        let tileSize = mod.get('tileSize');
+        let xPos = this.x * tileSize;
+        let yPos = this.y * tileSize;
+
+        let transforms = [
+            translate3d(xPos, yPos),
+            scale3d(0.2, 0.2)
+        ];
+
+        this.onTrans(() => pixelateOut(this));
+        this.style({ transform: transforms.join(' ') });
+
     }
 }
 

@@ -5,7 +5,6 @@ import tacticsMenu from '../game/tacticsMenu';
 import cameraControls from '../game/cameraControls';
 import board from '../game/board';
 import counts from '../game/counts';
-import notice from '../game/notice';
 
 import '../game/moves';
 
@@ -23,19 +22,22 @@ function handleCheckerSelection(playerChecker) {
     }
 }
 
-mod.watch('playerChecker', handleCheckerSelection);
-mod.watch('hostiles', (hostiles) => {
-    if (hostiles.length === 0) {
-        console.log('>>>>>> WINNER! >>>>>');
+function handleEndGame(youWon) {
+    if (youWon) {
+        alert('Triumph!');
+    } else {
+        alert('All is lost ...');
     }
-});
+}
+
+mod.watch('playerChecker', handleCheckerSelection);
+mod.watch('youWon', handleEndGame);
 
 play.kids(
     board.el,
     cameraControls.el,
     tacticsMenu.el,
-    counts.el,
-    notice.el
+    counts.el
 );
 
 // on an initial load, jump right into checker selection
