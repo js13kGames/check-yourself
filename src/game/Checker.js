@@ -11,9 +11,9 @@ function getDefaultStyle() {
     let checkerSize = mod.get('checkerSize');
 
     return {
-        width: `${checkerSize}vw`,
-        paddingBottom: `${checkerSize}vw`,
-        margin: `${mod.get('checkerMargin')}vw`,
+        width: `${checkerSize}vh`,
+        paddingBottom: `${checkerSize}vh`,
+        margin: `${mod.get('checkerMargin')}vh`,
     };
 }
 

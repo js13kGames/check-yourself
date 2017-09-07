@@ -2,17 +2,17 @@
 .notice {
     display: inline-block;
     width: auto;
-    height: 6vw;
-    line-height: 6vw;
-    border-radius: 1vw;
-    background: #333;
-    position: fixed;
-    left: 4vw;
-    top: 3vw;
-    padding: 0 3vw;
+    height: 8vh;
+    line-height: 8vh;
+    border-radius: 1vh;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    position: absolute;
+    left: 4vh;
+    top: 4vh;
+    padding: 0 4vh;
     opacity: 0;
     z-index: -100;
-    transform: translate3d(-10vw, 0, 0);
+    transform: translate3d(-10vh, 0, 0);
     transition: opacity 360ms, transform 360ms ease-in-out, z-index 0ms 370ms;
 }
 

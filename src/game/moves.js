@@ -52,6 +52,7 @@ function clearActions() {
     _allyActions = [];
     mod.set({
         playerActions: [],
+        noPlayerMoves: false,
     });
 }
 
@@ -63,6 +64,7 @@ function makeKing(action) {
 
     if (isHostileKing || isAllyKing) {
         checker.isKing = true;
+        checker.classify('king');
     }
 }
 
@@ -142,6 +144,7 @@ function moveChecker(action) {
     let isFocusedX = (checker.x === mod.get('focusX'));
     let isFocusedY = (checker.y === mod.get('focusY'));
 
+    clearActions();
     if (isFocusedX && isFocusedY) {
         onCameraSet();
 
@@ -282,10 +285,6 @@ function handleHostileTurn() {
     let hostiles = mod.get('hostiles');
     let actions = getGroupActions(hostiles);
 
-    mod.set({
-        noPlayerMoves: false,
-    });
-
     if (actions.length === 0) {
         mod.set({ youWon: true });
         return;
@@ -303,7 +302,6 @@ function handleAllyTurn(/*tactic*/) {
 function handlePlayerTurn() {
     let playerChecker = mod.get('playerChecker');
     let allies = mod.get('allies');
-    let board = mod.get('board');
 
     if (!playerChecker) {
         let lives = mod.get('lives');
@@ -334,7 +332,11 @@ function handlePlayerTurn() {
         return;
     }
 
-    if ((playerActions.length === 0) && (_allyActions.length > 1)) {
+    if (
+        (playerActions.length === 0) &&
+        (_allyActions.length > 1) &&
+        (!_allyActions[0].jumpedX)
+    ) {
         mod.set({
             noPlayerMoves: true,
         });
@@ -373,7 +375,7 @@ function handlePlayerTurn() {
 mod.watch('allyAction', handleAllyTurn);
 mod.watch('playerAction', moveChecker);
 mod.watch('isTurn', (isTurn) => {
-    clearActions();
+    //clearActions();
 
     /*
     mod.set({

@@ -16,15 +16,16 @@ mod.set({
         let defaults = this.get('camDefault');
         let tileSize = this.get('tileSize');
         let halfCols = this.get('columns') / 2;
-        let focusY = halfCols + 3;
+        let focusY = halfCols + 1;
         let yOffset = (halfCols - 1) * tileSize;
 
         return Object.assign({}, defaults, {
+            perspective: 150,
             rotateX: 45,
             moveX: 0,
             moveY: getFocusOffset(focusY, yOffset, tileSize),
-            scaleX: 1,
-            scaleY: 1,
+            scaleX: 0.9,
+            scaleY: 0.9,
         });
     },
     // settings for our default camera perspective; additional camera positions
@@ -37,7 +38,7 @@ mod.set({
         // the offset x/y for a centered 0-0 square; based on the number of tiles
         // and tile size and used in moving the camera proportionally
         let xOffset = halfCols * tileSize - (tileSize / 2);
-        let yOffset = (halfCols - 1) * tileSize;
+        let yOffset = (halfCols - 0.5) * tileSize;
 
         return {
             perspective: 100,
@@ -59,7 +60,7 @@ mod.set({
             rotateX: 55,
             rotateZ: 35,
             moveX: defaults.moveX + tileSize,
-            moveY: defaults.moveY + (tileSize / 2),
+            moveY: defaults.moveY - tileSize,
         });
     },
     camRight: function() {
@@ -70,7 +71,7 @@ mod.set({
             rotateX: 55,
             rotateZ: -35,
             moveX: defaults.moveX - tileSize,
-            moveY: defaults.moveY + (tileSize / 2),
+            moveY: defaults.moveY - tileSize,
         });
     },
     camUp: function() {

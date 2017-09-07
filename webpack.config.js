@@ -18,7 +18,7 @@ if (!isDev) {
 let webpackConfig = {
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, 'build'),
+        path: path.join(__dirname, 'docs'),
         filename: 'app.js',
     },
     module: {

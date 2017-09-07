@@ -205,9 +205,9 @@ function render() {
 
     let tileSize = mod.get('tileSize');
     let commonStyles = [
-        `width:${tileSize}vw;`,
-        `height:${tileSize}vw;`,
-        `margin-left:${tileSize}vw;`
+        `width:${tileSize}vh;`,
+        `height:${tileSize}vh;`,
+        `margin-left:${tileSize}vh;`
     ];
 
     let occupied = [];

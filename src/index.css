@@ -14,12 +14,19 @@ body {
     color: white;
     overflow: hidden;
     font-family: sans-serif;
-    font-size: 2vw;
+    font-size: 2.5vh;
 }
 
 #viewport {
     position: relative;
-    width: 100vw;
-    height: 56.25vw;
+    /*
+     * @todo explore expanding beyond the square
+     *
+    min-width: 100vh;
+    max-width: 160vh;
+     */
+    width: 100vh;
+    height: 100vh;
+    margin: 0 auto;
     overflow: hidden;
 }

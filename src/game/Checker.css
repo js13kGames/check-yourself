@@ -8,13 +8,18 @@
     border-radius: 50%;
     background-color: #494949;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
-    box-shadow: 0 0.5vw 0.066vw #191919;
+    box-shadow: 0 0.5vh 0.066vh #191919;
     will-change: transform, opacity, background-color;
+}
+
+.king {
+    border: 1vh solid #ea0;
+    margin-top: 0.3vh !important; /* @todo fix this in checker.js */
 }
 
 .hostile {
     background-color: #933;
-    box-shadow: 0 0.5vw 0.066vw #300;
+    box-shadow: 0 0.5vh 0.066vh #300;
 }
 
 .checkerSelect .checker {

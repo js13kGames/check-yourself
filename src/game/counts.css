@@ -1,23 +1,22 @@
 #counts {
     position: absolute;
     left: 50%;
-    bottom: 3vw;
+    bottom: 4vh;
     display: flex;
-    width: 36vw;
-    height: 6vw;
-    line-height: 6vw;
-    margin-left: -18vw;
-    font-size: 3vw;
-    padding: 0 3vw;
+    width: 38vh;
+    height: 8vh;
+    line-height: 8vh;
+    margin-left: -18vh;
+    xfont-size: 3vw;
+    padding: 0 4vh;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
-    border-radius: 1vw;
+    border-radius: 1vh;
     opacity: 1;
     transform: translate3d(0, 0, 0);
     transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
 
 .countsText {
-    font-size: 2vw;
     flex-basis: 1;
 }
 
@@ -32,16 +31,16 @@
 #allyCount,
 #hostileCount {
     flex-basis: 2;
-    padding: 0 1vw;
+    padding: 0 2vh;
 }
 
 #allyCount {
-    padding-left: 2vw;
+    padding-right: 3vh;
 }
 
 #hostileCount {
     text-align: right;
-    padding-right: 2vw;
+    padding-left: 3vh;
 }
 
 .checkerSelect #counts {
