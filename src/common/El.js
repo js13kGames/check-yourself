@@ -78,7 +78,7 @@ class El {
 
     // a method for passing style properties to an element; it expects an
     // object of CSS properties (in their JS form) and values
-    style(styleObj) {
+    setStyle(styleObj) {
         let styleNames = Object.keys(styleObj);
         styleNames.map((style) => {
             this.el.style[style] = styleObj[style];

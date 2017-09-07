@@ -6,7 +6,7 @@ import {scale3d, translate3d} from '../common/transform';
 import './Checker.css';
 
 // a helper method for rendering baseline - but dynamic - styles common to
-// every checker. it returns a style object for use with El's .style() method
+// every checker. it returns a style object for use with El's .setStyle() method
 function getDefaultStyle() {
     let checkerSize = mod.get('checkerSize');
 
@@ -83,7 +83,7 @@ class Checker extends El {
             className: className,
         }));
 
-        this.style(getDefaultStyle());
+        this.setStyle(getDefaultStyle());
         this.position(x, y);
 
         this.isKing = false;
@@ -135,11 +135,11 @@ class Checker extends El {
         // extra fancification on a jump transform
         if (this.isJump(x)) {
             this.justJumped = true;
-            this.style(jumpStyles());
+            this.setStyle(jumpStyles());
 
         } else {
             this.justJumped = false;
-            this.style({
+            this.setStyle({
                 transform: translate3d(xPos, yPos),
             });
         }
@@ -159,7 +159,7 @@ class Checker extends El {
         ];
 
         this.onTrans(() => pixelateOut(this));
-        this.style({ transform: transforms.join(' ') });
+        this.setStyle({ transform: transforms.join(' ') });
 
     }
 }

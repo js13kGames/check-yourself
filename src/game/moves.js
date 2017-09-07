@@ -375,15 +375,6 @@ function handlePlayerTurn() {
 mod.watch('allyAction', handleAllyTurn);
 mod.watch('playerAction', moveChecker);
 mod.watch('isTurn', (isTurn) => {
-    //clearActions();
-
-    /*
-    mod.set({
-        youWon: false
-    });
-    return;
-    */
-
     if (isTurn) {
         handlePlayerTurn();
 
