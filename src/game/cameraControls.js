@@ -85,6 +85,18 @@ mod.set({
             scaleY: scaling * 0.5,
         });
     },
+    camOverview: function() {
+        let defaults = this.get('camDefault');
+        let tileSize = this.get('tileSize');
+        let scaling = this.get('scaling');
+
+        return Object.assign({}, defaults, {
+            rotateX: 55,
+            moveY: defaults.moveY - (tileSize),
+            scaleX: scaling * 0.7,
+            scaleY: scaling * 0.7,
+        });
+    },
 }, true);
 
 let cameraOptions = [
@@ -116,12 +128,4 @@ let cameraControls = new Menu({
     onSelect: handleSelection,
 });
 
-/*
-mod.watch('playerX', (x) => {
-    mod.set({
-        focusX: x,
-        focusY: mod.get('playerY')
-    });
-});
-*/
 export default cameraControls;

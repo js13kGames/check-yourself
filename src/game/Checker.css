@@ -9,6 +9,7 @@
     background-color: #494949;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
     box-shadow: 0 0.5vw 0.066vw #191919;
+    will-change: transform, opacity, background-color;
 }
 
 .hostile {

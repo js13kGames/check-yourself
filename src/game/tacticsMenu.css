@@ -51,6 +51,11 @@
     transition: z-index 1ms 240ms, opacity 240ms, transform 240ms ease-in-out;
 }
 
+#tacticsMenu .disabled {
+    color: #666;
+    cursor: default;
+}
+
 #cancel {
     border-top: 1px solid #fff;
 }

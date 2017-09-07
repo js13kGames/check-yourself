@@ -22,7 +22,7 @@ function getDefaultStyle() {
 //
 function pixelateOut(checker) {
     let board = mod.get('board');
-    let random = Math.floor(Math.random() * 16 + 6);
+    let random = Math.floor(Math.random() * 16 + 10);
     let pixelations = [];
 
     while (random--) {

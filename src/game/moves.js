@@ -12,6 +12,8 @@ mod.set({
     allyHasJump: false,
     // moves available to the player on a given turn
     playerActions: null,
+    // how many lives the player has left
+    lives: 99,
 }, true);
 
 // we check against our ally actions in a couple different places over the
@@ -71,12 +73,6 @@ function handleJump(x, y) {
 
     occupied[x][y] = false;
     jumpedChecker.remove();
-
-    if (jumpedChecker.isPlayer) {
-        mod.set({
-            playerChecker: null
-        });
-    }
 }
 
 // an abbreviated .getPlayerActions() pipeline accounting only for jump actions;
@@ -98,10 +94,11 @@ function handleJumpAfterJump(actions) {
 }
 
 // set the camera focal point from the given X/Y
-function setFocus(focusX, focusY) {
+function setFocus(focusX, focusY, perspective='camDefault') {
     mod.set({
         focusX,
         focusY,
+        perspective,
     });
 }
 
@@ -147,9 +144,10 @@ function moveChecker(action) {
 
     if (isFocusedX && isFocusedY) {
         onCameraSet();
+
     } else {
         board.onTrans(onCameraSet);
-        setFocus(checker.x, checker.y);
+        setFocus(checker.x, checker.y, 'camOverview');
     }
 }
 
@@ -284,6 +282,10 @@ function handleHostileTurn() {
     let hostiles = mod.get('hostiles');
     let actions = getGroupActions(hostiles);
 
+    mod.set({
+        noPlayerMoves: false,
+    });
+
     if (actions.length === 0) {
         mod.set({ youWon: true });
         return;
@@ -300,10 +302,25 @@ function handleAllyTurn(/*tactic*/) {
 //
 function handlePlayerTurn() {
     let playerChecker = mod.get('playerChecker');
-    if (!playerChecker) { return; }
+    let allies = mod.get('allies');
+    let board = mod.get('board');
+
+    if (!playerChecker) {
+        let lives = mod.get('lives');
+        let toUpdate = {
+            checkerSelect: true,
+        };
+
+        // if the player has no more lives to lose and no more allies, end it
+        if ((lives === 0) || (allies.length === 0)) {
+            toUpdate.youWon = false;
+        }
+
+        mod.set(toUpdate);
+        return;
+    }
 
     let playerActions = [];
-    let allies = mod.get('allies');
 
     getGroupActions(allies).map((action) => {
         let stack = (action.checker.isPlayer) ? playerActions : _allyActions;
@@ -317,8 +334,15 @@ function handlePlayerTurn() {
         return;
     }
 
+    if ((playerActions.length === 0) && (_allyActions.length > 1)) {
+        mod.set({
+            noPlayerMoves: true,
+        });
+    }
+
     if (playerActions.length > 0 || (_allyActions.length > 0)) {
-        setFocus(playerChecker.x, playerChecker.y);
+        let perspective = (playerChecker.isKing) ? 'camUp' : 'camDefault';
+        setFocus(playerChecker.x, playerChecker.y, perspective);
     }
 
     let allyHasJump = _allyActions[0] && _allyActions[0].jumpedX;
@@ -351,6 +375,13 @@ mod.watch('playerAction', moveChecker);
 mod.watch('isTurn', (isTurn) => {
     clearActions();
 
+    /*
+    mod.set({
+        youWon: false
+    });
+    return;
+    */
+
     if (isTurn) {
         handlePlayerTurn();
 
@@ -358,3 +389,6 @@ mod.watch('isTurn', (isTurn) => {
         handleHostileTurn();
     }
 });
+
+// trigger the initial checker selection phase
+mod.set({ checkerSelect: true });

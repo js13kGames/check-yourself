@@ -19,7 +19,7 @@ mod.set({
     // "standard" checker board ... 8x8.
     columns: 8,
     // we scale the screen by this much in our CSS transforms
-    scaling: 5,
+    scaling: 4,
     // init a quick/dirty 8x8 array to represent our checkerboard; this gets
     // updated by ./game/board.js in batch actions
     occupied: [ [], [], [], [], [], [], [], [] ],
@@ -36,6 +36,17 @@ mod.set({
     // tile less the size of the checker itself
     checkerMargin: function() {
         return (this.get('tileSize') - this.get('checkerSize')) / 2;
+    },
+    // returns the player checker from the group of allies; @todo i had
+    // race condition issues when keeping a direct reference to this when the
+    // player was one of N checkers in a chained jump. those went away when
+    // making it a lookup/filter. revisit this if time allows for perf/effic.
+    playerChecker: function() {
+        let playerChecker = this.get('allies').filter(
+            (checker) => checker.isPlayer
+        );
+
+        return (playerChecker.length > 0) ? playerChecker[0] : null;
     },
     // convenience filters for returning checkers with allied/hostile affiliations
     allies: function() {
@@ -90,9 +101,12 @@ function positionCamera() {
 function showCheckerSelection() {
     let allies = mod.get('allies');
 
-    allies.map((ally) => ally.classify('+playable-checker'));
+    setTimeout(() => {
+        allies.map((ally) => ally.classify('+playable-checker'));
+    }, 50);
+
     mod.set({
-        perspective: 'camSelectable'
+        perspective: 'camSelectable',
     });
 }
 
@@ -115,12 +129,14 @@ function choosePlayerChecker(e) {
 
     let {x, y} = playerChecker;
     mod.set({
-        playerChecker: playerChecker,
+        //playerChecker: playerChecker,
         focusX: x,
         focusY: y,
         playerX: x,
         playerY: y,
         isTurn: true,
+        lives: mod.get('lives') - 1,
+        checkerSelect: false,
     });
 
     setTimeout(() => {
@@ -258,18 +274,12 @@ function render() {
 mod.watch('perspective', positionCamera);
 mod.watch('playerActions', showValidMoveTiles);
 mod.watch('focusX', positionCamera);
-mod.watch('playerChecker', (playerChecker) => {
-    if (!playerChecker) {
+mod.watch('checkerSelect', (needsPlayerChecker) => {
+    if (needsPlayerChecker) {
         showCheckerSelection();
     }
 });
-/*
-mod.watch('isTurn', (isTurn) => {
-    if (isTurn === false) {
-        hideValidMoveTiles();
-    }
-});
-*/
+
 board.onClick('.playable-checker', choosePlayerChecker);
 board.onClick('.availableMove', handleTileSelection);
 

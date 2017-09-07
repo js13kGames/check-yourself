@@ -14,14 +14,17 @@ let menuOptions = [
     {
         id: 'aggressive',
         text: 'Be Aggressive',
+        className: 'disabled',
     },
     {
         id: 'defensive',
-        text: 'Play it Safe'
+        text: 'Play it Safe',
+        className: 'disabled',
     },
     {
         id: 'protectMe',
         text: 'Protect Me',
+        className: 'disabled',
     },
     {
         id: 'random',
@@ -49,6 +52,10 @@ let menu = new Menu({
     options: menuOptions,
     onSelect: (e) => {
         let tactic = e.target.id;
+
+        if (e.target.classList.contains('disabled')) {
+            return;
+        }
 
         if (tactic === 'cancel') {
             wrapper.classify('-showMenu');
@@ -104,6 +111,7 @@ function updateCurrentTactic() {
 mod.watch('allyAction', updateCurrentTactic);
 mod.watch('playerHasJump', updateMenu);
 mod.watch('allyHasJump', updateMenu);
+mod.watch('isTurn', () => wrapper.classify('-showMenu'));
 
 wrapper.onClick('#squadAction', handleMenu);
 
