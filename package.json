@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "npm run clean && webpack -p --progress && npm run post-build",
+    "build-dev": "npm run clean && webpack --progress && npm run post-build",
     "clean": "rm -rf docs",
     "dev": "DEV=true webpack-dev-server --progress --colors",
     "post-build": "rm -f ./docs/*.js ./docs/*.css",

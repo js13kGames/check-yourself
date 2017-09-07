@@ -4,9 +4,2874 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<style type="text/css">.view{width:100%}.topLevelView{height:100%;padding:4vh}.fadeIn,.fadeOut{transition:opacity .4s 30ms}.fadeInStart,.fadeOut{opacity:0}.fadeIn{opacity:1}.menu a{display:block;cursor:pointer;position:relative}p{margin:0}.titleText{font-size:1.666em}.subtitleText{font-weight:700;text-transform:uppercase}.labelText{font-size:1.25vh;text-transform:uppercase}#tactics{display:flex;position:absolute;left:4vh;bottom:4vh;width:auto;white-space:nowrap;transform:translateZ(0);transition:opacity .5s .5s,transform .5s .5s}#squadAction{background:#337933 radial-gradient(circle at center,transparent,rgba(0,0,0,.333));height:8vh;line-height:8vh;padding:0 8vh 0 4vh;border-radius:1vh;cursor:pointer}#squadAction:after{content:"";display:block;width:2vh;height:2vh;position:absolute;right:3vh;top:3vh;transform:rotate(-45deg);background:linear-gradient(45deg,#fff,#fff 35%,transparent 0,transparent 65%,#fff 0)}#squadAction.disabled{background:linear-gradient(0deg,rgba(0,0,0,.3),rgba(0,0,0,.5));cursor:default}#tacticsMenu{position:absolute;left:-500%;bottom:0;padding:1vh 0;background:#333;width:30vh;line-height:8vh;text-align:center;border-radius:1vh;z-index:-1;opacity:0;transform:scale3d(.8,.8,1);transition:z-index 1ms .24s,opacity .24s,transform .24s ease-in-out}#tacticsMenu .disabled{color:#666;cursor:default}#cancel{border-top:1px solid #fff}.showMenu #tacticsMenu{left:0;z-index:5;opacity:1;transform:scaleX(1);transition:z-index 1ms,opacity .24s 5ms,transform .24s ease-in-out 5ms}.checkerSelect #tactics{opacity:0;transform:translate3d(-100%,0,0)}#cameraControls{display:flex;justify-content:space-between;width:20vh;position:absolute;right:4vh;bottom:4vh;padding-top:7vh;transform:translateZ(0);transition:opacity .5s .5s,transform .5s .5s}#cameraControls a{width:6vh;height:6vh;line-height:5.9vh;text-align:center;border-radius:50%;background:#337933 radial-gradient(circle at center,transparent,rgba(0,0,0,.333));font-size:3vh}#camUp{position:absolute;left:50%;top:0;margin-left:-3vh;transform:rotate(90deg)}#camDefault{transform:rotate(-90deg)}.checkerSelect #cameraControls{opacity:0;transform:translate3d(100%,0,0)}.checker{position:absolute;left:0;right:0;z-index:1;display:block;transition:opacity .45s,transform .45s ease-in-out .18s,background-color .27s;border-radius:50%;background-color:#494949;background-image:radial-gradient(circle at center,transparent,rgba(0,0,0,.333));box-shadow:0 .5vh .066vh #191919;will-change:transform,opacity,background-color}.king{border:1vh solid #ea0;margin-top:.3vh!important}.hostile{background-color:#933;box-shadow:0 .5vh .066vh #300}.checkerSelect .checker{opacity:.25}.checkerSelect .playable-checker{opacity:1;cursor:pointer;transition:box-shadow .27s ease-in-out,background-color .27s}.checkerSelect .playable-checker:hover{background-color:#393}#board{display:flex;flex-wrap:wrap;position:absolute;width:100vh;height:100vh;left:0;top:0;transition:transform .81s ease-in-out;will-change:transform}.tile{position:relative;display:block;xbackground-color:#234;background-image:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.2));box-shadow:0 0 5vh rgba(0,0,0,.2)}@keyframes flare{0%{box-shadow:inset 0 0 4vh transparent}35%{box-shadow:inset 0 -3vh 12vh #393}70%{box-shadow:inset 0 -3vh 12vh #393}to{box-shadow:inset 0 0 4vh transparent}}.availableMove{cursor:pointer;animation-name:flare;animation-duration:3s;animation-iteration-count:infinite}#counts{position:absolute;left:50%;bottom:4vh;display:flex;width:38vh;height:8vh;line-height:8vh;margin-left:-18vh;xfont-size:3vw;padding:0 4vh;background:linear-gradient(0deg,rgba(0,0,0,.5),rgba(0,0,0,.7));border-radius:1vh;opacity:1;transform:translateZ(0);transition:opacity .5s .5s,transform .5s .5s}.countsText{flex-basis:1}.allies{text-align:right}.separator{border-left:1px solid #fff}#allyCount,#hostileCount{flex-basis:2;padding:0 2vh}#allyCount{padding-right:3vh}#hostileCount{text-align:right;padding-left:3vh}.checkerSelect #counts{opacity:0;transform:translate3d(0,100%,0)}#gameOver{position:fixed;left:0;top:0;width:100vw;height:100vh;transform:translateZ(0);z-index:-50}#gameOver.show{z-index:50;background:rgba(0,0,0,.6) linear-gradient(0deg,transparent,rgba(0,0,0,.4))}#gameOverText,#playAgain{text-align:center;opacity:0}#gameOverText{margin-top:18vh;font-size:8vh;transform:translate3d(0,7vh,0);transition:transform 2.4s cubic-bezier(0,.6,.85,1),opacity .9s ease-in-out}#playAgain{display:block;width:21vh;height:8vh;margin:5vh auto 0;background:#337933 radial-gradient(circle at center,transparent,rgba(0,0,0,.333));line-height:8vh;border-radius:1vh;cursor:pointer;transform:scale3d(.9,.9,1);opacity:0;transition:transform .32s ease-in-out 1.4s,opacity .32s 1.4s}.show #gameOverText{opacity:1;transform:translateZ(0)}.show #playAgain{opacity:1;transform:scaleX(1)}.notice{display:inline-block;width:auto;height:8vh;line-height:8vh;border-radius:1vh;background:linear-gradient(0deg,rgba(0,0,0,.5),rgba(0,0,0,.7));position:absolute;left:4vh;top:4vh;padding:0 4vh;opacity:0;z-index:-100;transform:translate3d(-10vh,0,0);transition:opacity .36s,transform .36s ease-in-out,z-index 0ms .37s}.checkerSelect #checkerSelect,.noAvailableMoves #noAvailableMoves{opacity:1;z-index:50;transform:translateZ(0);transition:opacity .36s 10ms,transform .36s ease-in-out 10ms,z-index 0ms}*{box-sizing:border-box}body{margin:0;padding:0;width:100vw;background:#f0fcf9;background-image:linear-gradient(20deg,rgba(0,0,0,.2),transparent,rgba(0,0,0,.15)),linear-gradient(60deg,rgba(0,0,0,.15),transparent,rgba(0,0,0,.3),transparent);color:#fff;font-family:sans-serif;font-size:2.5vh}#viewport,body{height:100vh;overflow:hidden}#viewport{position:relative;width:100vh;margin:0 auto}</style></head>
+<style type="text/css">.view {
+    width: 100%;
+}
+
+.topLevelView {
+    height: 100%;
+    padding: 4vh;
+}
+
+.fadeIn,
+.fadeOut {
+    transition: opacity 400ms 30ms;
+}
+
+.fadeInStart,
+.fadeOut { opacity: 0; }
+.fadeIn { opacity: 1; }
+.menu a {
+    display: block;
+    cursor: pointer;
+    position: relative;
+}
+p { margin: 0; }
+
+.titleText {
+    font-size: 1.666em;
+}
+
+.subtitleText {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.labelText {
+    font-size: 1.25vh;
+    text-transform: uppercase;
+}
+#tactics {
+    display: flex;
+    position: absolute;
+    left: 4vh;
+    bottom: 4vh;
+    width: auto;
+    white-space: nowrap;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
+}
+
+#squadAction {
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    height: 8vh;
+    line-height: 8vh;
+    padding: 0 8vh 0 4vh;
+    border-radius: 1vh;
+    cursor: pointer;
+}
+
+#squadAction::after {
+    content: '';
+    display: block;
+    width: 2vh;
+    height: 2vh;
+    position: absolute;
+    right: 3vh;
+    top: 3vh;
+    transform: rotate(-45deg);
+    background: linear-gradient(45deg, #fff 0%, #fff 35%, transparent 35%, transparent 65%, #fff 65%);
+}
+
+#squadAction.disabled {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+    cursor: default;
+}
+
+#tacticsMenu {
+    position: absolute;
+    left: -500%;
+    bottom: 0;
+    padding: 1vh 0;
+    background: #333;
+    width: 30vh;
+    line-height: 8vh;
+    text-align: center;
+    border-radius: 1vh;
+    z-index: -1;
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: z-index 1ms 240ms, opacity 240ms, transform 240ms ease-in-out;
+}
+
+#tacticsMenu .disabled {
+    color: #666;
+    cursor: default;
+}
+
+#cancel {
+    border-top: 1px solid #fff;
+}
+
+.showMenu #tacticsMenu {
+    left: 0;
+    z-index: 5;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+    transition: z-index 1ms, opacity 240ms 5ms, transform 240ms 5ms ease-in-out;
+}
+
+.checkerSelect #tactics {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}
+#cameraControls {
+    display: flex;
+    justify-content: space-between;
+    width: 20vh;
+    position: absolute;
+    right: 4vh;
+    bottom: 4vh;
+    padding-top: 7vh;
+    /* put this in 3D space so it honors z-indexes against the board */
+    transform: translate3d(0, 0, 0);
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
+}
+
+#cameraControls a {
+    width: 6vh;
+    height: 6vh;
+    line-height: 5.9vh;
+    text-align: center;
+    border-radius: 50%;
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    font-size: 3vh;
+}
+
+#camUp {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -3vh;
+    transform: rotate(90deg);
+}
+
+#camDefault {
+    transform: rotate(-90deg);
+}
+
+.checkerSelect #cameraControls {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+}
+.checker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
+    border-radius: 50%;
+    background-color: #494949;
+    background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    box-shadow: 0 0.5vh 0.066vh #191919;
+    will-change: transform, opacity, background-color;
+}
+
+.king {
+    border: 1vh solid #ea0;
+    margin-top: 0.3vh !important; /* @todo fix this in checker.js */
+}
+
+.hostile {
+    background-color: #933;
+    box-shadow: 0 0.5vh 0.066vh #300;
+}
+
+.checkerSelect .checker {
+    opacity: 0.25;
+}
+
+.checkerSelect .playable-checker {
+    opacity: 1;
+    cursor: pointer;
+    transition: box-shadow 270ms ease-in-out, background-color 270ms;
+}
+
+.checkerSelect .playable-checker:hover {
+    background-color: #393;
+}
+#board { /* implicit "camCenter" */
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 100vh;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    transition: transform 810ms ease-in-out;
+    will-change: transform;
+}
+
+.tile {
+    position: relative;
+    display: block;
+    xbackground-color: #234;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+    box-shadow: 0 0 5vh rgba(0, 0, 0, 0.2);
+}
+
+@keyframes flare {
+    0%   { box-shadow: inset 0 0 4vh transparent; }
+    35%  { box-shadow: inset 0 -3vh 12vh #393; }
+    70%  { box-shadow: inset 0 -3vh 12vh #393; }
+    100% { box-shadow: inset 0 0 4vh transparent; }
+}
+
+.availableMove {
+    cursor: pointer;
+    animation-name: flare;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+#counts {
+    position: absolute;
+    left: 50%;
+    bottom: 4vh;
+    display: flex;
+    width: 38vh;
+    height: 8vh;
+    line-height: 8vh;
+    margin-left: -18vh;
+    xfont-size: 3vw;
+    padding: 0 4vh;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    border-radius: 1vh;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
+}
+
+.countsText {
+    flex-basis: 1;
+}
+
+.allies {
+    text-align: right;
+}
+
+.separator {
+    border-left: 1px solid #fff;
+}
+
+#allyCount,
+#hostileCount {
+    flex-basis: 2;
+    padding: 0 2vh;
+}
+
+#allyCount {
+    padding-right: 3vh;
+}
+
+#hostileCount {
+    text-align: right;
+    padding-left: 3vh;
+}
+
+.checkerSelect #counts {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+}
+#gameOver {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: translate3d(0, 0, 0);
+    z-index: -50;
+}
+
+#gameOver.show {
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.6) linear-gradient(0deg, transparent, rgba(0, 0, 0, 0.4));
+}
+
+#gameOverText,
+#playAgain {
+    text-align: center;
+    opacity: 0;
+}
+
+#gameOverText {
+    margin-top: 18vh;
+    font-size: 8vh;
+    transform: translate3d(0, 7vh, 0);
+    transition: transform 2400ms cubic-bezier(0, 0.6, 0.85, 1), opacity 900ms ease-in-out;
+}
+
+#playAgain {
+    display: block;
+    width: 21vh;
+    height: 8vh;
+    margin: 5vh auto 0;
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    line-height: 8vh;
+    border-radius: 1vh;
+    cursor: pointer;
+    transform: scale3d(0.9, 0.9, 1);
+    opacity: 0;
+    transition: transform 320ms ease-in-out 1400ms, opacity 320ms 1400ms;
+}
+
+.show #gameOverText {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.show #playAgain {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+}
+
+.notice {
+    display: inline-block;
+    width: auto;
+    height: 8vh;
+    line-height: 8vh;
+    border-radius: 1vh;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    position: absolute;
+    left: 4vh;
+    top: 4vh;
+    padding: 0 4vh;
+    opacity: 0;
+    z-index: -100;
+    transform: translate3d(-10vh, 0, 0);
+    transition: opacity 360ms, transform 360ms ease-in-out, z-index 0ms 370ms;
+}
+
+.noAvailableMoves #noAvailableMoves,
+.checkerSelect #checkerSelect {
+    opacity: 1;
+    z-index: 50;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 360ms 10ms, transform 360ms ease-in-out 10ms, z-index 0ms;
+}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #f0fcf9;
+    background-image:
+        linear-gradient(20deg, rgba(0, 0, 0, 0.2), transparent, rgba(0, 0, 0, 0.15)),
+        linear-gradient(60deg, rgba(0, 0, 0, 0.15), transparent, rgba(0, 0, 0, 0.3), transparent);
+    color: white;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-size: 2.5vh;
+}
+
+#viewport {
+    position: relative;
+    /*
+     * @todo explore expanding beyond the square
+     *
+    min-width: 100vh;
+    max-width: 160vh;
+     */
+    width: 100vh;
+    height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+}
+</style></head>
 
 <body>
-<script type="text/javascript">!function(e){function t(i){if(n[i])return n[i].exports;var a=n[i]={i:i,l:!1,exports:{}};return e[i].call(a.exports,a,a.exports,t),a.l=!0,a.exports}var n={};t.m=e,t.c=n,t.d=function(e,n,i){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:i})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=7)}([function(e,t,n){"use strict";function i(e){return"function"==typeof e}function a(e){return i(o[e])}Object.defineProperty(t,"__esModule",{value:!0});var r={},o={};t.default={get:function(){var e=this,t=Array.from(arguments),n={},a=function(t){return i(t)?t.bind(e)():t};if(1===t.length){var r=o[t[0]];return a(r)}return t.map(function(e){var t=o[e];n[e]=a(t)}),n},set:function(e){var t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],n=Object.keys(e),i=[];n.map(function(n){if(a(n))console.warn("'"+n+"' is a derived property and can not be explicitly set.");else if(o[n]=e[n],r[n]&&!1===t){var u=r[n].map(function(t){return{action:t,value:e[n]}});i=i.concat(u)}}),i.map(function(e){return e.action(e.value)})},watch:function(e,t){if(a(e))return void console.warn("'"+e+"' is a derived property and can not be watched.");r[e]||(r[e]=[]),r[e].push(t)}}},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e,t){var n={};for(var i in e)t.indexOf(i)>=0||Object.prototype.hasOwnProperty.call(e,i)&&(n[i]=e[i]);return n}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function u(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var l=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),c=n(4),s=i(c),f=n(9),d=i(f);n(10);var v=function(e){function t(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};r(this,t);var n=e.nodeName,i=a(e,["nodeName"]);n=n||"div";var u=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,n));return u.attribute(i),u.classify("+view"),u}return u(t,e),l(t,[{key:"onClick",value:function(e,t){return this.clickHandler||(this.clickHandler=new d.default(this.el)),this.clickHandler.onClick(e,t)}},{key:"fadeIn",value:function(e){var t=this,n=function n(i){!1!==i.target.isEqualNode(t.el)&&(t.el.removeEventListener("transitionend",n),t.classify("-fadeIn -fadeInStart"),e&&e())};return this.el.addEventListener("transitionend",n),this.classify("+fadeInStart"),setTimeout(function(){return t.classify("+fadeIn")},10),this.el}},{key:"fadeOut",value:function(e){var t=this,n=function n(i){!1!==i.target.isEqualNode(t.el)&&(t.el.removeEventListener("transitionend",n),t.classify("-fadeOut"),t.destructor(),e&&e())};this.el.addEventListener("transitionend",n),this.classify("+fadeOut")}}]),t}(s.default);t.default=v},function(e,t,n){"use strict";function i(e,t){var n={};for(var i in e)t.indexOf(i)>=0||Object.prototype.hasOwnProperty.call(e,i)&&(n[i]=e[i]);return n}Object.defineProperty(t,"__esModule",{value:!0});var a=n(4),r=function(e){return e&&e.__esModule?e:{default:e}}(a);t.default=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};if(!e)return void console.warn("Can not make an element without a nodeName; "+e+" given.");var n=t.className,a=i(t,["className"]),o=new r.default(e);return o.classify(n),o.attribute(a),o}},function(e,t,n){"use strict";function i(e,t){var n={};for(var i in e)t.indexOf(i)>=0||Object.prototype.hasOwnProperty.call(e,i)&&(n[i]=e[i]);return n}function a(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function o(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),l=n(1),c=function(e){return e&&e.__esModule?e:{default:e}}(l);n(12);var s=function(e){function t(e){a(this,t);var n=e.text,o=e.variant,u=i(e,["text","variant"]),l=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,Object.assign(u,{nodeName:"p"})));return n&&l.print(n),o&&l.classify("+"+o+"Text"),l}return o(t,e),u(t,[{key:"print",value:function(e){this.el.innerText=e}}]),t}(c.default);t.default=s},function(e,t,n){"use strict";function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var a=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),r=function(){function e(t){if(i(this,e),!t)return console.warn("Can not instantiate new El() with a nodeName;",t),null;this.el=document.createElement(t)}return a(e,[{key:"destructor",value:function(){this.el.parentNode.removeChild(this.el)}},{key:"classify",value:function(e){var t=this;e&&e.split(" ").map(function(e){var n=e.charAt(0),i=e.substr(1,e.length);"-"===n?t.el.classList.remove(i):"~"===n?t.el.classList.toggle(i):"+"===n?t.el.classList.add(i):t.el.classList.add(e)})}},{key:"attribute",value:function(e){var t=this;Object.keys(e).map(function(n){t.el[n]=e[n]})}},{key:"kids",value:function(){var e=this;Array.from(arguments).map(function(t){e.el.appendChild(t)})}},{key:"gut",value:function(){for(;this.el.lastChild;)this.el.removeChild(this.el.lastChild)}},{key:"setStyle",value:function(e){var t=this;Object.keys(e).map(function(n){t.el.style[n]=e[n]})}},{key:"onTrans",value:function(e){var t=this,n=function n(i){var a=i.target,r=a.isEqualNode(t.el),o=a.classList.contains("transitioning");r&&!o&&(t.el.removeEventListener("transitionend",n),e())};this.el.addEventListener("transitionend",n)}},{key:"onAnim",value:function(e){var t=this,n=function n(i){i.target.isEqualNode(t.el)&&(t.el.removeEventListener("animationend",n),e())};this.el.addEventListener("animationend",n)}}]),e}();t.default=r},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e,t){var n={};for(var i in e)t.indexOf(i)>=0||Object.prototype.hasOwnProperty.call(e,i)&&(n[i]=e[i]);return n}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function u(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function l(e){var t=this.el.querySelector(".active");t&&t.classList.remove("active"),e.target.classList.add("active"),this.onSelect&&this.onSelect(e)}Object.defineProperty(t,"__esModule",{value:!0});var c=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),s=n(2),f=i(s),d=n(1),v=i(d);n(11);var p=function(e){function t(e){r(this,t);var n=e.options,i=e.className,u=e.onSelect,c=a(e,["options","className","onSelect"]);i=i?i+" menu":"menu",c.className=i;var s=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,c));return s.menuOptions=[],n&&s.renderOptions(n),s.onSelect=u,s.onClick(".menuOption",l.bind(s)),s}return u(t,e),c(t,[{key:"renderOptions",value:function(e){var t=this;this.gut(),e.map(function(e){var n=e.active,i=a(e,["active"]),r=(0,f.default)("a",i);r.classify("+menuOption"),n&&r.classify("+active"),t.menuOptions.push(r),t.kids(r.el)})}}]),t}(v.default);t.default=p},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=function(){return"translate3d("+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:0)+"vh, "+(arguments.length>1&&void 0!==arguments[1]?arguments[1]:0)+"vh, "+(arguments.length>2&&void 0!==arguments[2]?arguments[2]:0)+"vh)"},a=function(){return"rotateX("+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:0)+"deg)"},r=function(){return"rotateY("+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:0)+"deg)"},o=function(){return"rotateZ("+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:0)+"deg)"},u=function(e){return"perspective("+e+"vh)"},l=function(){return"scale3d("+(arguments.length>0&&void 0!==arguments[0]?arguments[0]:1)+", "+(arguments.length>1&&void 0!==arguments[1]?arguments[1]:1)+", "+(arguments.length>2&&void 0!==arguments[2]?arguments[2]:1)+")"};t.translate3d=i,t.rotateX=a,t.rotateY=r,t.rotateZ=o,t.perspective=u,t.scale3d=l},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e){var t=function(){v.appendChild(e.fadeIn()),p=e};p?p.fadeOut(t):t()}function r(e){switch(e){case"titleScreen":a(u.default);break;case"play":a(c.default)}}var o=n(8),u=i(o),l=n(13),c=i(l),s=n(0),f=i(s);n(29);var d=document,v=d.createElement("main");v.id="viewport";var p=u.default;f.default.watch("view",r),v.appendChild(c.default.el),d.body.appendChild(v)},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e){d.default.set({view:e.target.id})}Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),o=i(r),u=n(5),l=i(u),c=n(3),s=i(c),f=n(0),d=i(f),v=new o.default({id:"titleScreen",className:"titleScreen topLevelView"}),p=new l.default({className:"titleMenu",id:"titleMenu",onSelect:a,options:[{id:"play",text:"Play"}]}),h=new s.default({id:"titleText",text:"Check Yourself",variant:"title"});v.kids(h.el,p.el),t.default=v},function(e,t,n){"use strict";function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e){var t=this;e.preventDefault();var n=e.target,i=Object.keys(this.actions);i&&i.map(function(i){n.matches(i)&&t.actions[i].map(function(t){return t(e)})})}Object.defineProperty(t,"__esModule",{value:!0});var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},o=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),u=function(){function e(t){if(i(this,e),!t||"object"!==(void 0===t?"undefined":r(t)))return void console.warn("A wrapperEl must be provded to a click-handler: "+t);this.actions={},t.addEventListener("click",a.bind(this))}return o(e,[{key:"onClick",value:function(e,t){this.actions[e]||(this.actions[e]=[]),this.actions[e].push(t)}}]),e}();t.default=u},function(e,t){},function(e,t){},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e){e?b.classify("+checkerSelect"):b.classify("-checkerSelect")}Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),o=i(r),u=n(0),l=i(u),c=n(14),s=i(c),f=n(16),d=i(f),v=n(18),p=i(v),h=n(22),y=i(h),m=n(24),g=i(m);n(26),n(28);var b=new o.default({id:"play",className:"play topLevelView checkerSelect"}),w=new o.default({id:"checkerSelect",innerText:"Select your checker.",className:"notice"}),_=new o.default({id:"noAvailableMoves",innerText:"No available moves. Choose an Ally Action.",className:"notice"});l.default.watch("checkerSelect",a),l.default.watch("noPlayerMoves",function(e){e?b.classify("+noAvailableMoves"):b.classify("-noAvailableMoves")}),b.kids(p.default.el,d.default.el,s.default.el,y.default.el,g.default.el,w.el,_.el),t.default=b},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(){var e=p.default.get("playerHasJump"),t=p.default.get("allyHasJump");t&&!e||e&&!t?g.classify("+disabled"):(g.print(y),g.classify("-disabled"))}function r(e){e.preventDefault(),e.target.classList.contains("disabled")||m.classify("+showMenu")}function o(){m.classify("-showMenu")}Object.defineProperty(t,"__esModule",{value:!0});var u=n(1),l=i(u),c=n(5),s=i(c),f=n(3),d=i(f),v=n(0),p=i(v);n(15),p.default.set({allyAction:null});var h=[{id:"aggressive",text:"Be Aggressive",className:"disabled"},{id:"defensive",text:"Play it Safe",className:"disabled"},{id:"protectMe",text:"Protect Me",className:"disabled"},{id:"random",text:"Go Random!"},{id:"cancel",text:"Cancel"}],y="Ally Action",m=new l.default({id:"tactics"}),g=new d.default({id:"squadAction",text:y}),b=new s.default({id:"tacticsMenu",options:h,onSelect:function(e){var t=e.target.id;if(!e.target.classList.contains("disabled"))return"cancel"===t?void m.classify("-showMenu"):void p.default.set({allyAction:e.target.id})}});p.default.watch("allyAction",o),p.default.watch("playerHasJump",a),p.default.watch("allyHasJump",a),p.default.watch("isTurn",function(){return m.classify("-showMenu")}),m.onClick("#squadAction",r),m.kids(g.el,b.el),t.default=m},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e,t,n){return t-e*n}function r(e){c.default.set({perspective:e.target.id})}Object.defineProperty(t,"__esModule",{value:!0});var o=n(5),u=i(o),l=n(0),c=i(l);n(17),c.default.set({perspective:"camDefault",focusX:0,focusY:0,camSelectable:function(){var e=this.get("camDefault"),t=this.get("tileSize"),n=this.get("columns")/2,i=n+1,r=(n-1)*t;return Object.assign({},e,{perspective:150,rotateX:45,moveX:0,moveY:a(i,r,t),scaleX:.9,scaleY:.9})},camDefault:function(){var e=this.get("tileSize"),t=this.get("scaling"),n=this.get("columns")/2,i=n*e-e/2,r=(n-.5)*e;return{perspective:100,rotateX:60,rotateZ:0,moveX:a(this.get("focusX"),i,e),moveY:a(this.get("focusY"),r,e),moveZ:0,scaleX:t,scaleY:t,scaleZ:1}},camLeft:function(){var e=this.get("camDefault"),t=this.get("tileSize");return Object.assign({},e,{rotateX:55,rotateZ:35,moveX:e.moveX+t,moveY:e.moveY-t})},camRight:function(){var e=this.get("camDefault"),t=this.get("tileSize");return Object.assign({},e,{rotateX:55,rotateZ:-35,moveX:e.moveX-t,moveY:e.moveY-t})},camUp:function(){var e=this.get("camDefault"),t=this.get("tileSize"),n=this.get("scaling");return Object.assign({},e,{rotateX:40,moveY:e.moveY-2*t,scaleX:.5*n,scaleY:.5*n})},camOverview:function(){var e=this.get("camDefault"),t=this.get("tileSize"),n=this.get("scaling");return Object.assign({},e,{rotateX:55,moveY:e.moveY-t,scaleX:.7*n,scaleY:.7*n})}},!0);var s=[{id:"camRight",innerHTML:"&laquo;"},{id:"camDefault",innerHTML:"&laquo;"},{id:"camLeft",innerHTML:"&raquo;"},{id:"camUp",innerHTML:"&laquo;"}],f=new u.default({id:"cameraControls",options:s,onSelect:r});t.default=f},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(){var e=h.default.get("perspective"),t=h.default.get(e),n=[(0,g.perspective)(t.perspective),(0,g.rotateX)(t.rotateX),(0,g.rotateZ)(t.rotateZ),(0,g.scale3d)(t.scaleX,t.scaleY,t.scaleZ),(0,g.translate3d)(t.moveX,t.moveY,t.moveZ)];b.setStyle({transform:n.join(" ")})}function r(){var e=h.default.get("allies");setTimeout(function(){e.map(function(e){return e.classify("+playable-checker")})},50),h.default.set({perspective:"camSelectable"})}function o(e){var t=h.default.get("allies"),n=t.filter(function(t){return t.el.isEqualNode(e.target)})[0];t.map(function(e){e.classify("-playable-checker")}),n.classify("+player-checker"),n.isPlayer=!0;var i=n.x,a=n.y;h.default.set({focusX:i,focusY:a,playerX:i,playerY:a,isTurn:!0,lives:h.default.get("lives")-1,checkerSelect:!1}),setTimeout(function(){h.default.set({perspective:"camDefault"})},120)}function u(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];if(0===e.length)return void l();e.map(function(e){var t=e.toX,n=e.toY;document.getElementById("x"+t+"-y"+n).classList.add("availableMove")})}function l(){Array.from(document.querySelectorAll(".availableMove")).map(function(e){return e.classList.remove("availableMove")})}function c(e){var t=e.target,n=t.id.split("-"),i=parseInt(n[0].replace("x",""),10),a=parseInt(n[1].replace("y",""),10),r=h.default.get("playerActions").filter(function(e){return e.toX===i&&e.toY===a})[0];h.default.set({playerAction:r})}Object.defineProperty(t,"__esModule",{value:!0});var s=n(1),f=i(s),d=n(19),v=i(d),p=n(0),h=i(p),y=n(2),m=i(y),g=n(6);n(21),h.default.set({columns:8,scaling:4,occupied:[[],[],[],[],[],[],[],[]],tileSize:function(){return 100/this.get("columns")},checkerSize:function(){return.75*this.get("tileSize")},checkerMargin:function(){return(this.get("tileSize")-this.get("checkerSize"))/2},playerChecker:function(){var e=this.get("allies").filter(function(e){return e.isPlayer});return e.length>0?e[0]:null},allies:function(){var e=[];return this.get("occupied").map(function(t){e=e.concat(t.filter(function(e){return e&&!e.isHostile}))}),e},hostiles:function(){var e=[];return this.get("occupied").map(function(t){e=e.concat(t.filter(function(e){return e&&e.isHostile}))}),e}},!0);var b=new f.default({id:"board"});h.default.watch("perspective",a),h.default.watch("playerActions",u),h.default.watch("focusX",a),h.default.watch("checkerSelect",function(e){e&&r()}),b.onClick(".playable-checker",o),b.onClick(".availableMove",c),h.default.set({perspective:"camSelectable",board:b}),function(){b.gut();for(var e=h.default.get("columns"),t=e*e/2,n=0,i=0,a=h.default.get("tileSize"),r=["width:"+a+"vh;","height:"+a+"vh;","margin-left:"+a+"vh;"],o=[],u=0;u<t;u++){n>=e&&(i++,n=i%2);var l=(0,m.default)("span",{id:"x"+n+"-y"+i,className:"tile",style:r.join("")});if(i<3||i>4){var c=i<3,s=new v.default({x:n,y:i,isHostile:c});b.kids(s.el),o[n]=o[n]||[],o[n][i]=s}0===n&&i%2==0&&(l.el.style.marginLeft=0),b.kids(l.el),n+=2}h.default.set({occupied:o})}(),t.default=b},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e,t){var n={};for(var i in e)t.indexOf(i)>=0||Object.prototype.hasOwnProperty.call(e,i)&&(n[i]=e[i]);return n}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function u(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function l(){var e=p.default.get("checkerSize");return{width:e+"vh",paddingBottom:e+"vh",margin:p.default.get("checkerMargin")+"vh"}}function c(e){for(var t=p.default.get("board"),n=Math.floor(16*Math.random()+10),i=[];n--;){var a=e.el.cloneNode(),r=Math.floor(50*Math.random()+10),o=Math.floor(50*Math.random()+10),u=(0,h.translate3d)(r,o),l=["opacity 1200ms ease-out","transform 1200ms cubic-bezier(0,1,1,0.75)"];t.kids(a),a.style.transition=l.join(","),i.push({pixel:a,transform:u+" scale3d(0.2, 0.2, 1)"})}e.destructor();var c=i[i.length-1].pixel;c.addEventListener("transitionend",function e(){for(var t=void 0;t=i.pop();)t.pixel.parentNode.removeChild(t.pixel);c.removeEventListener("transitionend",e)}),i.map(function(e){setTimeout(function(){e.pixel.style.opacity=0,e.pixel.style.transform=e.transform},0)})}Object.defineProperty(t,"__esModule",{value:!0});var s=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),f=n(4),d=i(f),v=n(0),p=i(v),h=n(6);n(20);var y=function(e){function t(e){r(this,t);var n=o(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,"i")),i=e.isHostile,u=e.x,c=e.y,s=a(e,["isHostile","x","y"]),f="checker";return f+=i?" hostile":" playable-checker",n.attribute(Object.assign(s,{className:f})),n.setStyle(l()),n.position(u,c),n.isKing=!1,n.isPlayer=!1,n.isHostile=i,n}return u(t,e),s(t,[{key:"isJump",value:function(e){return Math.abs(e-this.x)>1}},{key:"getUpLeft",value:function(){return{x:this.x-1,y:this.y-1}}},{key:"getUpRight",value:function(){return{x:this.x+1,y:this.y-1}}},{key:"getDownRight",value:function(){return{x:this.x+1,y:this.y+1}}},{key:"getDownLeft",value:function(){return{x:this.x-1,y:this.y+1}}},{key:"position",value:function(e,t){var n=p.default.get("tileSize"),i=e*n,a=t*n;this.isJump(e)?(this.justJumped=!0,this.setStyle(function(){return console.log("Jump animation! Work this out ..."),{transform:[(0,h.translate3d)(i,a)].join(" ")}}())):(this.justJumped=!1,this.setStyle({transform:(0,h.translate3d)(i,a)})),this.x=e,this.y=t}},{key:"remove",value:function(){var e=this,t=p.default.get("tileSize"),n=this.x*t,i=this.y*t,a=[(0,h.translate3d)(n,i),(0,h.scale3d)(.2,.2)];this.onTrans(function(){return c(e)}),this.setStyle({transform:a.join(" ")})}}]),t}(d.default);t.default=y},function(e,t){},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e){return d.default.get(e).length}Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),o=i(r),u=n(3),l=i(u),c=n(2),s=i(c),f=n(0),d=i(f);n(23);var v=new o.default({id:"counts"}),p=new l.default({className:"countsText allies",text:"Allies"}),h=new l.default({className:"countsText hostiles",text:"Hostiles"}),y=new l.default({id:"allyCount",innerText:a("allies")}),m=new l.default({id:"hostileCount",innerText:a("hostiles")}),g=(0,s.default)("span",{className:"separator"});d.default.watch("isTurn",function(){y.print(d.default.get("allies").length),m.print(d.default.get("hostiles").length)}),v.kids(p.el,y.el,g.el,m.el,h.el),t.default=v},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e){var t=e?"Well Played!":"You've Lost ...";p.print(t),v.fadeIn(),setTimeout(function(){return v.classify("+show")})}Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),o=i(r),u=n(3),l=i(u),c=n(2),s=i(c),f=n(0),d=i(f);n(25);var v=new o.default({id:"gameOver"}),p=new l.default({id:"gameOverText"}),h=(0,s.default)("a",{id:"playAgain",text:"Play Again"});d.default.watch("youWon",a),v.onClick("#playAgain",function(){return window.location.reload()}),v.kids(p.el,h.el),t.default=v},function(e,t){},function(e,t,n){"use strict";function i(e){return e&&e.__esModule?e:{default:e}}function a(e,t){var n=k.default.get("columns"),i=function(e){return e>-1&&e<n};return i(e)&&i(t)}function r(e,t){return k.default.get("occupied")[e][t]}function o(e,t){return a(e,t)&&!r(e,t)}function u(){k.default.set({isTurn:!k.default.get("isTurn")})}function l(){M=[],k.default.set({playerActions:[],noPlayerMoves:!1})}function c(e){var t=e.checker,n=e.toY,i=t.isHostile&&7===n,a=!t.isHostile&&0===n;(i||a)&&(t.isKing=!0,t.classify("king"))}function s(e,t){var n=k.default.get("occupied"),i=n[e][t];n[e][t]=!1,i.remove()}function f(e){e[0].checker.isPlayer?k.default.set({playerActions:e}):(M=e,w())}function d(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"camDefault";k.default.set({focusX:e,focusY:t,perspective:n})}function v(e){var t=k.default.get("board"),n=e.checker,i=e.fromX,a=e.fromY,r=e.jumpedX,o=e.jumpedY,v=e.toX,h=e.toY,m=k.default.get("occupied"),g=void 0,b=void 0,w=void 0;b=function(){d(v,h),n.position(v,h),m[v][h]=n,m[i][a]=!1,r&&(s(r,o),w=y(n,p(n))),g=w&&w.length>0?function(){f(w)}:function(){c(e),u()},n.onTrans(g)};var _=n.x===k.default.get("focusX"),O=n.y===k.default.get("focusY");l(),_&&O?b():(t.onTrans(b),d(n.x,n.y,"camOverview"))}function p(e){var t=e.getUpLeft(),n=e.getUpRight(),i=e.getDownRight(),r=e.getDownLeft(),o=[];return e.isKing?o.push(a(t.x,t.y)&&t,a(n.x,n.y)&&n,a(i.x,i.y)&&i,a(r.x,r.y)&&r):e.isHostile?o.push(a(i.x,i.y)&&i,a(r.x,r.y)&&r):o.push(a(t.x,t.y)&&t,a(n.x,n.y)&&n),o.filter(function(e){return e})}function h(e,t){var n=[];return t.map(function(t){var i=t.x,a=t.y;o(i,a)&&n.push({checker:e,fromX:e.x,fromY:e.y,toX:i,toY:a})}),n}function y(e,t){var n=k.default.get("occupied"),i=[];return t.map(function(t){var o=t.x,u=t.y;if(a(o,u)&&r(o,u)){if(n[o][u].isHostile!==e.isHostile){var l=o-e.x,c=u-e.y,s=o+l,f=u+c;a(s,f)&&!r(s,f)&&i.push({checker:e,fromX:e.x,fromY:e.y,toX:s,toY:f,jumpedX:o,jumpedY:u})}}}),i}function m(e){var t=p(e),n=y(e,t);return n.length>0?n:h(e,t)}function g(e){var t=[],n=[];return e.map(function(e){m(e).map(function(e){e.jumpedX?n.push(e):t.push(e)})}),n.length>0?n:t}function b(){var e=k.default.get("hostiles"),t=g(e);if(0===t.length)return void k.default.set({youWon:!0});v((0,j.default)(t))}function w(){v((0,j.default)(M))}function _(){var e=k.default.get("playerChecker"),t=k.default.get("allies");if(!e){var n=k.default.get("lives"),i={checkerSelect:!0};return 0!==n&&0!==t.length||(i.youWon=!1),void k.default.set(i)}var a=[];if(g(t).map(function(e){(e.checker.isPlayer?a:M).push(e)}),0===a.length&&0===M.length)return void k.default.set({youWon:!1});if(0===a.length&&M.length>1&&!M[0].jumpedX&&k.default.set({noPlayerMoves:!0}),a.length>0||M.length>0){var r=e.isKing?"camUp":"camDefault";d(e.x,e.y,r)}var o=M[0]&&M[0].jumpedX,u=a[0]&&a[0].jumpedX,l={allyHasJump:o,playerHasJump:u,playerActions:a};o&&!u&&(l.playerActions=[]),k.default.set(l),0===a.length&&o&&w()}var O=n(0),k=i(O),x=n(27),j=i(x);k.default.set({isTurn:!1,playerHasJump:!1,allyHasJump:!1,playerActions:null,lives:99},!0);var M=[];k.default.watch("allyAction",w),k.default.watch("playerAction",v),k.default.watch("isTurn",function(e){e?_():b()}),k.default.set({checkerSelect:!0})},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=n(0);!function(e){e&&e.__esModule}(i);t.default=function(e){return function(){var t=Math.floor(Math.random()*e.length);return e[t]}()}},function(e,t){},function(e,t){}]);</script></body>
+<script type="text/javascript">/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var watchers = {};
+var mod = {};
+
+// a convenience method for checking if a given param is a function
+function isFunction(f) {
+    return typeof f === 'function';
+}
+
+// a convenience method for checking if a given model property is derived
+function isDerived(prop) {
+    return isFunction(mod[prop]);
+}
+
+exports.default = {
+
+    // this method takes N properties and returns an object of key/value pairs.
+    // goes without saying here, but we use anonymous functions instead of
+    // arrow functions because of the aguments handling.
+    get: function get() /* arguments */{
+        var _this = this;
+
+        var props = Array.from(arguments);
+        var requested = {};
+
+        // a little wrapper for handling both explicit and derived values; it'll
+        // simply return an explicitly set value or execute a function to return
+        // the derived value
+        var handleValue = function handleValue(val) {
+            return isFunction(val) ? val.bind(_this)() : val;
+        };
+
+        if (props.length === 1) {
+            var val = mod[props[0]];
+            return handleValue(val);
+        }
+
+        props.map(function (prop) {
+            var val = mod[prop];
+            requested[prop] = handleValue(val);
+        });
+
+        return requested;
+    },
+
+    // this method takes an object of key/val pairs and updates our model. it'll
+    // trigger any watchers of the values. if the second param is passed as true
+    // we'll do a stealth update and not trigger any watchers
+    set: function set(data) {
+        var isSilent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+        var props = Object.keys(data);
+        var actionsToTake = [];
+
+        props.map(function (prop) {
+            if (isDerived(prop)) {
+                console.warn('\'' + prop + '\' is a derived property and can not be explicitly set.');
+            } else {
+                mod[prop] = data[prop];
+
+                if (watchers[prop] && isSilent === false) {
+                    var actions = watchers[prop].map(function (action) {
+                        return {
+                            action: action,
+                            value: data[prop]
+                        };
+                    });
+
+                    actionsToTake = actionsToTake.concat(actions);
+                }
+            }
+        });
+
+        // execute our actions after all updates have been applied
+        actionsToTake.map(function (a) {
+            return a.action(a.value);
+        });
+    },
+
+    watch: function watch(prop, action) {
+        if (isDerived(prop)) {
+            console.warn('\'' + prop + '\' is a derived property and can not be watched.');
+            return;
+        }
+
+        if (!watchers[prop]) {
+            watchers[prop] = [];
+        }
+
+        watchers[prop].push(action);
+    }
+};
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _El2 = __webpack_require__(4);
+
+var _El3 = _interopRequireDefault(_El2);
+
+var _ClickHandler = __webpack_require__(9);
+
+var _ClickHandler2 = _interopRequireDefault(_ClickHandler);
+
+__webpack_require__(10);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var View = function (_El) {
+    _inherits(View, _El);
+
+    function View() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        _classCallCheck(this, View);
+
+        var nodeName = options.nodeName,
+            attrs = _objectWithoutProperties(options, ['nodeName']);
+
+        nodeName = nodeName || 'div';
+
+        var _this = _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, nodeName));
+
+        _this.attribute(attrs);
+        _this.classify('+view');
+        return _this;
+    }
+
+    // a method to bind click events to our View instance's click handler; it's
+    // simply a pass-through, so it matches the ClickHandler's API and attaches
+    // a single action to a selector
+
+
+    _createClass(View, [{
+        key: 'onClick',
+        value: function onClick(selector, action) {
+
+            // activate a new click handler when a click action is assigned
+            if (!this.clickHandler) {
+                this.clickHandler = new _ClickHandler2.default(this.el);
+            }
+
+            return this.clickHandler.onClick(selector, action);
+        }
+    }, {
+        key: 'fadeIn',
+        value: function fadeIn(onComplete) {
+            var _this2 = this;
+
+            var handleTransitionEnd = function handleTransitionEnd(e) {
+                // only react to a transitionend on the view element
+                if (e.target.isEqualNode(_this2.el) === false) {
+                    return;
+                }
+
+                _this2.el.removeEventListener('transitionend', handleTransitionEnd);
+                _this2.classify('-fadeIn -fadeInStart');
+
+                if (onComplete) {
+                    onComplete();
+                }
+            };
+
+            this.el.addEventListener('transitionend', handleTransitionEnd);
+            this.classify('+fadeInStart');
+            setTimeout(function () {
+                return _this2.classify('+fadeIn');
+            }, 10);
+
+            // return the element so we can .appendChild() the result of this func
+            return this.el;
+        }
+
+        // a fancy way of removing a view element; it'll fade out and then self-
+        // destruct. we can pass a callback that'll trigger when the animation is
+        // complete
+
+    }, {
+        key: 'fadeOut',
+        value: function fadeOut(onComplete) {
+            var _this3 = this;
+
+            var handleTransitionEnd = function handleTransitionEnd(e) {
+                if (e.target.isEqualNode(_this3.el) === false) {
+                    return;
+                }
+
+                _this3.el.removeEventListener('transitionend', handleTransitionEnd);
+                _this3.classify('-fadeOut');
+                _this3.destructor();
+
+                if (onComplete) {
+                    onComplete();
+                }
+            };
+
+            this.el.addEventListener('transitionend', handleTransitionEnd);
+            this.classify('+fadeOut');
+        }
+    }]);
+
+    return View;
+}(_El3.default);
+
+exports.default = View;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _El = __webpack_require__(4);
+
+var _El2 = _interopRequireDefault(_El);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+exports.default = function (nodeName) {
+    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    if (!nodeName) {
+        console.warn('Can not make an element without a nodeName; ' + nodeName + ' given.');
+
+        return;
+    }
+
+    var className = props.className,
+        attrs = _objectWithoutProperties(props, ['className']);
+
+    var instance = new _El2.default(nodeName);
+
+    instance.classify(className);
+    instance.attribute(attrs);
+
+    return instance;
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _View2 = __webpack_require__(1);
+
+var _View3 = _interopRequireDefault(_View2);
+
+__webpack_require__(12);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * A constructor class for creating text blocks.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
+var Text = function (_View) {
+    _inherits(Text, _View);
+
+    function Text(options) {
+        _classCallCheck(this, Text);
+
+        var text = options.text,
+            variant = options.variant,
+            textOptions = _objectWithoutProperties(options, ['text', 'variant']);
+
+        // we'll treat all text as paragraphs; styling and variants on text are
+        // handled by CSS
+
+
+        var _this = _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, Object.assign(textOptions, {
+            nodeName: 'p'
+        })));
+
+        if (text) {
+            _this.print(text);
+        }
+        if (variant) {
+            _this.classify('+' + variant + 'Text');
+        }
+        return _this;
+    }
+
+    _createClass(Text, [{
+        key: 'print',
+        value: function print(text) {
+            this.el.innerText = text;
+        }
+    }]);
+
+    return Text;
+}(_View3.default);
+
+exports.default = Text;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * A class for creating DOM elements with a unified API for managing class
+ * names, attributes, and other goodies. This class is for creating raw elements
+ * with the appropriate manipulation methods. the .mk() utility provides a
+ * convenience wrapper around element creation and provides a less-granular API.
+ *
+ */
+var El = function () {
+    function El(nodeName) {
+        _classCallCheck(this, El);
+
+        if (!nodeName) {
+            /* eslint-disable */
+            console.warn('Can not instantiate new El() with a nodeName;', nodeName);
+            /* eslint-enable */
+            return null;
+        }
+
+        this.el = document.createElement(nodeName);
+    }
+
+    _createClass(El, [{
+        key: 'destructor',
+        value: function destructor() {
+            this.el.parentNode.removeChild(this.el);
+        }
+
+        // a method for interacting with our element's className object to add (+),
+        // remove (-), or toggle (~) classes
+
+    }, {
+        key: 'classify',
+        value: function classify(classOperators) {
+            var _this = this;
+
+            if (!classOperators) {
+                return;
+            }
+
+            classOperators.split(' ').map(function (classNameOp) {
+                var op = classNameOp.charAt(0);
+                var className = classNameOp.substr(1, classNameOp.length);
+
+                if (op === '-') {
+                    _this.el.classList.remove(className);
+                } else if (op === '~') {
+                    _this.el.classList.toggle(className);
+                } else if (op === '+') {
+                    _this.el.classList.add(className);
+
+                    // handle everything else as an add of the whole className without
+                    // filtering the operator.
+                } else {
+                    _this.el.classList.add(classNameOp);
+                }
+            });
+        }
+
+        // a method for attributing attributes (redundant?) to the View element; the
+        // method name is the verb form ... uh-TRIB-yoot.
+
+    }, {
+        key: 'attribute',
+        value: function attribute(attributes) {
+            var _this2 = this;
+
+            var attributeNames = Object.keys(attributes);
+
+            attributeNames.map(function (name) {
+                _this2.el[name] = attributes[name];
+            });
+        }
+
+        // a method for appending child nodes
+
+    }, {
+        key: 'kids',
+        value: function kids() /* arguments */{
+            var _this3 = this;
+
+            var children = Array.from(arguments);
+
+            children.map(function (child) {
+                _this3.el.appendChild(child);
+            });
+        }
+
+        // a method for clearing all contents within the element
+
+    }, {
+        key: 'gut',
+        value: function gut() {
+            while (this.el.lastChild) {
+                this.el.removeChild(this.el.lastChild);
+            }
+        }
+
+        // a method for passing style properties to an element; it expects an
+        // object of CSS properties (in their JS form) and values
+
+    }, {
+        key: 'style',
+        value: function style(styleObj) {
+            var _this4 = this;
+
+            var styleNames = Object.keys(styleObj);
+            styleNames.map(function (style) {
+                _this4.el.style[style] = styleObj[style];
+            });
+        }
+
+        // a method for setting actions after a transition occurs
+
+    }, {
+        key: 'onTrans',
+        value: function onTrans(callback) {
+            var _this5 = this;
+
+            var onComplete = function onComplete(_ref) {
+                var target = _ref.target;
+
+                var isEqual = target.isEqualNode(_this5.el);
+                var isMidTransition = target.classList.contains('transitioning');
+
+                if (isEqual && !isMidTransition) {
+                    _this5.el.removeEventListener('transitionend', onComplete);
+                    callback();
+                }
+            };
+
+            this.el.addEventListener('transitionend', onComplete);
+        }
+
+        // the sister method to the above, for animations instead of transitions. we
+        // use both for various effects and subscribe to them separately
+
+    }, {
+        key: 'onAnim',
+        value: function onAnim(callback) {
+            var _this6 = this;
+
+            var onComplete = function onComplete(_ref2) {
+                var target = _ref2.target;
+
+                if (target.isEqualNode(_this6.el)) {
+                    _this6.el.removeEventListener('animationend', onComplete);
+                    callback();
+                }
+            };
+
+            this.el.addEventListener('animationend', onComplete);
+        }
+    }]);
+
+    return El;
+}();
+
+exports.default = El;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _mk = __webpack_require__(2);
+
+var _mk2 = _interopRequireDefault(_mk);
+
+var _View2 = __webpack_require__(1);
+
+var _View3 = _interopRequireDefault(_View2);
+
+__webpack_require__(11);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//
+//
+//
+function handleSelection(e) {
+    var active = this.el.querySelector('.active');
+
+    if (active) {
+        active.classList.remove('active');
+    }
+
+    e.target.classList.add('active');
+
+    if (this.onSelect) {
+        this.onSelect(e);
+    }
+}
+
+var Menu = function (_View) {
+    _inherits(Menu, _View);
+
+    function Menu(props) {
+        _classCallCheck(this, Menu);
+
+        var options = props.options,
+            className = props.className,
+            onSelect = props.onSelect,
+            theRest = _objectWithoutProperties(props, ['options', 'className', 'onSelect']);
+
+        className = className ? className + ' menu' : 'menu';
+        theRest.className = className;
+
+        // we could intercept the props here and make Menu instances render
+        // as <ul> or <menu> (limited support) for semantics, but <div> wrappers
+        // are fine for now
+
+        // this holds a reference to our option instances (Els)
+        var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, theRest));
+
+        _this.menuOptions = [];
+
+        if (options) {
+            _this.renderOptions(options);
+        }
+
+        _this.onSelect = onSelect;
+        _this.onClick('.menuOption', handleSelection.bind(_this));
+        return _this;
+    }
+
+    // as its clever name suggests, this method renders the given menu options
+
+
+    _createClass(Menu, [{
+        key: 'renderOptions',
+        value: function renderOptions(options) {
+            var _this2 = this;
+
+            this.gut();
+
+            options.map(function (opts) {
+                var active = opts.active,
+                    theRest = _objectWithoutProperties(opts, ['active']);
+
+                var rendered = (0, _mk2.default)('a', theRest);
+
+                rendered.classify('+menuOption');
+                if (active) {
+                    rendered.classify('+active');
+                }
+
+                _this2.menuOptions.push(rendered);
+                _this2.kids(rendered.el);
+            });
+        }
+    }]);
+
+    return Menu;
+}(_View3.default);
+
+exports.default = Menu;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// a utility for creating CSS transforms, which we use for virtually all of
+// our animations. there are individual methods for building various types
+// (translate3d, rotate, etc.) which return strings that can be assigned to
+// an element's style attribute.
+//
+// note that it's not "feature complete" ... i shaved this down to only
+// include transforms we're actually using in the game.
+//
+var translate3d = function translate3d() {
+    var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    return "translate3d(" + x + "vh, " + y + "vh, " + z + "vh)";
+};
+var rotateX = function rotateX() {
+    var deg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    return "rotateX(" + deg + "deg)";
+};
+var rotateY = function rotateY() {
+    var deg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    return "rotateY(" + deg + "deg)";
+};
+var rotateZ = function rotateZ() {
+    var deg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    return "rotateZ(" + deg + "deg)";
+};
+var perspective = function perspective(focalPoint) {
+    return "perspective(" + focalPoint + "vh)";
+};
+var scale3d = function scale3d() {
+    var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+    return "scale3d(" + x + ", " + y + ", " + z + ")";
+};
+
+exports.translate3d = translate3d;
+exports.rotateX = rotateX;
+exports.rotateY = rotateY;
+exports.rotateZ = rotateZ;
+exports.perspective = perspective;
+exports.scale3d = scale3d;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _titleScreen = __webpack_require__(8);
+
+var _titleScreen2 = _interopRequireDefault(_titleScreen);
+
+var _play = __webpack_require__(13);
+
+var _play2 = _interopRequireDefault(_play);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+__webpack_require__(29);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ *
+ *
+ */
+var d = document;
+var viewport = d.createElement('main');
+viewport.id = 'viewport';
+
+var currentView = _titleScreen2.default;
+
+//
+function loadView(view) {
+    var fadeIn = function fadeIn() {
+        viewport.appendChild(view.fadeIn());
+        currentView = view;
+    };
+
+    if (currentView) {
+        currentView.fadeOut(fadeIn);
+    } else {
+        fadeIn();
+    }
+}
+
+// essentially, a light router for determining which top-level view to load
+// when mod.view is updated
+function changeView(view) {
+    switch (view) {
+        case 'titleScreen':
+            loadView(_titleScreen2.default);
+            break;
+
+        case 'play':
+            loadView(_play2.default);
+            break;
+    }
+}
+
+_mod2.default.watch('view', changeView);
+
+viewport.appendChild(_play2.default.el);
+d.body.appendChild(viewport);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _Menu = __webpack_require__(5);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Text = __webpack_require__(3);
+
+var _Text2 = _interopRequireDefault(_Text);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var titleScreen = new _View2.default({
+    id: 'titleScreen',
+    className: 'titleScreen topLevelView'
+});
+
+function changeView(e) {
+    _mod2.default.set({
+        view: e.target.id
+    });
+}
+
+var menu = new _Menu2.default({
+    className: 'titleMenu',
+    id: 'titleMenu',
+    onSelect: changeView,
+    options: [{
+        id: 'play',
+        text: 'Play'
+    }]
+});
+
+var title = new _Text2.default({
+    id: 'titleText',
+    text: 'Check Yourself',
+    variant: 'title'
+});
+
+titleScreen.kids(title.el, menu.el);
+
+exports.default = titleScreen;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Our click manager. This binds a single click handler to the given element and
+ * delegates actions via the .on binding.
+ */
+
+function handleClick(e) {
+    var _this = this;
+
+    e.preventDefault();
+
+    var target = e.target;
+    var selectors = Object.keys(this.actions);
+
+    if (!selectors) {
+        return;
+    }
+
+    // check all selectors for matches (set via .on())
+    selectors.map(function (selector) {
+        if (target.matches(selector)) {
+            _this.actions[selector].map(function (action) {
+                return action(e);
+            });
+        }
+    });
+}
+
+var ClickHandler = function () {
+    function ClickHandler(wrapperEl) {
+        _classCallCheck(this, ClickHandler);
+
+        if (!wrapperEl || (typeof wrapperEl === 'undefined' ? 'undefined' : _typeof(wrapperEl)) !== 'object') {
+            /* eslint-disable */
+            console.warn('A wrapperEl must be provded to a click-handler: ' + wrapperEl);
+            /* eslint-enable */
+            return;
+        }
+
+        // the record of active click actions/callbacks
+        this.actions = {};
+
+        // set our wrapper-level click listener and ensure context
+        wrapperEl.addEventListener('click', handleClick.bind(this));
+    }
+
+    _createClass(ClickHandler, [{
+        key: 'onClick',
+        value: function onClick(selector, action) {
+            if (!this.actions[selector]) {
+                this.actions[selector] = [];
+            }
+
+            this.actions[selector].push(action);
+        }
+    }]);
+
+    return ClickHandler;
+}();
+
+exports.default = ClickHandler;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+var _tacticsMenu = __webpack_require__(14);
+
+var _tacticsMenu2 = _interopRequireDefault(_tacticsMenu);
+
+var _cameraControls = __webpack_require__(16);
+
+var _cameraControls2 = _interopRequireDefault(_cameraControls);
+
+var _board = __webpack_require__(18);
+
+var _board2 = _interopRequireDefault(_board);
+
+var _counts = __webpack_require__(22);
+
+var _counts2 = _interopRequireDefault(_counts);
+
+var _gameOver = __webpack_require__(24);
+
+var _gameOver2 = _interopRequireDefault(_gameOver);
+
+__webpack_require__(26);
+
+__webpack_require__(28);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var play = new _View2.default({
+    id: 'play',
+    className: 'play topLevelView checkerSelect'
+});
+
+var selectYourChecker = new _View2.default({
+    id: 'checkerSelect',
+    innerText: 'Select your checker.',
+    className: 'notice'
+});
+
+var noAvailableMoves = new _View2.default({
+    id: 'noAvailableMoves',
+    innerText: 'No available moves. Choose an Ally Action.',
+    className: 'notice'
+});
+
+function handleCheckerSelection(needsPlayerChecker) {
+    if (needsPlayerChecker) {
+        play.classify('+checkerSelect');
+    } else {
+        play.classify('-checkerSelect');
+    }
+}
+
+_mod2.default.watch('checkerSelect', handleCheckerSelection);
+_mod2.default.watch('noPlayerMoves', function (hasNoMoves) {
+    if (hasNoMoves) {
+        play.classify('+noAvailableMoves');
+    } else {
+        play.classify('-noAvailableMoves');
+    }
+});
+
+play.kids(_board2.default.el, _cameraControls2.default.el, _tacticsMenu2.default.el, _counts2.default.el, _gameOver2.default.el, selectYourChecker.el, noAvailableMoves.el);
+
+// on an initial load, jump right into checker selection
+//handleCheckerSelection();
+exports.default = play;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _Menu = __webpack_require__(5);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Text = __webpack_require__(3);
+
+var _Text2 = _interopRequireDefault(_Text);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+__webpack_require__(15);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_mod2.default.set({
+    allyAction: null
+});
+
+var menuOptions = [{
+    id: 'aggressive',
+    text: 'Be Aggressive',
+    className: 'disabled'
+}, {
+    id: 'defensive',
+    text: 'Play it Safe',
+    className: 'disabled'
+}, {
+    id: 'protectMe',
+    text: 'Protect Me',
+    className: 'disabled'
+}, {
+    id: 'random',
+    text: 'Go Random!'
+}, {
+    id: 'cancel',
+    text: 'Cancel'
+}];
+
+var actionText = 'Ally Action';
+
+var wrapper = new _View2.default({
+    id: 'tactics'
+});
+
+var squadAction = new _Text2.default({
+    id: 'squadAction',
+    text: actionText
+});
+
+var menu = new _Menu2.default({
+    id: 'tacticsMenu',
+    options: menuOptions,
+    onSelect: function onSelect(e) {
+        var tactic = e.target.id;
+
+        if (e.target.classList.contains('disabled')) {
+            return;
+        }
+
+        if (tactic === 'cancel') {
+            wrapper.classify('-showMenu');
+            return;
+        }
+
+        _mod2.default.set({ allyAction: e.target.id });
+    }
+});
+
+//
+//
+//
+function updateMenu() {
+    var playerHasJump = _mod2.default.get('playerHasJump');
+    var allyHasJump = _mod2.default.get('allyHasJump');
+
+    if (allyHasJump && !playerHasJump || playerHasJump && !allyHasJump) {
+        squadAction.classify('+disabled');
+    } else {
+        squadAction.print(actionText);
+        squadAction.classify('-disabled');
+    }
+}
+
+//
+//
+//
+function handleMenu(e) {
+    e.preventDefault();
+
+    var target = e.target;
+    var isDisabled = target.classList.contains('disabled');
+
+    if (isDisabled) {
+        return;
+    }
+
+    wrapper.classify('+showMenu');
+}
+
+//
+//
+//
+function updateCurrentTactic() {
+    wrapper.classify('-showMenu');
+}
+
+_mod2.default.watch('allyAction', updateCurrentTactic);
+_mod2.default.watch('playerHasJump', updateMenu);
+_mod2.default.watch('allyHasJump', updateMenu);
+_mod2.default.watch('isTurn', function () {
+    return wrapper.classify('-showMenu');
+});
+
+wrapper.onClick('#squadAction', handleMenu);
+
+wrapper.kids(squadAction.el, menu.el);
+
+exports.default = wrapper;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Menu = __webpack_require__(5);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+__webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_mod2.default.set({
+    // the current camera perspective
+    perspective: 'camDefault',
+    // the x and y grid positions the camera is focused on
+    focusX: 0,
+    focusY: 0,
+    // a view that displays the front-row of allied checkers; this isn't a
+    // selectable view but is used when the game starts for choosing the
+    // checker you wanna control
+    camSelectable: function camSelectable() {
+        var defaults = this.get('camDefault');
+        var tileSize = this.get('tileSize');
+        var halfCols = this.get('columns') / 2;
+        var focusY = halfCols + 1;
+        var yOffset = (halfCols - 1) * tileSize;
+
+        return Object.assign({}, defaults, {
+            perspective: 150,
+            rotateX: 45,
+            moveX: 0,
+            moveY: getFocusOffset(focusY, yOffset, tileSize),
+            scaleX: 0.9,
+            scaleY: 0.9
+        });
+    },
+    // settings for our default camera perspective; additional camera positions
+    // are derived from here
+    camDefault: function camDefault() {
+        var tileSize = this.get('tileSize');
+        var scaling = this.get('scaling');
+        var halfCols = this.get('columns') / 2;
+
+        // the offset x/y for a centered 0-0 square; based on the number of tiles
+        // and tile size and used in moving the camera proportionally
+        var xOffset = halfCols * tileSize - tileSize / 2;
+        var yOffset = (halfCols - 0.5) * tileSize;
+
+        return {
+            perspective: 100,
+            rotateX: 60,
+            rotateZ: 0,
+            moveX: getFocusOffset(this.get('focusX'), xOffset, tileSize),
+            moveY: getFocusOffset(this.get('focusY'), yOffset, tileSize),
+            moveZ: 0,
+            scaleX: scaling,
+            scaleY: scaling,
+            scaleZ: 1
+        };
+    },
+    camLeft: function camLeft() {
+        var defaults = this.get('camDefault');
+        var tileSize = this.get('tileSize');
+
+        return Object.assign({}, defaults, {
+            rotateX: 55,
+            rotateZ: 35,
+            moveX: defaults.moveX + tileSize,
+            moveY: defaults.moveY - tileSize
+        });
+    },
+    camRight: function camRight() {
+        var defaults = this.get('camDefault');
+        var tileSize = this.get('tileSize');
+
+        return Object.assign({}, defaults, {
+            rotateX: 55,
+            rotateZ: -35,
+            moveX: defaults.moveX - tileSize,
+            moveY: defaults.moveY - tileSize
+        });
+    },
+    camUp: function camUp() {
+        var defaults = this.get('camDefault');
+        var tileSize = this.get('tileSize');
+        var scaling = this.get('scaling');
+
+        return Object.assign({}, defaults, {
+            rotateX: 40,
+            moveY: defaults.moveY - tileSize * 2,
+            scaleX: scaling * 0.5,
+            scaleY: scaling * 0.5
+        });
+    },
+    camOverview: function camOverview() {
+        var defaults = this.get('camDefault');
+        var tileSize = this.get('tileSize');
+        var scaling = this.get('scaling');
+
+        return Object.assign({}, defaults, {
+            rotateX: 55,
+            moveY: defaults.moveY - tileSize,
+            scaleX: scaling * 0.7,
+            scaleY: scaling * 0.7
+        });
+    }
+}, true);
+
+var cameraOptions = [{ id: 'camRight', innerHTML: '&laquo;' }, { id: 'camDefault', innerHTML: '&laquo;' }, { id: 'camLeft', innerHTML: '&raquo;' }, { id: 'camUp', innerHTML: '&laquo;' }];
+
+//
+//
+//
+function getFocusOffset(tileNumber, defaultOffset, tileSize) {
+    return defaultOffset - tileNumber * tileSize;
+}
+
+//
+//
+//
+function handleSelection(e) {
+    _mod2.default.set({
+        perspective: e.target.id
+    });
+}
+
+var cameraControls = new _Menu2.default({
+    id: 'cameraControls',
+    options: cameraOptions,
+    onSelect: handleSelection
+});
+
+exports.default = cameraControls;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _Checker = __webpack_require__(19);
+
+var _Checker2 = _interopRequireDefault(_Checker);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+var _mk = __webpack_require__(2);
+
+var _mk2 = _interopRequireDefault(_mk);
+
+var _transform = __webpack_require__(6);
+
+__webpack_require__(21);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_mod2.default.set({
+    // the number of tiles in a row for our checkboard; the board is always
+    // square so we don't specify a "rows" property. we also play on an American
+    // "standard" checker board ... 8x8.
+    columns: 8,
+    // we scale the screen by this much in our CSS transforms
+    scaling: 4,
+    // init a quick/dirty 8x8 array to represent our checkerboard; this gets
+    // updated by ./game/board.js in batch actions
+    occupied: [[], [], [], [], [], [], [], []],
+    // based on 100% viewport
+    tileSize: function tileSize() {
+        return 100 / this.get('columns');
+    },
+    // quick-ref for grabbing the size of a rendered checker; regardless of how
+    // many squares in a row, the checker is N% of it
+    checkerSize: function checkerSize() {
+        return this.get('tileSize') * 0.75;
+    },
+    // quick-ref for setting the margins around our checkers ... the size of a
+    // tile less the size of the checker itself
+    checkerMargin: function checkerMargin() {
+        return (this.get('tileSize') - this.get('checkerSize')) / 2;
+    },
+    // returns the player checker from the group of allies; @todo i had
+    // race condition issues when keeping a direct reference to this when the
+    // player was one of N checkers in a chained jump. those went away when
+    // making it a lookup/filter. revisit this if time allows for perf/effic.
+    playerChecker: function playerChecker() {
+        var playerChecker = this.get('allies').filter(function (checker) {
+            return checker.isPlayer;
+        });
+
+        return playerChecker.length > 0 ? playerChecker[0] : null;
+    },
+    // convenience filters for returning checkers with allied/hostile affiliations
+    allies: function allies() {
+        var allies = [];
+        this.get('occupied').map(function (row) {
+            allies = allies.concat(row.filter(function (checker) {
+                return checker && !checker.isHostile;
+            }));
+        });
+
+        return allies;
+    },
+    hostiles: function hostiles() {
+        var hostiles = [];
+        this.get('occupied').map(function (row) {
+            hostiles = hostiles.concat(row.filter(function (checker) {
+                return checker && checker.isHostile;
+            }));
+        });
+
+        return hostiles;
+    }
+}, true);
+
+var board = new _View2.default({
+    id: 'board'
+});
+
+//
+//
+//
+function positionCamera() {
+    var persp = _mod2.default.get('perspective');
+    var cameraConfig = _mod2.default.get(persp);
+
+    var cameraStyles = [(0, _transform.perspective)(cameraConfig.perspective), (0, _transform.rotateX)(cameraConfig.rotateX), (0, _transform.rotateZ)(cameraConfig.rotateZ), (0, _transform.scale3d)(cameraConfig.scaleX, cameraConfig.scaleY, cameraConfig.scaleZ), (0, _transform.translate3d)(cameraConfig.moveX, cameraConfig.moveY, cameraConfig.moveZ)];
+
+    board.style({
+        transform: cameraStyles.join(' ')
+    });
+}
+
+//
+//
+//
+function showCheckerSelection() {
+    var allies = _mod2.default.get('allies');
+
+    setTimeout(function () {
+        allies.map(function (ally) {
+            return ally.classify('+playable-checker');
+        });
+    }, 50);
+
+    _mod2.default.set({
+        perspective: 'camSelectable'
+    });
+}
+
+//
+//
+//
+function choosePlayerChecker(e) {
+    var allies = _mod2.default.get('allies');
+    var playerChecker = allies.filter(function (checker) {
+        return checker.el.isEqualNode(e.target);
+    })[0];
+
+    // clean up our "playable" flags from the selection phase
+    allies.map(function (ally) {
+        ally.classify('-playable-checker');
+    });
+
+    playerChecker.classify('+player-checker');
+    playerChecker.isPlayer = true;
+
+    var x = playerChecker.x,
+        y = playerChecker.y;
+
+    _mod2.default.set({
+        //playerChecker: playerChecker,
+        focusX: x,
+        focusY: y,
+        playerX: x,
+        playerY: y,
+        isTurn: true,
+        lives: _mod2.default.get('lives') - 1,
+        checkerSelect: false
+    });
+
+    setTimeout(function () {
+        _mod2.default.set({
+            perspective: 'camDefault'
+        });
+    }, 120);
+}
+
+//
+//
+//
+function showValidMoveTiles() {
+    var playerActions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    if (playerActions.length === 0) {
+        hideValidMoveTiles();
+        return;
+    }
+
+    playerActions.map(function (move) {
+        var toX = move.toX,
+            toY = move.toY;
+
+        var tile = document.getElementById('x' + toX + '-y' + toY);
+        tile.classList.add('availableMove');
+    });
+}
+
+//
+//
+//
+function hideValidMoveTiles() {
+    var validMoveTiles = Array.from(document.querySelectorAll('.availableMove'));
+
+    validMoveTiles.map(function (tile) {
+        return tile.classList.remove('availableMove');
+    });
+}
+
+//
+//
+//
+function handleTileSelection(e) {
+    var target = e.target;
+    var xy = target.id.split('-');
+    var x = parseInt(xy[0].replace('x', ''), 10);
+    var y = parseInt(xy[1].replace('y', ''), 10);
+
+    var playerAction = _mod2.default.get('playerActions').filter(function (action) {
+        return action.toX === x && action.toY === y;
+    })[0];
+
+    _mod2.default.set({ playerAction: playerAction });
+}
+
+//
+//
+//
+function render() {
+    board.gut();
+
+    var columns = _mod2.default.get('columns');
+    // we're only dealing with every-other tile; only render usable tiles to
+    // minimize the number of nodes in the DOM
+    var tileCount = columns * columns / 2;
+
+    var col = 0;
+    var row = 0;
+
+    var tileSize = _mod2.default.get('tileSize');
+    var commonStyles = ['width:' + tileSize + 'vh;', 'height:' + tileSize + 'vh;', 'margin-left:' + tileSize + 'vh;'];
+
+    var occupied = [];
+    //let hostiles = [];
+    //let allies = [];
+
+    for (var i = 0; i < tileCount; i++) {
+        // special handling for creating new rows
+        if (col >= columns) {
+            row++;
+            col = row % 2;
+        }
+
+        var tile = (0, _mk2.default)('span', {
+            id: 'x' + col + '-y' + row,
+            className: 'tile',
+            style: commonStyles.join('')
+        });
+
+        // render a checker for the tile, if needed
+        if (row < 3 || row > 4) {
+
+            // this leaves the DOM fairly messy, as we render checkers and tiles
+            // in the same loop. they exist as Brady-bunched sibblings.
+            // positioning all happens absolutely, so it looks fine on screen.
+            // just a note to anybody out there with their inspector open
+            var isHostile = row < 3;
+            var checker = new _Checker2.default({ x: col, y: row, isHostile: isHostile });
+            board.kids(checker.el);
+
+            /*
+            if (isHostile) {
+                hostiles.push(checker);
+            } else {
+                allies.push(checker);
+            }
+            */
+
+            // keep a reference to the checker instance in our virtual board for
+            // easy look-ups and manipulation
+            occupied[col] = occupied[col] || [];
+            occupied[col][row] = checker;
+        }
+
+        // for the first tile in an even row, ditch the margin to stagger the
+        // tiles
+        if (col === 0 && row % 2 === 0) {
+            tile.el.style.marginLeft = 0;
+        }
+
+        board.kids(tile.el);
+        col += 2;
+    }
+
+    // stash the entire state of the board to our model thingy; we'll use that
+    // from here on out so other components can watch and utilize 'em.
+    _mod2.default.set({
+        occupied: occupied
+        //hostiles: hostiles,
+        //allies: allies,
+    });
+}
+
+_mod2.default.watch('perspective', positionCamera);
+_mod2.default.watch('playerActions', showValidMoveTiles);
+_mod2.default.watch('focusX', positionCamera);
+_mod2.default.watch('checkerSelect', function (needsPlayerChecker) {
+    if (needsPlayerChecker) {
+        showCheckerSelection();
+    }
+});
+
+board.onClick('.playable-checker', choosePlayerChecker);
+board.onClick('.availableMove', handleTileSelection);
+
+_mod2.default.set({
+    perspective: 'camSelectable',
+    board: board
+});
+
+render();
+
+exports.default = board;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _El2 = __webpack_require__(4);
+
+var _El3 = _interopRequireDefault(_El2);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+var _transform = __webpack_require__(6);
+
+__webpack_require__(20);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import View from '../common/View';
+
+
+// a helper method for rendering baseline - but dynamic - styles common to
+// every checker. it returns a style object for use with El's .style() method
+function getDefaultStyle() {
+    var checkerSize = _mod2.default.get('checkerSize');
+
+    return {
+        width: checkerSize + 'vh',
+        paddingBottom: checkerSize + 'vh',
+        margin: _mod2.default.get('checkerMargin') + 'vh'
+    };
+}
+
+//
+//
+//
+function pixelateOut(checker) {
+    var board = _mod2.default.get('board');
+    var random = Math.floor(Math.random() * 16 + 10);
+    var pixelations = [];
+
+    while (random--) {
+        var clone = checker.el.cloneNode();
+        var randomX = Math.floor(Math.random() * 50 + 10);
+        var randomY = Math.floor(Math.random() * 50 + 10);
+        var transform = (0, _transform.translate3d)(randomX, randomY);
+
+        var transitions = ['opacity 1200ms ease-out', 'transform 1200ms cubic-bezier(0,1,1,0.75)'];
+
+        board.kids(clone);
+        clone.style.transition = transitions.join(',');
+
+        pixelations.push({
+            pixel: clone,
+            transform: transform + ' scale3d(0.2, 0.2, 1)'
+        });
+    }
+
+    checker.destructor();
+
+    var lastPixel = pixelations[pixelations.length - 1].pixel;
+
+    lastPixel.addEventListener('transitionend', function cleanup() {
+        var fx = void 0;
+        while (fx = pixelations.pop()) {
+            // eslint-disable-line
+            fx.pixel.parentNode.removeChild(fx.pixel);
+        }
+
+        lastPixel.removeEventListener('transitionend', cleanup);
+    });
+
+    pixelations.map(function (fx) {
+        setTimeout(function () {
+            fx.pixel.style.opacity = 0;
+            fx.pixel.style.transform = fx.transform;
+        }, 0);
+    });
+}
+
+var Checker = function (_El) {
+    _inherits(Checker, _El);
+
+    function Checker(props) {
+        _classCallCheck(this, Checker);
+
+        var _this = _possibleConstructorReturn(this, (Checker.__proto__ || Object.getPrototypeOf(Checker)).call(this, 'i'));
+
+        var isHostile = props.isHostile,
+            x = props.x,
+            y = props.y,
+            theRest = _objectWithoutProperties(props, ['isHostile', 'x', 'y']);
+
+        var className = 'checker';
+
+        if (isHostile) {
+            className += ' hostile';
+        } else {
+            className += ' playable-checker';
+        }
+
+        _this.attribute(Object.assign(theRest, {
+            className: className
+        }));
+
+        _this.style(getDefaultStyle());
+        _this.position(x, y);
+
+        _this.isKing = false;
+        _this.isPlayer = false;
+        _this.isHostile = isHostile;
+        return _this;
+    }
+
+    // a helper for checking if a given position is a jump ... the X coord
+    // will have changed by more than 1
+
+
+    _createClass(Checker, [{
+        key: 'isJump',
+        value: function isJump(x) {
+            return Math.abs(x - this.x) > 1;
+        }
+
+        // helper methods for checking squares around this checker; note that these
+        // have no concern for the constraints of our board and may report invalid
+        // tiles (-1, -1 eg.) and should be validated on the receiving end.
+        // moves.js does exactly that.
+
+    }, {
+        key: 'getUpLeft',
+        value: function getUpLeft() {
+            return { x: this.x - 1, y: this.y - 1 };
+        }
+    }, {
+        key: 'getUpRight',
+        value: function getUpRight() {
+            return { x: this.x + 1, y: this.y - 1 };
+        }
+    }, {
+        key: 'getDownRight',
+        value: function getDownRight() {
+            return { x: this.x + 1, y: this.y + 1 };
+        }
+    }, {
+        key: 'getDownLeft',
+        value: function getDownLeft() {
+            return { x: this.x - 1, y: this.y + 1 };
+        }
+
+        // a method to position a checker in the viewport; it takes an X and Y grid
+        // position and turns it into a CSS equivalent based on tile size
+
+    }, {
+        key: 'position',
+        value: function position(x, y) {
+            var tileSize = _mod2.default.get('tileSize');
+            var xPos = x * tileSize;
+            var yPos = y * tileSize;
+
+            var jumpStyles = function jumpStyles() {
+                console.log('Jump animation! Work this out ...');
+                var styles = [(0, _transform.translate3d)(xPos, yPos)];
+
+                return {
+                    transform: styles.join(' ')
+                };
+            };
+
+            // extra fancification on a jump transform
+            if (this.isJump(x)) {
+                this.justJumped = true;
+                this.style(jumpStyles());
+            } else {
+                this.justJumped = false;
+                this.style({
+                    transform: (0, _transform.translate3d)(xPos, yPos)
+                });
+            }
+
+            this.x = x;
+            this.y = y;
+        }
+    }, {
+        key: 'remove',
+        value: function remove() {
+            var _this2 = this;
+
+            var tileSize = _mod2.default.get('tileSize');
+            var xPos = this.x * tileSize;
+            var yPos = this.y * tileSize;
+
+            var transforms = [(0, _transform.translate3d)(xPos, yPos), (0, _transform.scale3d)(0.2, 0.2)];
+
+            this.onTrans(function () {
+                return pixelateOut(_this2);
+            });
+            this.style({ transform: transforms.join(' ') });
+        }
+    }]);
+
+    return Checker;
+}(_El3.default);
+
+exports.default = Checker;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _Text = __webpack_require__(3);
+
+var _Text2 = _interopRequireDefault(_Text);
+
+var _mk = __webpack_require__(2);
+
+var _mk2 = _interopRequireDefault(_mk);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+__webpack_require__(23);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+function getCount(team) {
+    return _mod2.default.get(team).length;
+}
+
+var counts = new _View2.default({
+    id: 'counts'
+});
+
+var allyText = new _Text2.default({
+    className: 'countsText allies',
+    text: 'Allies'
+});
+
+var hostileText = new _Text2.default({
+    className: 'countsText hostiles',
+    text: 'Hostiles'
+});
+
+var allyCount = new _Text2.default({
+    id: 'allyCount',
+    innerText: getCount('allies')
+});
+
+var hostileCount = new _Text2.default({
+    id: 'hostileCount',
+    innerText: getCount('hostiles')
+});
+
+var separator = (0, _mk2.default)('span', {
+    className: 'separator'
+});
+
+_mod2.default.watch('isTurn', function () {
+    allyCount.print(_mod2.default.get('allies').length);
+    hostileCount.print(_mod2.default.get('hostiles').length);
+});
+
+counts.kids(allyText.el, allyCount.el, separator.el, hostileCount.el, hostileText.el);
+
+exports.default = counts;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _View = __webpack_require__(1);
+
+var _View2 = _interopRequireDefault(_View);
+
+var _Text = __webpack_require__(3);
+
+var _Text2 = _interopRequireDefault(_Text);
+
+var _mk = __webpack_require__(2);
+
+var _mk2 = _interopRequireDefault(_mk);
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+__webpack_require__(25);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var gameOver = new _View2.default({
+    id: 'gameOver'
+});
+
+var gameOverText = new _Text2.default({
+    id: 'gameOverText'
+});
+
+var playAgain = (0, _mk2.default)('a', {
+    id: 'playAgain',
+    text: 'Play Again'
+});
+
+//
+function handleGameOver(youWon) {
+    var endMessage = youWon ? 'Well Played!' : 'You\'ve Lost ...';
+
+    gameOverText.print(endMessage);
+    gameOver.fadeIn();
+    setTimeout(function () {
+        return gameOver.classify('+show');
+    });
+}
+
+_mod2.default.watch('youWon', handleGameOver);
+gameOver.onClick('#playAgain', function () {
+    return window.location.reload();
+});
+gameOver.kids(gameOverText.el, playAgain.el);
+
+exports.default = gameOver;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+var _ai = __webpack_require__(27);
+
+var _ai2 = _interopRequireDefault(_ai);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// our moves module is concerned with/manages these properties of our model;
+// set our defaults
+_mod2.default.set({
+    // whether or not it's the player's turn
+    isTurn: false,
+    // all jumps must be taken, as per the rules of checkers. this is a hook for
+    // disabling movement if either the player or an ally has to jump
+    playerHasJump: false,
+    allyHasJump: false,
+    // moves available to the player on a given turn
+    playerActions: null,
+    // how many lives the player has left
+    lives: 99
+}, true);
+
+// we check against our ally actions in a couple different places over the
+// course of a turn; we cache them to avoid re-running the calculation multiple
+// times
+var _allyActions = [];
+
+// a method for checking if a given X/Y position is actually on the board
+function inBounds(x, y) {
+    var columns = _mod2.default.get('columns');
+    var onBoard = function onBoard(coord) {
+        return coord > -1 && coord < columns;
+    };
+    return onBoard(x) && onBoard(y);
+}
+
+// a method for checking if a given X/Y position is occupied
+function isOccupied(x, y) {
+    return _mod2.default.get('occupied')[x][y];
+}
+
+// a composite method for checking whether an X/Y position is in-bounds and
+// unoccupied
+function isValidMove(x, y) {
+    return inBounds(x, y) && !isOccupied(x, y);
+}
+
+// a simple method for toggling our turn value
+function toggleTurn() {
+    _mod2.default.set({
+        isTurn: !_mod2.default.get('isTurn')
+    });
+}
+
+// clear our playerActions value from the model; the board watches this to
+// highlight valid moves/jumps
+function clearActions() {
+    _allyActions = [];
+    _mod2.default.set({
+        playerActions: [],
+        noPlayerMoves: false
+    });
+}
+
+// check if a checker should be kinged based on the given move action
+function makeKing(action) {
+    var checker = action.checker,
+        toY = action.toY;
+
+    var isHostileKing = checker.isHostile && toY === 7;
+    var isAllyKing = !checker.isHostile && toY === 0;
+
+    if (isHostileKing || isAllyKing) {
+        checker.isKing = true;
+        checker.classify('king');
+    }
+}
+
+// destroys a checker at the given X/Y positions and removes it from play
+function handleJump(x, y) {
+    var occupied = _mod2.default.get('occupied');
+    var jumpedChecker = occupied[x][y];
+
+    occupied[x][y] = false;
+    jumpedChecker.remove();
+}
+
+// an abbreviated .getPlayerActions() pipeline accounting only for jump actions;
+// intended for use when chaining jumps together
+function handleJumpAfterJump(actions) {
+    var checker = actions[0].checker;
+
+    // if this is a player action, update our model to allow for selection of
+    // the next jump
+
+    if (checker.isPlayer) {
+        _mod2.default.set({
+            playerActions: actions
+        });
+    } else {
+        _allyActions = actions;
+        handleAllyTurn();
+    }
+}
+
+// set the camera focal point from the given X/Y
+function setFocus(focusX, focusY) {
+    var perspective = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'camDefault';
+
+    _mod2.default.set({
+        focusX: focusX,
+        focusY: focusY,
+        perspective: perspective
+    });
+}
+
+// takes a standard action object and executes a checker's movement/animations
+function moveChecker(action) {
+    var board = _mod2.default.get('board');
+    var checker = action.checker,
+        fromX = action.fromX,
+        fromY = action.fromY,
+        jumpedX = action.jumpedX,
+        jumpedY = action.jumpedY,
+        toX = action.toX,
+        toY = action.toY;
+
+    var occupied = _mod2.default.get('occupied');
+    var onMoveComplete = void 0,
+        onCameraSet = void 0,
+        jumpAfterJump = void 0;
+
+    onCameraSet = function onCameraSet() {
+        setFocus(toX, toY);
+        checker.position(toX, toY);
+
+        occupied[toX][toY] = checker;
+        occupied[fromX][fromY] = false;
+
+        if (jumpedX) {
+            handleJump(jumpedX, jumpedY);
+            jumpAfterJump = getCheckerJumps(checker, getCheckerRange(checker));
+        }
+
+        // if we can chain multiple jumps, do that ...
+        if (jumpAfterJump && jumpAfterJump.length > 0) {
+            onMoveComplete = function onMoveComplete() {
+                handleJumpAfterJump(jumpAfterJump);
+            };
+
+            // ... otherwise, bring the turn to an end
+        } else {
+            onMoveComplete = function onMoveComplete() {
+                makeKing(action);
+                toggleTurn();
+            };
+        }
+
+        checker.onTrans(onMoveComplete);
+    };
+
+    // check if we need to reset our camera position before excuting the move
+    var isFocusedX = checker.x === _mod2.default.get('focusX');
+    var isFocusedY = checker.y === _mod2.default.get('focusY');
+
+    clearActions();
+    if (isFocusedX && isFocusedY) {
+        onCameraSet();
+    } else {
+        board.onTrans(onCameraSet);
+        setFocus(checker.x, checker.y, 'camOverview');
+    }
+}
+
+// get the movement range for a given checker; does not account for occupied
+// squares. returns an array of simple X/Y objects
+function getCheckerRange(checker) {
+    var upLeft = checker.getUpLeft();
+    var upRight = checker.getUpRight();
+    var downRight = checker.getDownRight();
+    var downLeft = checker.getDownLeft();
+    var range = [];
+
+    if (checker.isKing) {
+        range.push(inBounds(upLeft.x, upLeft.y) && upLeft, inBounds(upRight.x, upRight.y) && upRight, inBounds(downRight.x, downRight.y) && downRight, inBounds(downLeft.x, downLeft.y) && downLeft);
+    } else if (checker.isHostile) {
+        range.push(inBounds(downRight.x, downRight.y) && downRight, inBounds(downLeft.x, downLeft.y) && downLeft);
+    } else {
+        range.push(inBounds(upLeft.x, upLeft.y) && upLeft, inBounds(upRight.x, upRight.y) && upRight);
+    }
+
+    return range.filter(function (action) {
+        return action;
+    });
+}
+
+// get valid moves for a given checker and return an array of actions
+function getCheckerMoves(checker, range) {
+    var moves = [];
+    range.map(function (_ref) {
+        var x = _ref.x,
+            y = _ref.y;
+
+        if (isValidMove(x, y)) {
+            moves.push({
+                checker: checker,
+                fromX: checker.x,
+                fromY: checker.y,
+                toX: x,
+                toY: y
+            });
+        }
+    });
+
+    return moves;
+}
+
+// get valid jumps for a given checker, returning an array of actions
+function getCheckerJumps(checker, range) {
+    var occupied = _mod2.default.get('occupied');
+    var jumps = [];
+
+    range.map(function (_ref2) {
+        var x = _ref2.x,
+            y = _ref2.y;
+
+
+        // we're only concerned with adjacent squares that are in bounds and
+        // occupied by the opposing team
+        if (inBounds(x, y) && isOccupied(x, y)) {
+
+            var adjacent = occupied[x][y];
+
+            if (adjacent.isHostile !== checker.isHostile) {
+                var deltaX = x - checker.x;
+                var deltaY = y - checker.y;
+
+                var onePlusX = x + deltaX;
+                var onePlusY = y + deltaY;
+
+                if (inBounds(onePlusX, onePlusY) && !isOccupied(onePlusX, onePlusY)) {
+                    jumps.push({
+                        checker: checker,
+                        fromX: checker.x,
+                        fromY: checker.y,
+                        toX: onePlusX,
+                        toY: onePlusY,
+                        jumpedX: x,
+                        jumpedY: y
+                    });
+                }
+            }
+        }
+    });
+
+    return jumps;
+}
+
+// a composite method for getting checker actions, checking against available
+// jumps and moves
+function getCheckerActions(checker) {
+    var range = getCheckerRange(checker);
+    var jumps = getCheckerJumps(checker, range);
+
+    // if we have jumps, don't bother with moves. jumps must be taken.
+    if (jumps.length > 0) {
+        return jumps;
+    }
+
+    return getCheckerMoves(checker, range);
+}
+
+// returns an array of available actions (jumps/moves) for a given group of
+// checkers; expects an array of checker instances, as from mod.get('allies')
+function getGroupActions(checkers) {
+    var moves = [];
+    var jumps = [];
+
+    checkers.map(function (checker) {
+        getCheckerActions(checker).map(function (action) {
+            if (action.jumpedX) {
+                jumps.push(action);
+            } else {
+                moves.push(action);
+            }
+        });
+    });
+
+    return jumps.length > 0 ? jumps : moves;
+}
+
+// grab all available actions for the hostile team, send it to the AI, then act
+// on it
+function handleHostileTurn() {
+    var hostiles = _mod2.default.get('hostiles');
+    var actions = getGroupActions(hostiles);
+
+    if (actions.length === 0) {
+        _mod2.default.set({ youWon: true });
+        return;
+    }
+
+    moveChecker((0, _ai2.default)(actions));
+}
+
+//
+function handleAllyTurn() /*tactic*/{
+    moveChecker((0, _ai2.default)(_allyActions));
+}
+
+//
+function handlePlayerTurn() {
+    var playerChecker = _mod2.default.get('playerChecker');
+    var allies = _mod2.default.get('allies');
+
+    if (!playerChecker) {
+        var lives = _mod2.default.get('lives');
+        var _toUpdate = {
+            checkerSelect: true
+        };
+
+        // if the player has no more lives to lose and no more allies, end it
+        if (lives === 0 || allies.length === 0) {
+            _toUpdate.youWon = false;
+        }
+
+        _mod2.default.set(_toUpdate);
+        return;
+    }
+
+    var playerActions = [];
+
+    getGroupActions(allies).map(function (action) {
+        var stack = action.checker.isPlayer ? playerActions : _allyActions;
+        stack.push(action);
+    });
+
+    if (playerActions.length === 0 && _allyActions.length === 0) {
+        _mod2.default.set({
+            youWon: false
+        });
+        return;
+    }
+
+    if (playerActions.length === 0 && _allyActions.length > 1 && !_allyActions[0].jumpedX) {
+        _mod2.default.set({
+            noPlayerMoves: true
+        });
+    }
+
+    if (playerActions.length > 0 || _allyActions.length > 0) {
+        var perspective = playerChecker.isKing ? 'camUp' : 'camDefault';
+        setFocus(playerChecker.x, playerChecker.y, perspective);
+    }
+
+    var allyHasJump = _allyActions[0] && _allyActions[0].jumpedX;
+    var playerHasJump = playerActions[0] && playerActions[0].jumpedX;
+
+    // seed our model updates; we'll extend/amend this below based on what the
+    // player and allies can do
+    var toUpdate = {
+        allyHasJump: allyHasJump,
+        playerHasJump: playerHasJump,
+        playerActions: playerActions
+    };
+
+    // if an ally has a jump and the player doesn't, the ally must take it
+    if (allyHasJump && !playerHasJump) {
+        toUpdate.playerActions = [];
+    }
+
+    _mod2.default.set(toUpdate);
+
+    // if there's only a single move available ... an ally jump ... go ahead
+    // and take it
+    if (playerActions.length === 0 && allyHasJump) {
+        handleAllyTurn();
+    }
+}
+
+_mod2.default.watch('allyAction', handleAllyTurn);
+_mod2.default.watch('playerAction', moveChecker);
+_mod2.default.watch('isTurn', function (isTurn) {
+    if (isTurn) {
+        handlePlayerTurn();
+    } else {
+        handleHostileTurn();
+    }
+});
+
+// trigger the initial checker selection phase
+_mod2.default.set({ checkerSelect: true });
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mod = __webpack_require__(0);
+
+var _mod2 = _interopRequireDefault(_mod);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (actions) {
+    //console.log('To the AI:', actions);
+
+    function takeRandomAction() {
+        var random = Math.floor(Math.random() * actions.length);
+        return actions[random];
+    }
+
+    return takeRandomAction();
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ })
+/******/ ]);</script></body>
 
 </html>
