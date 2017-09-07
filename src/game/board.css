@@ -3,8 +3,7 @@
     flex-wrap: wrap;
     position: absolute;
     width: 100vh;
-    height: 0;
-    padding-bottom: 100vh;
+    height: 100vh;
     left: 0;
     top: 0;
     transition: transform 810ms ease-in-out;
