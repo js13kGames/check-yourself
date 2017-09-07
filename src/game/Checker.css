@@ -1,7 +1,7 @@
 .checker {
     position: absolute;
     left: 0;
-    right: 0;
+    top: 0;
     z-index: 1;
     display: block;
     transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
