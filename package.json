@@ -1,8 +1,9 @@
 {
   "name": "js13kgames-2017",
   "version": "0.1.0",
-  "description": "",
+  "description": "My entry to the JS13K 2017 competition. The theme is 'lost' ...",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "npm run clean && webpack -p --progress && npm run post-build",
     "clean": "rm -rf build",
@@ -10,7 +11,7 @@
     "post-build": "rm -f ./build/*.js ./build/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["js13k", "game"],
   "author": "Phillip Luther",
   "license": "ISC",
   "devDependencies": {
