@@ -6,9 +6,9 @@
   "private": true,
   "scripts": {
     "build": "npm run clean && webpack -p --progress && npm run post-build",
-    "clean": "rm -rf build",
+    "clean": "rm -rf docs",
     "dev": "DEV=true webpack-dev-server --progress --colors",
-    "post-build": "rm -f ./build/*.js ./build/*.css",
+    "post-build": "rm -f ./docs/*.js ./docs/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["js13k", "game"],
