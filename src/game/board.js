@@ -90,7 +90,7 @@ function positionCamera() {
         translate3d(cameraConfig.moveX, cameraConfig.moveY, cameraConfig.moveZ)
     ];
 
-    board.style({
+    board.setStyle({
         transform: cameraStyles.join(' ')
     });
 }
