@@ -204,11 +204,13 @@ function render() {
     let row = 0;
 
     let tileSize = mod.get('tileSize');
+    /*
     let commonStyles = [
         `width:${tileSize}vh;`,
         `height:${tileSize}vh;`,
         `margin-left:${tileSize}vh;`
     ];
+    */
 
     let occupied = [];
     //let hostiles = [];
@@ -224,7 +226,13 @@ function render() {
         let tile = mk('span', {
             id: `x${col}-y${row}`,
             className: 'tile',
-            style: commonStyles.join(''),
+            //style: commonStyles.join(''),
+        });
+
+        tile.style({
+            width: `${tileSize}vh`,
+            height: `${tileSize}vh`,
+            marginLeft: `${tileSize}vh`
         });
 
         // render a checker for the tile, if needed

@@ -1961,7 +1961,13 @@ function render() {
     var row = 0;
 
     var tileSize = _mod2.default.get('tileSize');
-    var commonStyles = ['width:' + tileSize + 'vh;', 'height:' + tileSize + 'vh;', 'margin-left:' + tileSize + 'vh;'];
+    /*
+    let commonStyles = [
+        `width:${tileSize}vh;`,
+        `height:${tileSize}vh;`,
+        `margin-left:${tileSize}vh;`
+    ];
+    */
 
     var occupied = [];
     //let hostiles = [];
@@ -1976,8 +1982,14 @@ function render() {
 
         var tile = (0, _mk2.default)('span', {
             id: 'x' + col + '-y' + row,
-            className: 'tile',
-            style: commonStyles.join('')
+            className: 'tile'
+            //style: commonStyles.join(''),
+        });
+
+        tile.style({
+            width: tileSize + 'vh',
+            height: tileSize + 'vh',
+            marginLeft: tileSize + 'vh'
         });
 
         // render a checker for the tile, if needed
