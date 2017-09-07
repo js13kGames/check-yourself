@@ -10,6 +10,6 @@ p { margin: 0; }
 }
 
 .labelText {
-    font-size: 1.25vw;
+    font-size: 1.25vh;
     text-transform: uppercase;
 }

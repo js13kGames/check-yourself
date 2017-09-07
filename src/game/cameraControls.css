@@ -1,31 +1,31 @@
 #cameraControls {
     display: flex;
     justify-content: space-between;
-    width: 14vw;
+    width: 20vh;
     position: absolute;
-    right: 4vw;
-    bottom: 3vw;
-    padding-top: 5vw;
+    right: 4vh;
+    bottom: 4vh;
+    padding-top: 7vh;
     /* put this in 3D space so it honors z-indexes against the board */
     transform: translate3d(0, 0, 0);
     transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
 
 #cameraControls a {
-    width: 4vw;
-    height: 4vw;
-    line-height: 3.9vw;
+    width: 6vh;
+    height: 6vh;
+    line-height: 5.9vh;
     text-align: center;
     border-radius: 50%;
     background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
-    font-size: 2vw;
+    font-size: 3vh;
 }
 
 #camUp {
     position: absolute;
     left: 50%;
     top: 0;
-    margin-left: -2vw;
+    margin-left: -3vh;
     transform: rotate(90deg);
 }
 
