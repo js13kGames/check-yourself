@@ -1,0 +1,17 @@
+.view {
+    width: 100%;
+}
+
+.topLevelView {
+    height: 100%;
+    padding: 3vw 4vw;
+}
+
+.fadeIn,
+.fadeOut {
+    transition: opacity 400ms 30ms;
+}
+
+.fadeInStart,
+.fadeOut { opacity: 0; }
+.fadeIn { opacity: 1; }

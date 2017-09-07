@@ -1,0 +1,32 @@
+{
+  "name": "js13kgames-2017",
+  "version": "0.1.0",
+  "description": "My entry to the JS13K 2017 competition. The theme is 'lost' ...",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "npm run clean && webpack -p --progress && npm run post-build",
+    "clean": "rm -rf build",
+    "dev": "DEV=true webpack-dev-server --progress --colors",
+    "post-build": "rm -f ./build/*.js ./build/*.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["js13k", "game"],
+  "author": "Phillip Luther",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "css-loader": "^0.28.5",
+    "eslint": "^4.5.0",
+    "eslint-loader": "^1.9.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "html-webpack-inline-source-plugin": "0.0.9",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  }
+}

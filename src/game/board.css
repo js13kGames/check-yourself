@@ -1,0 +1,34 @@
+#board { /* implicit "camCenter" */
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 100vw;
+    height: 0;
+    padding-bottom: 100vw;
+    left: 0; /*-45vw;*/
+    top: 0; /*-90vw;*/
+    transition: transform 810ms ease-in-out;
+    will-change: transform;
+}
+
+.tile {
+    position: relative;
+    display: block;
+    xbackground-color: #234;
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+    box-shadow: 0 0 5vw rgba(0, 0, 0, 0.2);
+}
+
+@keyframes flare {
+    0%   { box-shadow: inset 0 0 4vw transparent; }
+    35%  { box-shadow: inset 0 -3vw 12vw #393; }
+    70%  { box-shadow: inset 0 -3vw 12vw #393; }
+    100% { box-shadow: inset 0 0 4vw transparent; }
+}
+
+.availableMove {
+    cursor: pointer;
+    animation-name: flare;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}

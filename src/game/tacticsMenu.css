@@ -1,0 +1,74 @@
+#tactics {
+    display: flex;
+    position: absolute;
+    left: 4vw;
+    bottom: 3vw;
+    width: auto;
+    white-space: nowrap;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 500ms 500ms, transform 500ms 500ms;
+}
+
+#squadAction {
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    height: 6vw;
+    line-height: 6vw;
+    padding: 0 6vw 0 3vw;
+    border-radius: 1vw;
+    cursor: pointer;
+}
+
+#squadAction::after {
+    content: '';
+    display: block;
+    width: 1.6vw;
+    height: 1.6vw;
+    position: absolute;
+    right: 2.2vw;
+    top: 2.2vw;
+    transform: rotate(-45deg);
+    background: linear-gradient(45deg, #fff 0%, #fff 35%, transparent 35%, transparent 65%, #fff 65%);
+}
+
+#squadAction.disabled {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+    cursor: default;
+}
+
+#tacticsMenu {
+    position: absolute;
+    left: -200%;
+    bottom: 0;
+    padding: 1vw 0;
+    background: #333;
+    width: 24vw;
+    line-height: 6vw;
+    text-align: center;
+    border-radius: 1vw;
+    z-index: -1;
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: z-index 1ms 240ms, opacity 240ms, transform 240ms ease-in-out;
+}
+
+#tacticsMenu .disabled {
+    color: #666;
+    cursor: default;
+}
+
+#cancel {
+    border-top: 1px solid #fff;
+}
+
+.showMenu #tacticsMenu {
+    left: 0;
+    z-index: 5;
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+    transition: z-index 1ms, opacity 240ms 5ms, transform 240ms 5ms ease-in-out;
+}
+
+.checkerSelect #tactics {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+}

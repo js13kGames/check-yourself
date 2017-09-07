@@ -1,0 +1,32 @@
+.checker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
+    border-radius: 50%;
+    background-color: #494949;
+    background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    box-shadow: 0 0.5vw 0.066vw #191919;
+    will-change: transform, opacity, background-color;
+}
+
+.hostile {
+    background-color: #933;
+    box-shadow: 0 0.5vw 0.066vw #300;
+}
+
+.checkerSelect .checker {
+    opacity: 0.25;
+}
+
+.checkerSelect .playable-checker {
+    opacity: 1;
+    cursor: pointer;
+    transition: box-shadow 270ms ease-in-out, background-color 270ms;
+}
+
+.checkerSelect .playable-checker:hover {
+    background-color: #393;
+}

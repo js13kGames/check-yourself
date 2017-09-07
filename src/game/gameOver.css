@@ -1,0 +1,51 @@
+#gameOver {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: translate3d(0, 0, 0);
+    z-index: -50;
+}
+
+#gameOver.show {
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.6) linear-gradient(0deg, transparent, rgba(0, 0, 0, 0.4));
+}
+
+#gameOverText,
+#playAgain {
+    text-align: center;
+    opacity: 0;
+}
+
+#gameOverText {
+    margin-top: 15vw;
+    font-size: 8vw;
+    transform: translate3d(0, 5vw, 0);
+    transition: transform 2400ms cubic-bezier(0, 0.6, 0.85, 1), opacity 900ms ease-in-out;
+}
+
+#playAgain {
+    display: block;
+    width: 17vw;
+    height: 6vw;
+    margin: 5vw auto 0;
+    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+    line-height: 6vw;
+    border-radius: 1vw;
+    cursor: pointer;
+    transform: scale3d(0.9, 0.9, 1);
+    opacity: 0;
+    transition: transform 320ms ease-in-out 1400ms, opacity 320ms 1400ms;
+}
+
+.show #gameOverText {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.show #playAgain {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+}
