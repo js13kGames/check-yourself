@@ -12,7 +12,7 @@ function getDefaultStyle() {
 
     return {
         width: `${checkerSize}vh`,
-        paddingBottom: `${checkerSize}vh`,
+        height: `${checkerSize}vh`,
         margin: `${mod.get('checkerMargin')}vh`,
     };
 }
