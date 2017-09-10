@@ -1,22 +1,12 @@
+import ClickHandler from './ClickHandler';
+
 /**
  * A class for creating DOM elements with a unified API for managing class
- * names, attributes, and other goodies. This class is for creating raw elements
- * with the appropriate manipulation methods. the .mk() utility provides a
- * convenience wrapper around element creation and provides a less-granular API.
- *
+ * names, attributes, and other goodies. Every visual thing in the game is an
+ * El instance.
  */
 class El {
-    constructor(nodeName) {
-        if (!nodeName) {
-            /* eslint-disable */
-            console.warn(
-                'Can not instantiate new El() with a nodeName;',
-                nodeName
-            );
-            /* eslint-enable */
-            return null;
-        }
-
+    constructor(nodeName='div') {
         this.el = document.createElement(nodeName);
     }
 
@@ -60,9 +50,14 @@ class El {
         });
     }
 
-    // a method for appending child nodes
+    // a method for appending child nodes; it takes an argument list of N nodes
+    // or a single array of nodes
     kids(/* arguments */) {
         let children = Array.from(arguments);
+
+        if ((children.length === 1) && (children[0].length)) {
+            children = children[0];
+        }
 
         children.map((child) => {
             this.el.appendChild(child);
@@ -78,11 +73,30 @@ class El {
 
     // a method for passing style properties to an element; it expects an
     // object of CSS properties (in their JS form) and values
-    setStyle(styleObj) {
+    style(styleObj) {
         let styleNames = Object.keys(styleObj);
         styleNames.map((style) => {
             this.el.style[style] = styleObj[style];
         });
+    }
+
+    // a method for injecting text into an element instance; it uses innerText
+    // and markedly does not support innerHTML ... use .kids() for that.
+    text(string) {
+        this.el.innerText = string;
+    }
+
+    // a method to bind click events to our instance's click handler; it's
+    // simply a pass-through, so it matches the ClickHandler's API and attaches
+    // a single action to a selector
+    onClick(selector, action) {
+
+        // activate a new click handler when a click action is assigned
+        if (!this.clickHandler) {
+            this.clickHandler = new ClickHandler(this.el);
+        }
+
+        return this.clickHandler.onClick(selector, action);
     }
 
     // a method for setting actions after a transition occurs

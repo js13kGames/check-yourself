@@ -54,6 +54,11 @@ export default {
                 );
 
             } else {
+                // no change, no op
+                if (mod[prop] === data[prop]) {
+                    return mod[prop];
+                }
+
                 mod[prop] = data[prop];
 
                 if (watchers[prop] && (isSilent === false)) {

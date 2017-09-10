@@ -1,0 +1,8 @@
+#board { /* implicit "camCenter" */
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transition: transform 810ms;
+}

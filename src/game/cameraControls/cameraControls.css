@@ -8,10 +8,12 @@
     padding-top: 7vh;
     /* put this in 3D space so it honors z-indexes against the board */
     transform: translate3d(0, 0, 0);
+    z-index: 5;
     transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
 
 #cameraControls a {
+    cursor: pointer;
     width: 6vh;
     height: 6vh;
     line-height: 5.9vh;
@@ -33,7 +35,9 @@
     transform: rotate(-90deg);
 }
 
+.overview #cameraControls,
 .checkerSelect #cameraControls {
+    transition: opacity 500ms, transform 500ms;
     opacity: 0;
     transform: translate3d(100%, 0, 0);
 }

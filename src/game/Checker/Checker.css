@@ -1,15 +1,13 @@
 .checker {
     position: absolute;
     left: 0;
-    right: 0;
+    top: 0;
     z-index: 1;
     display: block;
     transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
     border-radius: 50%;
     background-color: #494949;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
-    box-shadow: 0 0.5vh 0.066vh #191919;
-    will-change: transform, opacity, background-color;
 }
 
 .king {
@@ -19,19 +17,22 @@
 
 .hostile {
     background-color: #933;
-    box-shadow: 0 0.5vh 0.066vh #300;
+}
+
+.suppressTrans {
+    transition: none;
 }
 
 .checkerSelect .checker {
     opacity: 0.25;
 }
 
-.checkerSelect .playable-checker {
+.checkerSelect .playableChecker {
     opacity: 1;
     cursor: pointer;
-    transition: box-shadow 270ms ease-in-out, background-color 270ms;
+    transition: background-color 270ms;
 }
 
-.checkerSelect .playable-checker:hover {
+.checkerSelect .playableChecker:hover {
     background-color: #393;
 }
