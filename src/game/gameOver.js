@@ -1,30 +1,28 @@
-import View from '../common/View';
-import Text from '../common/Text';
-import mk from '../common/mk';
+import El from '../common/El';
 import mod from '../mod';
 
 import './gameOver.css';
 
-let gameOver = new View({
+let gameOver = new El();
+gameOver.attribute({
     id: 'gameOver',
 });
 
-let gameOverText = new Text({
+let gameOverText = new El('p');
+gameOverText.attribute({
     id: 'gameOverText',
 });
 
-let playAgain = mk('a', {
-    id: 'playAgain',
-    text: 'Play Again',
-});
+let playAgain = new El('p');
+playAgain.attribute({ id: 'playAgain' });
+playAgain.el.innerText = 'Play Again';
 
 //
 function handleGameOver(youWon) {
     let endMessage = (youWon) ? 'Well Played!' : 'You\'ve Lost ...';
 
-    gameOverText.print(endMessage);
-    gameOver.fadeIn();
-    setTimeout(() => gameOver.classify('+show'));
+    gameOverText.el.innerText = endMessage;
+    gameOver.classify('+show');
 }
 
 mod.watch('youWon', handleGameOver);

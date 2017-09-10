@@ -6,10 +6,13 @@
     height: 100vh;
     transform: translate3d(0, 0, 0);
     z-index: -50;
+    opacity: 0;
+    transition: opacity 400ms;
 }
 
 #gameOver.show {
     z-index: 50;
+    opacity: 1;
     background: rgba(0, 0, 0, 0.6) linear-gradient(0deg, transparent, rgba(0, 0, 0, 0.4));
 }
 

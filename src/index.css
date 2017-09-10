@@ -1,5 +1,10 @@
 * {
     box-sizing: border-box;
+    cursor: default;
+    webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 body {
@@ -19,12 +24,6 @@ body {
 
 #viewport {
     position: relative;
-    /*
-     * @todo explore expanding beyond the square
-     *
-    min-width: 100vh;
-    max-width: 160vh;
-     */
     width: 100vh;
     height: 100vh;
     margin: 0 auto;

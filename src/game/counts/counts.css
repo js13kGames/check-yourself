@@ -1,0 +1,44 @@
+.checkerCountWrapper {
+    position: absolute;
+    left: 8vh;
+    display: inline-block;
+    height: 6vh;
+    line-height: 6vh;
+    padding: 0 3vh 0 7vh;
+    background: #333;
+    border-radius: 1vh;
+    transform: translate3d(0, 0, 0);
+    z-index: 10;
+}
+
+.allies {
+    bottom: 16.5vh;
+    transition: opacity 450ms 300ms, transform 450ms 300ms;
+}
+
+.hostiles {
+    bottom: 5.5vh;
+    transition: opacity 450ms 450ms, transform 450ms 450ms;
+}
+
+.checkerSelect .allies,
+.checkerSelect .hostiles {
+    opacity: 0;
+    transform: translate3d(-200%, 0, 0);
+}
+
+.checkerCount {
+    position: absolute;
+    left: -4vh;
+    top: -1.5vh;
+    transform: translate3d(0, 0, 0);
+    width: 9vh;
+    height: 9vh;
+    line-height: 9vh;
+    text-align: center;
+    background: #333;
+    border-radius: 50%;
+}
+
+.checkerCountLabel {
+}
