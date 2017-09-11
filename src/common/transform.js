@@ -1,4 +1,4 @@
-// a utility for creating CSS transforms, which we use for virtually all of
+// a utilities for creating CSS transforms, which we use for virtually all of
 // our animations. there are individual methods for building various types
 // (translate3d, rotate, etc.) which return strings that can be assigned to
 // an element's style attribute.

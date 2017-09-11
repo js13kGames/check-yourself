@@ -33,6 +33,10 @@ function afterAction(prevAction) {
 //
 //
 function takeAction(action) {
+    if (!action) {
+        return;
+    }
+
     let {checker, toX, toY, jumped} = action;
     let currentCameraPosition = mod.get('cameraPosition');
     let theAction = () => {
@@ -59,7 +63,6 @@ function takeAction(action) {
 //
 //
 function getBestJump(jumps) {
-    //console.log('Jump handling', jumps);
     let random = Math.floor(Math.random() * jumps.length);
     return jumps[random];
 }

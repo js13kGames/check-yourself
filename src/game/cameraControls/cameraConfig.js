@@ -28,8 +28,8 @@ mod.set({
             rotateX: 30,
             moveX: 0,
             moveY: getFocusOffset(focusY, yOffset, tileSize),
-            scaleX: 0.5,
-            scaleY: 0.5,
+            scaleX: 0.54,
+            scaleY: 0.54,
         });
     },
     // settings for our default camera perspective; additional camera positions
@@ -89,14 +89,18 @@ mod.set({
         });
     },
     camOverview: function() {
-        let defaults = this.get('camDefault');
+        let defaults = this.get('camSelectable');
         let tileSize = this.get('tileSize');
 
         return Object.assign({}, defaults, {
-            rotateX: 45,
-            moveY: defaults.moveY - (tileSize),
-            scaleX: 0.7,
-            scaleY: 0.7,
+            rotateX: 50,
+            rotateZ: -5,
         });
     },
+    camOverviewSpin: function() {
+        let defaults = this.get('camOverview');
+        return Object.assign({}, defaults, {
+            rotateZ: -60,
+        });
+    }
 }, true);

@@ -1,6 +1,11 @@
 import mod from '../../mod';
 import ai from './ai';
 
+mod.set({
+    respawns: 0,
+    movesToWin: 0,
+}, true);
+
 function focusOnPlayer(playerChecker) {
     if (!playerChecker) {
         return;
@@ -17,6 +22,10 @@ function focusOnPlayer(playerChecker) {
 
 //
 function endTurn() {
+
+    //mod.set({ youWon: false });
+    //return;
+
     mod.set({
         isTurn: false,
     });
@@ -90,6 +99,10 @@ function getPlayerActions() {
 // the player him/herself and the allies. returns an array of standard action
 // objects
 function getValidPlayerActions() {
+    mod.set({
+        movesToWin: mod.get('movesToWin') + 1
+    }, true);
+
     let playerChecker = mod.get('playerChecker');
     let playerActions = getPlayerActions();
     let allyAction = ai.action(

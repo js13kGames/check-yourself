@@ -33,6 +33,8 @@ mod.set({
     tileSize: function() {
         return this.get('boardScale') / this.get('boardCols');
     },
+    // the start time of the game; used in reporting at end-game
+    gameStarted: new Date(),
 }, true); // the initial update, so do so silently
 
 
@@ -113,6 +115,7 @@ function handleCheckerSelect(enterSelection) {
     mod.set({
         cameraPosition: 'camSelectable',
         isTurn: false,
+        status: 'Select your checker.',
     });
 
     BOD.classList.add('checkerSelect');
@@ -157,6 +160,8 @@ board.onClick('.playableChecker', (e) => {
     mod.set({
         playerChecker: selectedChecker,
         doCheckerSelect: false,
+        status: null,
+        respawns: mod.get('respawns') + 1,
     });
 });
 

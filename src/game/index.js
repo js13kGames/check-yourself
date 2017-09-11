@@ -1,6 +1,7 @@
 import El from '../common/El';
 import cameraControls from './cameraControls';
 import './actions/turns';
+import status from './status';
 import board from './board';
 import counts from './counts';
 import gameOver from './gameOver';
@@ -14,7 +15,8 @@ game.kids(
     board.el,
     cameraControls.el,
     counts.el,
-    gameOver.el
+    gameOver.el,
+    status.el
 );
 
 export default game;
