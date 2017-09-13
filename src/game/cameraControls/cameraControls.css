@@ -6,8 +6,9 @@
     right: 4vh;
     bottom: 4vh;
     padding: 9vh 0;
-    /* put this in 3D space so it honors z-indexes against the board */
-    transform: translate3d(0, 0, 0);
+    /* put this in 3D space so it honors z-indexes against the board ... except in
+       Safari. So we crank up the Z. */
+    transform: translate3d(0, 0, 1000px);
     z-index: 5;
     transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
@@ -20,7 +21,6 @@
     line-height: 7vh;
     text-align: center;
     border-radius: 50%;
-    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
     background-color: #60956e;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
 }

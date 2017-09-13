@@ -28,7 +28,7 @@ function getElapsedTime(from, to) {
 let endScreen = new El().classify('+endScreen');
 let gameOverText = new El('p').classify('+gameOverText');
 let divider = new El('hr').classify('divider');
-let playAgain = new El('p').classify('+playAgain').text('Play Again');
+let playAgain = new El('p').classify('+playAgain').text('Title Screen');
 
 let respawns = mkStat('Respawns:');
 let turns = mkStat('Turns Taken:');
