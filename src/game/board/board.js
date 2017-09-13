@@ -47,18 +47,18 @@ function extractDomNodes(instances) {
 // creates the high-level board component; we'll add checkers and tiles a bit
 // down the way.
 function renderBoard() {
-    let board = new El();
     let id = 'board';
     let boardSize = mod.get('tileSize') * mod.get('boardCols');
     let boardOffset = boardSize / 2;
 
-    board.attribute({ id });
-    board.style({
-        width: `${boardSize}vh`,
-        height: `${boardSize}vh`,
-        marginLeft: `-${boardOffset}vh`,
-        marginTop: `-${boardOffset}vh`
-    });
+    let board = new El()
+        .attribute({ id })
+        .style({
+            width: `${boardSize}vh`,
+            height: `${boardSize}vh`,
+            marginLeft: `-${boardOffset}vh`,
+            marginTop: `-${boardOffset}vh`
+        });
 
     mod.set({ board }, true);
     return board;
@@ -157,6 +157,13 @@ board.onClick('.playableChecker', (e) => {
     })[0];
 
     selectedChecker.makePlayer();
+
+    // reset the camera on new selection
+    mod.set({
+        cameraPosition: 'camDefault',
+        playerCameraPosition: 'camDefault',
+    }, true);
+
     mod.set({
         playerChecker: selectedChecker,
         doCheckerSelect: false,
@@ -181,11 +188,12 @@ board.onClick('.validMove', (e) => {
 mod.watch('cameraPosition', positionCamera);
 mod.watch('doCheckerSelect', handleCheckerSelect);
 mod.watch('playerActions', showPlayerActions);
+
 mod.watch('focusX', () => {
-    let camDefault = 'camDefault';
-    positionCamera(camDefault);
+    let cam = (mod.get('cameraPosition') === 'camUp') ? 'camUp' : 'camDefault';
+    positionCamera(cam);
     mod.set({
-        cameraPosition: camDefault
+        cameraPosition: cam
     }, true);
 });
 

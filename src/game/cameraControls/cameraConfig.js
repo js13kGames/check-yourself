@@ -17,14 +17,18 @@ mod.set({
     // selectable view but is used when the game starts for choosing the
     // checker you wanna control
     camSelectable: function() {
-        let defaults = this.get('camDefault');
-        let tileSize = this.get('tileSize');
-        let halfCols = this.get('boardCols') / 2;
+        let {camDefault, tileSize, boardCols, boardScale} = this.get(
+            'camDefault',
+            'tileSize',
+            'boardCols',
+            'boardScale'
+        );
+        let halfCols = boardCols / 2;
         let focusY = halfCols + 1;
         let yOffset = (halfCols - 1) * tileSize;
 
-        return Object.assign({}, defaults, {
-            perspective: mod.get('boardScale'),
+        return Object.assign({}, camDefault, {
+            perspective: boardScale,
             rotateX: 30,
             moveX: 0,
             moveY: getFocusOffset(focusY, yOffset, tileSize),
@@ -35,72 +39,85 @@ mod.set({
     // settings for our default camera perspective; additional camera positions
     // are derived from here
     camDefault: function() {
-        let tileSize = this.get('tileSize');
-        let halfCols = this.get('boardCols') / 2;
+        let {tileSize, boardCols, focusX, focusY} = this.get(
+            'tileSize',
+            'boardCols',
+            'focusX',
+            'focusY'
+        );
+        let halfCols = boardCols / 2;
 
         // the offset x/y for a centered 0-0 square; based on the number of tiles
         // and tile size and used in moving the camera proportionally
         let xOffset = halfCols * tileSize - (tileSize / 2);
-        let yOffset = halfCols * tileSize;
+        let yOffset = halfCols * tileSize - (tileSize * 0.666);
 
         return {
             perspective: 100,
-            rotateX: 60,
+            rotateX: 40,
             rotateZ: 0,
-            moveX: getFocusOffset(this.get('focusX'), xOffset, tileSize),
-            moveY: getFocusOffset(this.get('focusY'), yOffset, tileSize),
+            moveX: getFocusOffset(focusX, xOffset, tileSize),
+            moveY: getFocusOffset(focusY, yOffset, tileSize),
             moveZ: 0,
-            scaleX: 1.5,
-            scaleY: 1.5,
+            scaleX: 1.4,
+            scaleY: 1.4,
             scaleZ: 1,
         };
     },
-    camLeft: function() {
-        let defaults = this.get('camDefault');
-        let tileSize = this.get('tileSize');
+    camDown: function() {
+        let {camDefault, tileSize} = this.get('camDefault', 'tileSize');
 
-        return Object.assign({}, defaults, {
+        return Object.assign({}, camDefault, {
+            rotateX: 30,
+            moveY: camDefault.moveY - (tileSize * 2.5),
+            scaleX: 1.25,
+            scaleY: 1.25,
+        });
+    },
+    camLeft: function() {
+        let {camDefault, tileSize} = this.get('camDefault', 'tileSize');
+
+        return Object.assign({}, camDefault, {
             rotateX: 55,
-            rotateZ: 35,
-            moveX: defaults.moveX + tileSize,
-            moveY: defaults.moveY - tileSize,
+            rotateZ: -35,
+            moveX: camDefault.moveX - tileSize,
+            moveY: camDefault.moveY - tileSize,
         });
     },
     camRight: function() {
-        let defaults = this.get('camDefault');
-        let tileSize = this.get('tileSize');
+        let {camDefault, tileSize} = this.get('camDefault', 'tileSize');
 
-        return Object.assign({}, defaults, {
+        return Object.assign({}, camDefault, {
             rotateX: 55,
-            rotateZ: -35,
-            moveX: defaults.moveX - tileSize,
-            moveY: defaults.moveY - tileSize,
+            rotateZ: 35,
+            moveX: camDefault.moveX + tileSize,
+            moveY: camDefault.moveY - tileSize,
         });
     },
     camUp: function() {
-        let defaults = this.get('camDefault');
-        let tileSize = this.get('tileSize');
+        let {camDefault, tileSize, boardCols, focusY} = this.get(
+            'camDefault',
+            'tileSize',
+            'boardCols',
+            'focusY'
+        );
 
-        return Object.assign({}, defaults, {
-            rotateX: 40,
-            moveY: defaults.moveY - (tileSize * 2),
+        let halfCols = boardCols / 2;
+        let yOffset = halfCols * (tileSize * 1.25);
+
+        return Object.assign({}, camDefault, {
+            rotateX: 60,
+            moveY: getFocusOffset(focusY, yOffset, tileSize),
             scaleX: 1.5,
             scaleY: 1.5,
         });
     },
     camOverview: function() {
         let defaults = this.get('camSelectable');
-        let tileSize = this.get('tileSize');
 
         return Object.assign({}, defaults, {
             rotateX: 50,
             rotateZ: -5,
         });
     },
-    camOverviewSpin: function() {
-        let defaults = this.get('camOverview');
-        return Object.assign({}, defaults, {
-            rotateZ: -60,
-        });
-    }
 }, true);

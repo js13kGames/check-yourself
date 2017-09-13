@@ -1,11 +1,11 @@
 #cameraControls {
     display: flex;
     justify-content: space-between;
-    width: 20vh;
+    width: 25vh;
     position: absolute;
     right: 4vh;
     bottom: 4vh;
-    padding-top: 7vh;
+    padding: 9vh 0;
     /* put this in 3D space so it honors z-indexes against the board */
     transform: translate3d(0, 0, 0);
     z-index: 5;
@@ -14,26 +14,25 @@
 
 #cameraControls a {
     cursor: pointer;
-    width: 6vh;
-    height: 6vh;
-    line-height: 5.9vh;
+    width: 7vh;
+    height: 7vh;
+    line-height: 7vh;
     text-align: center;
     border-radius: 50%;
-    background: #337933 radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
-    font-size: 3vh;
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+    background-color: #60956e;
+    background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
 }
 
-#camUp {
+#camUp,
+#camDown {
     position: absolute;
     left: 50%;
-    top: 0;
-    margin-left: -3vh;
-    transform: rotate(90deg);
+    margin-left: -3.5vh;
 }
 
-#camDefault {
-    transform: rotate(-90deg);
-}
+#camUp { top: 0; }
+#camDown { bottom: 0; }
 
 .overview #cameraControls,
 .checkerSelect #cameraControls {

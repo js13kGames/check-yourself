@@ -1,0 +1,64 @@
+#titleScreen {
+    position: relative;
+    height: 100vh;
+    transition: opacity 1000ms, transform 1000ms ease-in-out;
+}
+
+.transitionOut #titleScreen {
+    opacity: 0;
+    transform: scale3d(2, 2, 1);
+}
+
+.checkerFont {
+    font-size: 13vh;
+    font-weight: 900;
+    color: #393939;
+    text-transform: uppercase;
+    display: flex;
+    text-shadow: 0 0.1vh 0.1vh black;
+}
+
+.checkerFontTile {
+    display: block;
+    width: 12vh;
+    height: 12vh;
+    line-height: 12vh;
+    text-align: center;
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: opacity 210ms, transform 210ms ease-in;
+}
+
+.odd .checkerFontTile:nth-child(even),
+.even .checkerFontTile:nth-child(odd) {
+    background: #494949 linear-gradient(0deg, rgba(0, 0, 0, 0.2), transparent);
+    color: #fff;
+}
+
+.newGame {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    width: 36vh;
+    height: 9vh;
+    line-height: 9vh;
+    text-align: center;
+    background: #60956e linear-gradient(0deg, rgba(0, 0, 0, 0.15), transparent, transparent);
+    border-radius: 1vh;
+    font-weight: bold;
+    text-shadow: 0 0.1vh 0.1vh black;
+    position: absolute;
+    right: 10vh;
+    bottom: 15vh;
+    opacity: 0;
+    z-index: -1;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: opacity 210ms 1500ms, transform 210ms ease-in 1500ms, z-index 1ms 1400ms;
+}
+
+.show .checkerFontTile,
+.show .newGame {
+    opacity: 1;
+    z-index: 1;
+    transform: scale3d(1, 1, 1);
+}

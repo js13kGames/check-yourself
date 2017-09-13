@@ -2,8 +2,7 @@ import El from '../../common/El';
 import mod from '../../mod';
 import './status.css';
 
-let status = new El('p');
-status.attribute({ id: 'status' });
+let status = new El('p').attribute({ id: 'status' });
 
 //
 //
@@ -14,7 +13,7 @@ function update(statusText) {
         return;
     }
 
-    status.el.innerText = statusText;
+    status.text(statusText);
     status.classify('+show');
 }
 

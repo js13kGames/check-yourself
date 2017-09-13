@@ -9,16 +9,15 @@ class Tile extends El {
         let tileSize = mod.get('tileSize');
         let marginLeft = (x === 0) ? 0 : tileSize;
 
-        this.classify('+tile');
-        this.attribute({
-            id: `x${x}-y${y}`,
-        });
-
-        this.style({
-            width: `${tileSize}vh`,
-            height: `${tileSize}vh`,
-            marginLeft: `${marginLeft}vh`,
-        });
+        this.classify('+tile')
+            .attribute({
+                id: `x${x}-y${y}`,
+            })
+            .style({
+                width: `${tileSize}vh`,
+                height: `${tileSize}vh`,
+                marginLeft: `${marginLeft}vh`,
+            });
 
         this.x = x;
         this.y = y;

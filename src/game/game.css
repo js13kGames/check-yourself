@@ -1,0 +1,15 @@
+#game {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vh;
+    height: 100vh;
+    opacity: 0;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: opacity 900ms, transform 900ms ease-in;
+}
+
+#game.transitionIn {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+}

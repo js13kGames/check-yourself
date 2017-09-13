@@ -1,12 +1,34 @@
 import El from './common/El';
+import titleScreen from './titleScreen';
 import game from './game';
 
 import './index.css';
 
-let viewport = new El('main');
-viewport.attribute({
-    id: 'viewport',
-});
+const BOD = document.body;
 
-viewport.kids(game.el);
-document.body.appendChild(viewport.el);
+let viewport = new El('main')
+    .attribute({
+        id: 'viewport',
+    })
+    .kids(game.el);
+    //.kids(titleScreen.el);
+
+game.classify('+transitionIn');
+
+//
+function loadGame() {
+    titleScreen.onTrans(() => {
+        titleScreen.destructor();
+        viewport.kids(game.el);
+
+        setTimeout(() => {
+            viewport.classify('-transitionOut');
+            game.classify('+transitionIn');
+        }, 10);
+    });
+
+    viewport.classify('+transitionOut');
+}
+
+titleScreen.onClick('.newGame', loadGame);
+BOD.appendChild(viewport.el);

@@ -6,13 +6,14 @@ mod.set({
     movesToWin: 0,
 }, true);
 
+//
 function focusOnPlayer(playerChecker) {
     if (!playerChecker) {
         return;
     }
 
     let {x, y} = playerChecker;
-    let cameraPosition = (playerChecker.isKing) ? 'camUp' : 'camDefault';
+    let cameraPosition = mod.get('playerCameraPosition') || 'camDefault';
     mod.set({
         focusX: x,
         focusY: y,
@@ -22,10 +23,6 @@ function focusOnPlayer(playerChecker) {
 
 //
 function endTurn() {
-
-    //mod.set({ youWon: false });
-    //return;
-
     mod.set({
         isTurn: false,
     });

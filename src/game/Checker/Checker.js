@@ -1,7 +1,7 @@
 //import View from '../common/View';
 import El from '../../common/El';
 import mod from '../../mod';
-import {translate3d} from '../../common/transform';
+import {translate3d, scale3d} from '../../common/transform';
 
 import './Checker.css';
 
@@ -34,56 +34,44 @@ function inBounds(x, y) {
 // callbacks
 function noop() { return; }
 
-//
-//
-//
-/*
-function pixelateOut(checker) {
-    let board = mod.get('board');
-    let random = Math.floor(Math.random() * 16 + 10);
-    let pixelations = [];
+// DRY method for getting random'ish numbers between 0 and N
+function rand(n) {
+    return Math.floor(Math.random() * n);
+}
 
-    while (random--) {
-        let clone = checker.el.cloneNode();
-        let randomX = Math.floor(Math.random() * 50 + 10);
-        let randomY = Math.floor(Math.random() * 50 + 10);
-        let transform = translate3d(randomX, randomY);
+// an animation-maker for our little explosion effect when a checker gets jumped
+function createExplosion(isHostile) {
+    let explosion = new El().classify('+explosion');
+    let particleTemplate = new El().classify('particle');
+    // a checker will disolve into a random 10 to 25 particle burst
+    let random = rand(15) + 10;
 
-        let transitions = [
-            'opacity 1200ms ease-out',
-            'transform 1200ms cubic-bezier(0,1,1,0.75)'
-        ];
-
-        board.kids(clone);
-        clone.style.transition = transitions.join(',');
-
-        pixelations.push({
-            pixel: clone,
-            transform: transform + ' scale3d(0.2, 0.2, 1)',
-        });
+    if (isHostile) {
+        explosion.classify('+hostileExplosion');
     }
 
-    checker.destructor();
+    while (random--) {
+        let particle = particleTemplate.el.cloneNode();
+        // vary the directions of our bursts
+        let cardinalX = (rand(1) === 0) ? -1 : 1;
+        let cardinalY = (rand(1) === 0) ? -1 : 1;
+        // within the burst, each particle will go to a random X/Y up to half
+        // the screen away
+        let particleX = rand(40) + 10 * cardinalX;
+        let particleY = rand(40) + 10 * cardinalY;
+        let particleZ = (rand(6) + 1) / 5;
 
-    let lastPixel = pixelations[pixelations.length - 1].pixel;
+        let transforms = [
+            translate3d(particleX, particleY),
+            scale3d(particleZ, particleZ)
+        ];
 
-    lastPixel.addEventListener('transitionend', function cleanup() {
-        let fx;
-        while (fx = pixelations.pop()) { // eslint-disable-line
-            fx.pixel.parentNode.removeChild(fx.pixel);
-        }
+        particle.style.transform = transforms.join(' ');
+        explosion.kids(particle);
+    }
 
-        lastPixel.removeEventListener('transitionend', cleanup);
-    });
-
-    pixelations.map((fx) => {
-        setTimeout(() => {
-            fx.pixel.style.opacity = 0;
-            fx.pixel.style.transform = fx.transform;
-        }, 0);
-    });
+    return explosion;
 }
-*/
 
 class Checker extends El {
     constructor(options={}) {
@@ -236,9 +224,52 @@ class Checker extends El {
     }
 
     //
+    explode(clone) {
+        let explosion = createExplosion(this.isHostile);
+        let tileSize = mod.get('tileSize');
+        let board = mod.get('board');
+
+        // we may have cloned amidst a time of suppressed transitions; as the
+        // explosion happens aync, get rid of that
+        clone.classList.remove('suppressTrans');
+
+        // attach the clone to the board; should be in exactly the same position
+        // and require no finessing
+        board.kids(clone);
+
+        let onShrink = () => {
+            clone.removeEventListener('transitionend', onShrink);
+            clone.parentNode.removeChild(clone);
+
+            explosion.style({
+                width: `${tileSize}vh`,
+                height: `${tileSize}vh`,
+                left: `${this.x * tileSize}vh`,
+                top: `${this.y * tileSize}vh`,
+            });
+
+            explosion.onTrans(() => explosion.destructor());
+            board.kids(explosion.el);
+            setTimeout(() => explosion.classify('splode'), 5);
+        };
+
+        // as we're dealing with a cloned element, we can't rely on the EL
+        // convenience methods
+        clone.addEventListener('transitionend', onShrink);
+        setTimeout(() => clone.style.transform = scale3d(0, 0), 20);
+    }
+
+    //
     //
     removeFromPlay() {
         let checkerPositions = mod.get('checkerPositions');
+        let {x, y} = this;
+
+        // the explosion animation is async and happens outside the turn
+        // handling; we send it a clone of the checker element that's been
+        // destroyed so it doesn't rely on the reference or "this" at all
+        this.explode(this.el.cloneNode());
+
         // create a clone of our checkers cache so we're not manipulating it
         // directly; this helps group our actions and triggers a "change" event
         // when we update
@@ -250,7 +281,7 @@ class Checker extends El {
         // start a running list of stuff to update and do one batch at the end
         let toUpdate = { checkers };
 
-        checkerPositions[this.x][this.y] = false;
+        checkerPositions[x][y] = false;
 
         if (this.isPlayer) {
             toUpdate.playerChecker = false;
@@ -273,10 +304,17 @@ class Checker extends El {
             // set the "actual" position of the checker after it transitions
             this.position(toX, toY);
             this.style({ transform: 'unset' });
+
+            setTimeout(() => {
+                // we don't want the addition/removal of our suppression class to
+                // be batched by browsers so we wrap its removal in a timeout
+                this.classify('-suppressTrans');
+                window.getComputedStyle(this.el);
+            }, 20);
+
             andThen();
-            // we don't want the addition/removal of our suppression class to
-            // be batched by browsers so we wrap its removal in a timeout
-            setTimeout(() => this.classify('-suppressTrans'), 50);
+
+            //
         });
 
         this.style({
