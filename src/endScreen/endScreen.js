@@ -44,7 +44,7 @@ let stats = new El().classify('+stats').kids(
 function handleGameOver(youWon) {
     let endMessage = (youWon) ? 'Well Played!' : 'You\'ve Lost ...';
 
-    respawns.val(mod.get('respawns'));
+    respawns.val(mod.get('respawns') - 1); // don't count the first one
     turns.val(mod.get('movesToWin'));
     gameTime.val(
         getElapsedTime(mod.get('gameStarted'), new Date())

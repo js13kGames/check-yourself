@@ -54,8 +54,15 @@
     z-index: -1;
     color: #fff;
     transform: scale3d(0.8, 0.8, 1);
-    transition: opacity 210ms 1500ms, transform 210ms ease-in 1500ms, z-index 1ms 1400ms;
+    transition:
+        opacity 210ms 1500ms,
+        transform 210ms ease-in 1500ms,
+        background-color 300ms,
+        z-index 1ms 1400ms;
 }
+
+.newGame:hover  { background-color: #487454; }
+.newGame:active { background-color: #60956e; }
 
 .show .checkerFontTile,
 .show .newGame {

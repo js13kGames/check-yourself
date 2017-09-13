@@ -292,7 +292,7 @@ class Checker extends El {
         // the explosion animation is async and happens outside the turn
         // handling; we send it a clone of the checker element that's been
         // destroyed so it doesn't rely on the reference or "this" at all
-        this.explode(this.el.cloneNode());
+        this.explode(this.el.cloneNode(true));
 
         // create a clone of our checkers cache so we're not manipulating it
         // directly; this helps group our actions and triggers a "change" event

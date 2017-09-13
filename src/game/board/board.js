@@ -188,7 +188,7 @@ board.onClick('.playableChecker', (e) => {
     mod.set({
         playerChecker: selectedChecker,
         doCheckerSelect: false,
-        status: null,
+        //status: null,
         respawns: mod.get('respawns') + 1,
     });
 });

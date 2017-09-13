@@ -8,8 +8,17 @@ let status = new El('p').attribute({ id: 'status' });
 //
 function update(statusText) {
     if (!statusText) {
-        status.onTrans(() => status.el.innerText = '');
+        status.onTrans(() => status.text(''));
         status.classify('-show');
+        return;
+    }
+
+    if (status.el.innerText !== '') {
+        status.onTrans(() => {
+            status.text(statusText);
+            setTimeout(() => status.classify('-fadeText'), 10);
+        });
+        status.classify('+fadeText');
         return;
     }
 

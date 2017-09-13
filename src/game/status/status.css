@@ -1,18 +1,16 @@
 #status {
     position: absolute;
-    left: 4vh;
-    bottom: 4vh;
+    right: 4vh;
+    bottom: 7.5vh;
     margin: 0;
-    padding: 0 4vh 0 12vh;
+    padding-right: 9vh;
     font-weight: bold;
-    line-height: 12vh;
+    text-align: right;
     color: #393939;
     opacity: 0;
-    border: 0.333vh solid #94850a;
-    border-radius: 1vh;
-    background: #94850a linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.8));
-    transform: translate3d(-100%, 0, 0);
-    transition: opacity 400ms, transform 400ms ease-in-out;
+    transform: translate3d(100%, 0, 1000px);
+    transition: opacity 400ms, transform 400ms ease-in-out, color 300ms;
+    z-index: 10;
 }
 
 #status::after {
@@ -25,10 +23,10 @@
     text-align: center;
     border-radius: 50%;
     background: #94850a;
-    color: #fff;
+    color: #fff !important; /* don't let this fade */
     text-shadow: 0 0.1vh 0.1vh black;
     position: absolute;
-    left: 3vh;
+    right: 0;
     top: 50%;
     margin-top: -3vh;
 }
@@ -36,5 +34,9 @@
 #status.show {
     transition-delay: 300ms, 300ms;
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 1000px);
+}
+
+#status.fadeText {
+    color: transparent;
 }
