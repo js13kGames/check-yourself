@@ -6,11 +6,15 @@
 
 ## Playable Build
 
-Pick a checker and start jumpin' [here](https://phillipluther.github.io/check-yourself/).
+Pick a checker and start jumpin' [here](https://phillipluther.github.io/check-yourself/). Standard-rules of checkers apply. Quick/dirty ...
+
+1. Jumps must be taken
+2. You can only jump in the direction of a valid move
+3. If you or your opponent can't move, you lose
 
 ## My JS13K Entry, 2017
 
-I submitted this night/weekend project to JS13K Games for 2017. JS13K a friendly competition where you try to build a game using HTML/CSS/JS only and have to keep your deliverables under 13k, compressed. You have a month to complete it.
+I submitted this night/weekend project to JS13K Games for 2017. JS13K is a friendly competition where you try to build a game using HTML/CSS/JS only and have to keep your deliverables under 13k, compressed. You have a month to complete it.
 
 Here's [more info](http://js13kgames.com/) on the competition.
 
