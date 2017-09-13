@@ -1,5 +1,6 @@
 import El from './common/El';
 import titleScreen from './titleScreen';
+import endScreen from './endScreen';
 import game from './game';
 
 import './index.css';
@@ -10,16 +11,16 @@ let viewport = new El('main')
     .attribute({
         id: 'viewport',
     })
-    .kids(game.el);
-    //.kids(titleScreen.el);
-
-game.classify('+transitionIn');
+    .kids(titleScreen.el);
 
 //
 function loadGame() {
     titleScreen.onTrans(() => {
         titleScreen.destructor();
-        viewport.kids(game.el);
+        viewport.kids(
+            endScreen.el,
+            game.el
+        );
 
         setTimeout(() => {
             viewport.classify('-transitionOut');

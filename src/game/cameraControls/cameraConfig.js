@@ -68,7 +68,7 @@ mod.set({
         let {camDefault, tileSize} = this.get('camDefault', 'tileSize');
 
         return Object.assign({}, camDefault, {
-            rotateX: 30,
+            rotateX: 20,
             moveY: camDefault.moveY - (tileSize * 2.5),
             scaleX: 1.25,
             scaleY: 1.25,

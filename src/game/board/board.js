@@ -130,19 +130,40 @@ function showPlayerActions(actions) {
     // can't do anything, remove our CSS hooks
     if (!actions || (actions.length === 0)) {
         tiles.map((tile) => tile.classify('-validMove'));
+        mod.get('playerChecker').classify('-stayPut');
     }
 
     actions.map((action) => {
-        let {toX, toY} = action;
+        let {checker, toX, toY} = action;
         let tile = tiles.filter((tile) => {
             let {x, y} = tile;
             return ((x === toX) && (y === toY));
         })[0];
 
+        // special handling if the tile is the current position of the player
+        // checker; the checker in and of itself isn't clickable and it sucks
+        // to try and target the tile _under_ the disc. @todo we put a lag on
+        // this to prevent it firing on checker selection; that's a little
+        // hacky. fix it!
+        if ((tile.x === checker.x) && (tile.y === checker.y)) {
+            setTimeout(() => checker.classify('stayPut'), 0);
+        }
+
         tile.classify('+validMove');
     });
 }
 
+// silly, ugly, messy translation for clicking on nested elements in a target;
+// @todo when you revisit this in the future, normalize clicks in the handler
+// so you don't have to do stuff like this
+function translateClick(e) {
+    let {target} = e;
+    while (target.classList.contains('checker') === false) {
+        target = target.parentNode;
+    }
+
+    target.click();
+}
 
 let board = renderBoard();
 let tileEls = extractDomNodes(renderTiles());
@@ -183,6 +204,19 @@ board.onClick('.validMove', (e) => {
         tileSelected: {x, y}
     });
 });
+
+// pass-through method for clicking on the player checker itself, essentially
+// saying "don't move"
+board.onClick('.stayPut', () => {
+    let {x, y} = mod.get('playerChecker');
+    mod.set({
+        tileSelected: {x, y}
+    });
+});
+
+// see the note and @todo above on the .translateClick method
+board.onClick('.spoke', translateClick);
+board.onClick('.crown', translateClick);
 
 // the board watches/responds as follows ...
 mod.watch('cameraPosition', positionCamera);

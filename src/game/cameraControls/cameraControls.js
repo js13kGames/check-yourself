@@ -26,9 +26,9 @@ function handleSelection(e) {
 //
 function renderCameraOptions() {
     let controls = cameraOptions.map((option) => {
-        let cameraOption = new El('a');
-        cameraOption.attribute(option);
-        cameraOption.classify('+cameraOption');
+        let cameraOption = new El('a')
+            .attribute(option)
+            .classify('+cameraOption');
 
         return cameraOption.el;
     });
@@ -36,11 +36,12 @@ function renderCameraOptions() {
     return controls;
 }
 
-let cameraControls = new El();
-cameraControls.attribute({
-    id: 'cameraControls',
-});
-cameraControls.kids(renderCameraOptions());
+let cameraControls = new El()
+    .attribute({
+        id: 'cameraControls',
+    })
+    .kids(renderCameraOptions());
+
 cameraControls.onClick('.cameraOption', handleSelection);
 
 export default cameraControls;

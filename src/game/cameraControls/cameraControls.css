@@ -12,16 +12,55 @@
     transition: opacity 500ms 500ms, transform 500ms 500ms;
 }
 
-#cameraControls a {
+.cameraOption {
+    position: relative;
     cursor: pointer;
     width: 7vh;
     height: 7vh;
     line-height: 7vh;
     text-align: center;
     border-radius: 50%;
-    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
     background-color: #60956e;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
+}
+
+.cameraOption::after {
+    content: '';
+    display: block;
+    width: 1.8vh;
+    height: 1.8vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.9vh;
+    margin-top: -0.9vh;
+    background: linear-gradient(45deg, transparent, transparent 50%, #fff 50%, #fff);
+}
+
+#camUp::after {
+    transform: rotate(-45deg);
+    top: 55%;
+}
+
+#camDown::after {
+    transform: rotate(135deg);
+    top: 45%;
+}
+
+#camRight::after {
+    transform: rotate(-135deg);
+    left: 55%;
+}
+
+#camLeft::after {
+    transform: rotate(45deg);
+    left: 45%;
+}
+
+#camDefault::after {
+    background: white;
+    border-radius: 50%;
 }
 
 #camUp,

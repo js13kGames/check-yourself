@@ -1,9 +1,9 @@
-import El from '../../common/El';
-import mod from '../../mod';
+import El from '../common/El';
+import mod from '../mod';
 
-import './gameOver.css';
+import './endScreen.css';
 
-// convenience wrapper for create a stat node
+// convenience wrapper for creating a stat node
 function mkStat(label) {
     let stat = new El('p').classify('stat').text(label);
     let statVal = new El('span').classify('+statVal');
@@ -25,7 +25,7 @@ function getElapsedTime(from, to) {
     return `${minutes}:${seconds}`;
 }
 
-let gameOver = new El().classify('+gameOver');
+let endScreen = new El().classify('+endScreen');
 let gameOverText = new El('p').classify('+gameOverText');
 let divider = new El('hr').classify('divider');
 let playAgain = new El('p').classify('+playAgain').text('Play Again');
@@ -51,12 +51,12 @@ function handleGameOver(youWon) {
     );
 
     gameOverText.text(endMessage);
-    gameOver.classify('+show');
+    endScreen.classify('+show');
 }
 
 mod.watch('youWon', handleGameOver);
-gameOver.onClick('.playAgain', () => window.location.reload());
-gameOver.kids(
+endScreen.onClick('.playAgain', () => window.location.reload());
+endScreen.kids(
     gameOverText.el,
     divider.el,
     stats.el,
@@ -64,4 +64,4 @@ gameOver.kids(
     playAgain.el
 );
 
-export default gameOver;
+export default endScreen;

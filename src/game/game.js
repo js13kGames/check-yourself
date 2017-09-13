@@ -4,7 +4,6 @@ import './actions/turns';
 import status from './status';
 import board from './board';
 import counts from './counts';
-import gameOver from './gameOver';
 
 import './game.css';
 
@@ -13,11 +12,10 @@ let game = new El().attribute({
 });
 
 game.kids(
-    board.el,
     cameraControls.el,
     counts.el,
-    gameOver.el,
-    status.el
+    status.el,
+    board.el
 );
 
 export default game;

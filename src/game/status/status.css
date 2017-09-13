@@ -11,7 +11,7 @@
     border: 0.333vh solid #94850a;
     border-radius: 1vh;
     background: #94850a linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.8));
-    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.15);
+    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.15);*/
     transform: translate3d(-100%, 0, 0);
     transition: opacity 400ms, transform 400ms ease-in-out;
 }

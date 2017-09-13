@@ -73,6 +73,20 @@ function createExplosion(isHostile) {
     return explosion;
 }
 
+//
+function createCrown() {
+    let spoke = new El('span').classify('+spoke').el;
+    let crown = new El('span').classify('+crown').kids(
+        spoke.cloneNode(),
+        spoke.cloneNode(),
+        spoke.cloneNode(),
+        spoke.cloneNode(),
+        spoke.cloneNode()
+    );
+
+    return crown.el;
+}
+
 class Checker extends El {
     constructor(options={}) {
         super('i');
@@ -106,8 +120,18 @@ class Checker extends El {
     makeKing() {
         let kingRow = (this.isHostile) ? mod.get('boardCols') - 1 : 0;
         if (!this.isKing && (this.y === kingRow)) {
+            let crown = createCrown();
+            let animatedCrown = crown.cloneNode(true);
+            animatedCrown.classList.add('clone');
+
             this.isKing = true;
-            this.classify('+king');
+            this.kids(crown, animatedCrown);
+
+            animatedCrown.addEventListener('animationend', () => {
+                animatedCrown.parentNode.removeChild(animatedCrown);
+            });
+
+            setTimeout(() => this.classify('+king'), 10);
         }
     }
 
