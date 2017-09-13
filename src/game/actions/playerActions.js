@@ -127,6 +127,10 @@ function getValidPlayerActions() {
         (allyHasJump && !playerHasJump) ||
         ((playerActions.length === 0) && (!allyHasJump))
     ) {
+        mod.set({
+            status: 'Waiting for allies ...'
+        });
+
         playerActions = [];
         moveAlly();
         return;
@@ -137,7 +141,10 @@ function getValidPlayerActions() {
     }
 
     focusOnPlayer(playerChecker);
-    mod.set({ playerActions });
+    mod.set({
+        status: null,
+        playerActions,
+    });
 }
 
 //

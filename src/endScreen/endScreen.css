@@ -98,8 +98,15 @@
     opacity: 0;
     z-index: -1;
     transform: scale3d(0.8, 0.8, 1);
-    transition: opacity 210ms 1500ms, transform 210ms ease-in 1500ms, z-index 1ms 1400ms;
+    transition:
+        opacity 210ms 1500ms,
+        transform 210ms ease-in 1500ms,
+        background-color 300ms,
+        z-index 1ms 1400ms;
 }
+
+.playAgain:hover  { background-color: #487454; }
+.playAgain:active { background-color: #60956e; }
 
 .divider {
     border: 0;

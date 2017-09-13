@@ -3,9 +3,10 @@
     display: block;
     background-color: #a9a9a9;
     background-image: linear-gradient(0deg, transparent, rgba(0, 0, 0, 0.2));
+    transition: background-color 400ms;
 }
 
 .validMove {
     cursor: pointer;
-    background: #60956e;
+    background-color: #60956e;
 }
