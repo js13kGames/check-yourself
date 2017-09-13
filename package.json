@@ -1,6 +1,6 @@
 {
   "name": "js13kgames-2017",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "My entry to the JS13K 2017 competition. The theme is 'lost' ...",
   "main": "index.js",
   "private": true,
