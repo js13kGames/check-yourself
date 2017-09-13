@@ -10,9 +10,8 @@
     color: #393939;
     border: 0.333vh solid #94850a;
     border-radius: 1vh;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 1000px);
     z-index: 10;
-    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
 }
 
 .allies {
@@ -47,7 +46,6 @@
     text-align: center;
     border: 0.5vh solid #94850a;
     border-radius: 50%;
-    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
 }
 
