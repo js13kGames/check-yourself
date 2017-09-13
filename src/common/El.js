@@ -8,6 +8,7 @@ import ClickHandler from './ClickHandler';
 class El {
     constructor(nodeName='div') {
         this.el = document.createElement(nodeName);
+        return this;
     }
 
     destructor() {
@@ -17,27 +18,27 @@ class El {
     // a method for interacting with our element's className object to add (+),
     // remove (-), or toggle (~) classes
     classify(classOperators) {
-        if (!classOperators) {
-            return;
+        if (classOperators) {
+            classOperators.split(' ').map((classNameOp) => {
+                let op = classNameOp.charAt(0);
+                let className = classNameOp.substr(1, classNameOp.length);
+
+                if (op === '-') {
+                    this.el.classList.remove(className);
+                } else if (op === '~') {
+                    this.el.classList.toggle(className);
+                } else if (op === '+'){
+                    this.el.classList.add(className);
+
+                // handle everything else as an add of the whole className without
+                // filtering the operator.
+                } else {
+                    this.el.classList.add(classNameOp);
+                }
+            });
         }
 
-        classOperators.split(' ').map((classNameOp) => {
-            let op = classNameOp.charAt(0);
-            let className = classNameOp.substr(1, classNameOp.length);
-
-            if (op === '-') {
-                this.el.classList.remove(className);
-            } else if (op === '~') {
-                this.el.classList.toggle(className);
-            } else if (op === '+'){
-                this.el.classList.add(className);
-
-            // handle everything else as an add of the whole className without
-            // filtering the operator.
-            } else {
-                this.el.classList.add(classNameOp);
-            }
-        });
+        return this;
     }
 
     // a method for attributing attributes (redundant?) to the View element; the
@@ -48,6 +49,8 @@ class El {
         attributeNames.map((name) => {
             this.el[name] = attributes[name];
         });
+
+        return this;
     }
 
     // a method for appending child nodes; it takes an argument list of N nodes
@@ -62,6 +65,8 @@ class El {
         children.map((child) => {
             this.el.appendChild(child);
         });
+
+        return this;
     }
 
     // a method for clearing all contents within the element
@@ -69,6 +74,8 @@ class El {
         while (this.el.lastChild) {
             this.el.removeChild(this.el.lastChild);
         }
+
+        return this;
     }
 
     // a method for passing style properties to an element; it expects an
@@ -78,12 +85,15 @@ class El {
         styleNames.map((style) => {
             this.el.style[style] = styleObj[style];
         });
+
+        return this;
     }
 
     // a method for injecting text into an element instance; it uses innerText
     // and markedly does not support innerHTML ... use .kids() for that.
     text(string) {
         this.el.innerText = string;
+        return this;
     }
 
     // a method to bind click events to our instance's click handler; it's

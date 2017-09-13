@@ -1,13 +1,19 @@
 import mod from '../../mod';
 import ai from './ai';
 
+mod.set({
+    respawns: 0,
+    movesToWin: 0,
+}, true);
+
+//
 function focusOnPlayer(playerChecker) {
     if (!playerChecker) {
         return;
     }
 
     let {x, y} = playerChecker;
-    let cameraPosition = (playerChecker.isKing) ? 'camUp' : 'camDefault';
+    let cameraPosition = mod.get('playerCameraPosition') || 'camDefault';
     mod.set({
         focusX: x,
         focusY: y,
@@ -90,6 +96,10 @@ function getPlayerActions() {
 // the player him/herself and the allies. returns an array of standard action
 // objects
 function getValidPlayerActions() {
+    mod.set({
+        movesToWin: mod.get('movesToWin') + 1
+    }, true);
+
     let playerChecker = mod.get('playerChecker');
     let playerActions = getPlayerActions();
     let allyAction = ai.action(

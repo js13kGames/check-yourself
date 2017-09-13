@@ -4,19 +4,157 @@
     top: 0;
     z-index: 1;
     display: block;
-    transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 270ms;
+    transition: opacity 450ms, transform 450ms ease-in-out 180ms, background-color 450ms, border-color 450ms;
+    border: 1vh solid transparent;
     border-radius: 50%;
     background-color: #494949;
     background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
 }
 
-.king {
-    border: 1vh solid #ea0;
-    margin-top: 0.3vh !important; /* @todo fix this in checker.js */
+.stayPut { cursor: pointer; }
+
+.king .crown {
+    opacity: 0.5;
 }
 
+.playableChecker *,
+.playerChecker.stayPut * {
+    cursor: pointer;
+}
+
+.crown {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: -2.5vh;
+    overflow: hidden;
+    border-radius: 50%;
+    transform: scale3d(0.7, 0.7, 1);
+    opacity: 0;
+    transition: opacity 500ms 250ms;
+}
+
+@keyframes crownSwell {
+    0% {
+        opacity: 0;
+        transform: scale3d(0.6, 0.6, 1) translate3d(0, 0, 0);
+    }
+    25% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale3d(1.5, 1.5, 1) translate3d(0, -12vh, 0);
+    }
+}
+
+.king .clone {
+    animation-name: crownSwell;
+    animation-duration: 700ms;
+    animation-iteration-count: 1;
+}
+
+.king .clone .spoke {
+    border-color: transparent transparent #94850a transparent;
+}
+
+.king .clone .spoke::after {
+    background-color: #94850a;
+}
+
+.spoke {
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 1.8vh 8vh 1.8vh;
+    border-color: transparent transparent #fff transparent;
+    position: absolute;
+    bottom: 0;
+}
+
+.spoke::after {
+    content: '';
+    display: block;
+    width: 1.8vh;
+    height: 1.8vh;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -0.9vh;
+}
+
+.spoke:first-child {
+    left: 0;
+    transform: rotate(-30deg) translate3d(2vh, 3vh, 0) scale3d(0.9, 0.9, 1);
+}
+
+.spoke:nth-child(2) {
+    left: 20%;
+    transform: rotate(-15deg) translate3d(1.25vh, 1vh, 0) scale3d(0.9, 0.9, 1);
+}
+
+.spoke:nth-child(3) {
+    left: 40%;
+}
+
+.spoke:nth-child(4) {
+    left: 60%;
+    transform: rotate(15deg) translate3d(-1.25vh, 1vh, 0) scale3d(0.9, 0.9, 1);
+}
+
+.spoke:nth-child(5) {
+    left: 80%;
+    transform: rotate(30deg) translate3d(-2vh, 3vh, 0) scale3d(0.9, 0.9, 1);
+}
+
+
 .hostile {
-    background-color: #933;
+    background-color: #a13838;
+}
+
+.explosion {
+    position: absolute;
+    transform: rotate(0deg);
+    transition: transform 1250ms cubic-bezier(0, 0.75, 0.75, 1) 50ms;
+    z-index: 10;
+}
+
+.splode { transform: rotate(45deg); }
+
+.particle {
+    width: 2vh;
+    height: 2vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -1vh;
+    margin-top: -1vh;
+    border-radius: 50%;
+    background-color: #494949;
+    opacity: 1;
+    transition: opacity 1200ms 50ms, border-radius 1500ms 50ms, transform 1200ms cubic-bezier(0, 0.8, 0.9, 1) 50ms, background-color 1200ms;
+}
+
+.hostileExplosion .particle {
+    background-color: #a13838;
+}
+
+.explosion:not(.splode) .particle {
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.splode .particle {
+    border-radius: 0;
+    opacity: 0;
+    background-color: #94850a;
 }
 
 .suppressTrans {
@@ -30,9 +168,9 @@
 .checkerSelect .playableChecker {
     opacity: 1;
     cursor: pointer;
-    transition: background-color 270ms;
+    box-shadow: 0 0 0 transparent;
 }
 
 .checkerSelect .playableChecker:hover {
-    background-color: #393;
+    background-color: #60956e;
 }

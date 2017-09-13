@@ -33,6 +33,8 @@ mod.set({
     tileSize: function() {
         return this.get('boardScale') / this.get('boardCols');
     },
+    // the start time of the game; used in reporting at end-game
+    gameStarted: new Date(),
 }, true); // the initial update, so do so silently
 
 
@@ -45,18 +47,18 @@ function extractDomNodes(instances) {
 // creates the high-level board component; we'll add checkers and tiles a bit
 // down the way.
 function renderBoard() {
-    let board = new El();
     let id = 'board';
     let boardSize = mod.get('tileSize') * mod.get('boardCols');
     let boardOffset = boardSize / 2;
 
-    board.attribute({ id });
-    board.style({
-        width: `${boardSize}vh`,
-        height: `${boardSize}vh`,
-        marginLeft: `-${boardOffset}vh`,
-        marginTop: `-${boardOffset}vh`
-    });
+    let board = new El()
+        .attribute({ id })
+        .style({
+            width: `${boardSize}vh`,
+            height: `${boardSize}vh`,
+            marginLeft: `-${boardOffset}vh`,
+            marginTop: `-${boardOffset}vh`
+        });
 
     mod.set({ board }, true);
     return board;
@@ -113,6 +115,7 @@ function handleCheckerSelect(enterSelection) {
     mod.set({
         cameraPosition: 'camSelectable',
         isTurn: false,
+        status: 'Select your checker.',
     });
 
     BOD.classList.add('checkerSelect');
@@ -127,19 +130,40 @@ function showPlayerActions(actions) {
     // can't do anything, remove our CSS hooks
     if (!actions || (actions.length === 0)) {
         tiles.map((tile) => tile.classify('-validMove'));
+        mod.get('playerChecker').classify('-stayPut');
     }
 
     actions.map((action) => {
-        let {toX, toY} = action;
+        let {checker, toX, toY} = action;
         let tile = tiles.filter((tile) => {
             let {x, y} = tile;
             return ((x === toX) && (y === toY));
         })[0];
 
+        // special handling if the tile is the current position of the player
+        // checker; the checker in and of itself isn't clickable and it sucks
+        // to try and target the tile _under_ the disc. @todo we put a lag on
+        // this to prevent it firing on checker selection; that's a little
+        // hacky. fix it!
+        if ((tile.x === checker.x) && (tile.y === checker.y)) {
+            setTimeout(() => checker.classify('stayPut'), 0);
+        }
+
         tile.classify('+validMove');
     });
 }
 
+// silly, ugly, messy translation for clicking on nested elements in a target;
+// @todo when you revisit this in the future, normalize clicks in the handler
+// so you don't have to do stuff like this
+function translateClick(e) {
+    let {target} = e;
+    while (target.classList.contains('checker') === false) {
+        target = target.parentNode;
+    }
+
+    target.click();
+}
 
 let board = renderBoard();
 let tileEls = extractDomNodes(renderTiles());
@@ -154,9 +178,18 @@ board.onClick('.playableChecker', (e) => {
     })[0];
 
     selectedChecker.makePlayer();
+
+    // reset the camera on new selection
+    mod.set({
+        cameraPosition: 'camDefault',
+        playerCameraPosition: 'camDefault',
+    }, true);
+
     mod.set({
         playerChecker: selectedChecker,
         doCheckerSelect: false,
+        status: null,
+        respawns: mod.get('respawns') + 1,
     });
 });
 
@@ -172,15 +205,29 @@ board.onClick('.validMove', (e) => {
     });
 });
 
+// pass-through method for clicking on the player checker itself, essentially
+// saying "don't move"
+board.onClick('.stayPut', () => {
+    let {x, y} = mod.get('playerChecker');
+    mod.set({
+        tileSelected: {x, y}
+    });
+});
+
+// see the note and @todo above on the .translateClick method
+board.onClick('.spoke', translateClick);
+board.onClick('.crown', translateClick);
+
 // the board watches/responds as follows ...
 mod.watch('cameraPosition', positionCamera);
 mod.watch('doCheckerSelect', handleCheckerSelect);
 mod.watch('playerActions', showPlayerActions);
+
 mod.watch('focusX', () => {
-    let camDefault = 'camDefault';
-    positionCamera(camDefault);
+    let cam = (mod.get('cameraPosition') === 'camUp') ? 'camUp' : 'camDefault';
+    positionCamera(cam);
     mod.set({
-        cameraPosition: camDefault
+        cameraPosition: cam
     }, true);
 });
 

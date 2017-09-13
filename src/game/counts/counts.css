@@ -1,14 +1,18 @@
 .checkerCountWrapper {
     position: absolute;
-    left: 8vh;
+    left: 9vh;
     display: inline-block;
-    height: 6vh;
-    line-height: 6vh;
-    padding: 0 3vh 0 7vh;
-    background: #333;
+    height: 8vh;
+    line-height: 7.333vh;
+    padding: 0 4vh 0 8vh;
+    background: #94850a linear-gradient(0deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.8));
+    font-weight: bold;
+    color: #393939;
+    border: 0.333vh solid #94850a;
     border-radius: 1vh;
     transform: translate3d(0, 0, 0);
     z-index: 10;
+    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
 }
 
 .allies {
@@ -18,8 +22,11 @@
 
 .hostiles {
     bottom: 5.5vh;
-    transition: opacity 450ms 450ms, transform 450ms 450ms;
+    transition: opacity 450ms 400ms, transform 450ms 400ms;
 }
+
+.checkerSelect .allies { transition-delay: 0ms, 0ms; }
+.checkerSelect .hostiles { transition-delay: 100ms, 100ms; }
 
 .checkerSelect .allies,
 .checkerSelect .hostiles {
@@ -29,16 +36,23 @@
 
 .checkerCount {
     position: absolute;
-    left: -4vh;
-    top: -1.5vh;
+    left: -5vh;
+    top: -1vh;
     transform: translate3d(0, 0, 0);
-    width: 9vh;
-    height: 9vh;
+    width: 10vh;
+    height: 10vh;
+    color: #fff;
+    text-shadow: 0 0.1vh 0.1vh black;
     line-height: 9vh;
     text-align: center;
-    background: #333;
+    border: 0.5vh solid #94850a;
     border-radius: 50%;
+    /*box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);*/
+    background-image: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.333));
 }
+
+.allies .checkerCount { background-color: #494949; }
+.hostiles .checkerCount { background-color: #a13838; }
 
 .checkerCountLabel {
 }

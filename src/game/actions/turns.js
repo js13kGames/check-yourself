@@ -1,5 +1,5 @@
 import mod from '../../mod';
-import playerActions from './playerActions';
+import getPlayerActions from './playerActions';
 import ai from './ai';
 
 mod.set({
@@ -10,6 +10,10 @@ mod.set({
 //
 //
 function handleTurnChange(isTurn) {
+    let youWon = () => mod.set({
+        youWon: true,
+    });
+
     // if there's no player checker ... they were jumped, most likely ... do
     // nothing and fall into checker-select mode
     if (!mod.get('playerChecker')) {
@@ -17,16 +21,24 @@ function handleTurnChange(isTurn) {
         return;
 
     } else if (isTurn) {
-        playerActions();
+        getPlayerActions();
 
     } else {
         let hostiles = mod.get('hostileCheckers');
         if (hostiles.length === 0) {
-            mod.set({ youWon: true });
+            //mod.set({ youWon: true });
+            youWon();
             return;
         }
 
-        ai.go(ai.action(hostiles));
+        let hostileAction = ai.action(hostiles);
+
+        if (!hostileAction) {
+            youWon();
+            return;
+        }
+
+        ai.go(hostileAction);
     }
 }
 
